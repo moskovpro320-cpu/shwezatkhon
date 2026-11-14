@@ -268,7 +268,7 @@ function settings(){
  h+=card+"<b>"+t("set_cache")+'</b><p class="note" style="padding:4px 0 8px">'+t("set_cache_note")+'</p><button class="chip" data-a="clearcache">'+t("set_clear")+"</button></div>";
  return h}
 function pfGrid(m){
- var L=S.dr.filter(function(d){return d.o&&d.o===m.id});
+ var L=S.dr.filter(function(d){return d.o===m.id||(m.is_admin&&!d.o)});
  if(!L.length)return note(t("pf_none"));
  return'<div class="pgrid">'+L.map(function(d){return'<div class="pcell" data-a="open" data-v="'+esc(d.id)+'" style="'+bg(d)+'"><span class="pv">▶ '+fmt(d.v||0)+'</span></div>'}).join("")+"</div>"}
 function profile(){
@@ -276,13 +276,15 @@ function profile(){
  if(S.recov)return newPwForm();
  if(!S.me)return(S.mode==="forgot"?forgotForm():loginForm())+langBox();
  var m=S.me;if(S.dash&&m.is_admin)return dash();if(S.creatorDash&&(m.is_vip||m.is_creator))return creatorDashboard();
+ if(S.rw)return'<div class="stickback">'+backbar()+"</div>"+rewards();
+ if(S.pset)return'<div class="stickback">'+backbar()+"</div>"+settings()+'<button class="btn" style="background:var(--panel);color:var(--text);border:1px solid var(--line)" data-a="logout">'+t("logout")+"</button>";
  var isC=!!(m.is_vip||m.is_creator);
  var h='<div class="prof"><div class="av" style="'+avBg(m.avatar_url)+'">'+(m.avatar_url?"":"☺")+'<label class="avcam" title="Profile ပုံပြောင်းရန်">📷<input class="fi" type="file" accept="image/*" data-c="avatar"></label></div><div style="flex:1;min-width:0"><strong>'+esc(m.name||m.email)+"</strong>"+(m.is_admin?t("admin_tag"):"")+(m.is_vip?t("vip_tag"):"")+'<div class="sub" style="color:var(--mute)">'+esc(m.email||"")+" · "+t("coin_n",m.coins)+'</div></div><button class="gear" data-a="pfset" aria-label="'+esc(t("pf_set"))+'">⚙️</button></div>';
+ h+='<button class="btn" data-a="pfdaily">'+t("pf_daily")+"</button>";
  if(m.is_admin)h+='<button class="btn" data-a="dash">'+t("admin_open")+"</button>";
  if(isC)h+='<button class="btn" data-a="creatorDash">👑 Creator Dashboard</button>';
  if(!m.is_vip&&!m.is_admin)h+='<button class="btn" data-a="vipbox">'+t("vip_btn")+"</button>";
- if(S.pset)h+=settings()+'<button class="btn" style="background:var(--panel);color:var(--text);border:1px solid var(--line)" data-a="logout">'+t("logout")+"</button>";
- else if(isC)h+=h3(t("pf_vids"))+pfGrid(m);
+ if(isC||m.is_admin)h+=h3(t("pf_vids"))+pfGrid(m);
  return h}
 
 /* ----- admin ----- */
@@ -388,10 +390,10 @@ function creatorDashboard(){
 }
 function render(){
  updTop();
- var T=[["home","⌂","n_home"],["rank","★","n_rank"],["list","♡","n_list"],["rewards","🪙","n_rewards"],["me","☺","n_me"]];
+ var T=[["home","⌂","n_home"],["rank","★","n_rank"],["list","♡","n_list"],["me","☺","n_me"]];
  $("#nav").innerHTML=T.map(function(x){return'<button data-a="tab" data-v="'+x[0]+'" class="'+(S.tab===x[0]?"on":"")+'"><i>'+x[1]+"</i>"+t(x[2])+"</button>"}).join("");
  if(S.tab==="home"){$("#app").innerHTML=home();grid()}
- else $("#app").innerHTML={rank:ranks,list:mylist,rewards:rewards,me:profile}[S.tab]();
+ else $("#app").innerHTML={rank:ranks,list:mylist,me:profile}[S.tab]();
  navSync()}
 function updTop(){$("#ct").textContent=S.me?(S.me.is_vip?"👑 ":"🪙 ")+S.me.coins:t("login")}
 
@@ -795,7 +797,8 @@ async function afterPwChange(){
  await setUser(s.data&&s.data.session);toast(t("fp_done"))}
 
 var ACT={
- tab:function(v){S.tab=v;S.pset=false;render();window.scrollTo(0,0)},
+ tab:function(v){S.pset=false;S.rw=false;if(v==="rewards"){v="me";S.rw=!!S.me}S.tab=v;render();window.scrollTo(0,0)},
+ pfdaily:function(){S.rw=true;S.pset=false;render();window.scrollTo(0,0)},
  pfset:function(){S.pset=!S.pset;render();window.scrollTo(0,0)},
  crtab:function(v){S.ct=v==="pay"?"pay":"up";render();window.scrollTo(0,0)},
  rank:function(v){S.rank=v;render()},
@@ -1082,7 +1085,7 @@ var ACT={
   await rmFiles([p]);delete d.vids[n];delete VC[vkey(d,n)];sheet();if(S.dash)await loadAdmin();toast(t("vid_deleted"))},
  deldramaid:function(v){S.sel=v;ACT.deldrama()},
  reload:function(){location.reload()},
- logout:async function(){S.pset=false;S.dash=false;S.creatorDash=false;await SB.auth.signOut();S.tab="home";render()},
+ logout:async function(){S.pset=false;S.rw=false;S.dash=false;S.creatorDash=false;await SB.auth.signOut();S.tab="home";render()},
  checkin:async function(){
   if(!SB||!S.me){toast(t("need_login"));S.tab="me";render();return}
   var r=await SB.rpc("checkin");
@@ -1135,6 +1138,8 @@ function subLayer(){
  if(!S.me)return S.mode==="forgot"?"forgot":null;
  if(S.dash&&S.me.is_admin)return"dash";
  if(S.creatorDash&&(S.me.is_vip||S.me.is_creator))return"creator";
+ if(S.rw)return"rw";
+ if(S.pset)return"pset";
  return null}
 function depth(){return(S.tab!=="home"?1:0)+(subLayer()?1:0)+(sheetOpen()?1:0)+(ucmIsOpen()?1:0)}
 function closeTop(){
@@ -1145,6 +1150,8 @@ function closeTop(){
  else if(l==="forgot"){S.mode="login";S.fp=null;clrErr()}
  else if(l==="dash")S.dash=false;
  else if(l==="creator")S.creatorDash=false;
+ else if(l==="rw")S.rw=false;
+ else if(l==="pset")S.pset=false;
  else if(S.tab!=="home")S.tab="home";
  else return;
  render();window.scrollTo(0,0)}
