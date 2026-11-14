@@ -55,7 +55,9 @@ h3{font-size:18px;padding:0 16px 10px}
 .poster{aspect-ratio:3/4;border-radius:12px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:8px}
 .poster b{font-weight:700;font-size:13px;line-height:1.4;text-shadow:0 1px 6px rgba(0,0,0,.6)}
 .tag{position:absolute;top:6px;right:6px;background:var(--coral);font-size:11px;font-weight:600;padding:1px 7px;border-radius:6px}
-.card p{font-size:13px;margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card p{font-size:13px;margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis}
+.card p.ct{font-weight:600;line-height:1.45;min-height:2.9em;word-break:break-word;overflow-wrap:anywhere}
+.card .poster{padding:0}
 .row{display:flex;gap:12px;align-items:center;margin:0 16px 10px;background:var(--panel);border-radius:14px;padding:10px;cursor:pointer}
 .row .poster{width:62px;flex:none;aspect-ratio:3/4;padding:4px}.row .poster b{display:none}
 .row .info{flex:1;min-width:0}.row .info strong{display:block;margin-bottom:4px}

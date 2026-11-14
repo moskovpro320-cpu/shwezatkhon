@@ -124,8 +124,8 @@ async function loadCC(ids){
 function okUrl(u){return /^https:\/\/[^\s"'<>]+$/i.test(u||"")&&String(u).length<=2000}
 function backbar(){return'<button class="backtop" data-a="navback">'+t("back_btn")+"</button>"}
 function fmt(v){return v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":String(v)}
-function poster(d,tag){return'<div class="poster" style="'+bg(d)+'">'+(tag?'<span class="tag">Hot</span>':"")+"<b>"+esc(d.t)+"</b></div>"}
-function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'">'+poster(d,tag)+"<p>"+esc(d.t)+"</p></div>"}
+function poster(d,tag){return'<div class="poster" style="'+bg(d)+'">'+(tag?'<span class="tag">Hot</span>':"")+"</div>"}
+function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'">'+poster(d,tag)+'<p class="ct">'+esc(d.t)+"</p></div>"}
 function row(d,n){return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+poster(d)+'<div class="info"><strong>'+esc(d.t)+'</strong><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div><span class="heat">🔥 '+fmt(d.v)+"</span></div>"}
 function note(x){return'<p class="note">'+x+"</p>"}
 var GSVG='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
@@ -298,7 +298,7 @@ function sheet(){
  var d=find(S.sel);if(!d)return;
  var adm=isAdm()&&S.live,e="";
  for(var n=1;n<=d.eps;n++){var lock=locked(d,n);e+='<div class="ep'+(lock?" lock":"")+(n===S.ep?" cur":"")+(d.vids[n]?" has":"")+'" data-a="ep" data-v="'+n+'">'+(lock?"🔒":"")+n+"</div>"}
- $("#sb").innerHTML=backbar()+"<h2>"+esc(d.t)+'</h2><div class="sub" style="color:var(--mute)">'+esc(d.g)+" · "+t("eps_n",d.eps)+" · "+priceTxt(d)+'</div><div id="by">'+byHtml(d)+'</div><div class="pwrap"><div id="pl" class="player" style="'+bg(d)+'"><div><div style="font-size:40px">▶</div><b>'+t("pick_ep")+"</b></div></div>"+socHtml(d)+fsHtml(d)+"</div>"+spdBar()+'<div class="eps">'+e+"</div>"+
+ $("#sb").innerHTML=backbar()+"<h2>"+esc(d.t)+'</h2><div class="sub" style="color:var(--mute)">'+esc(d.g)+" · "+t("eps_n",d.eps)+" · "+priceTxt(d)+'</div><div id="by">'+byHtml(d)+'</div><div class="pwrap"><div id="pl" class="player" style="'+bg(d)+'"></div>'+socHtml(d)+fsHtml(d)+"</div>"+spdBar()+'<div class="eps">'+e+"</div>"+
  admBox(d,adm)+
  '<button class="btn" style="margin:12px 0 0;width:100%;background:var(--panel);color:var(--text);border:1px solid var(--line)" data-a="close">'+t("close")+"</button>";
  $("#sheet").className="sheet open"+(S.fs&&S.ep?" fs":"");navSync();socInit(d);admFill(d)}
@@ -440,6 +440,19 @@ function installBar(){
  if(S.inst)return'<button class="btn" style="margin-top:0" data-a="install">'+t("set_install_btn")+"</button>";
  if(isIOS())return note(t("ios_note"));
  return""}
+/* ===== v27: Watch history (နောက်ဆုံးကြည့်ခဲ့တဲ့ အပိုင်း + စက္ကန့်) ===== */
+function wKey(id,u){return"zw:"+(u||(S.me?S.me.id:"x"))+":"+id}
+function wGet(id){var ks=[wKey(id)];if(S.me)ks.push(wKey(id,"x"));
+ for(var i=0;i<ks.length;i++){try{var o=JSON.parse(localStorage.getItem(ks[i]));if(o&&o.n>0)return o}catch(e){}}return null}
+function wSet(id,n,tm){try{localStorage.setItem(wKey(id),JSON.stringify({n:n,t:Math.max(0,Math.floor(tm||0)),u:Date.now()}))}catch(e){}}
+function autoStart(){
+ var d=find(S.sel);if(!d||!(d.eps>0))return;
+ var w=wGet(d.id),n=1,tm=0;
+ if(w&&w.n>=1&&w.n<=d.eps){n=w.n;tm=w.t||0}
+ /* Coin နှုတ်ရမယ့် (Lock) အပိုင်းကို အလိုအလျောက် မဖွင့် – အပိုင်း ၁ ကိုပဲ ပြန်ကြည့် */
+ if(locked(d,n)){if(n!==1&&!locked(d,1)){n=1;tm=0}else return}
+ S.rsm={id:d.id,n:n,t:tm};
+ playEp(n)}
 function showVideo(d,n,u){
  var pl=$("#pl");
  var pc=$("#pc");if(pc)pc.style.display=u?"flex":"none";
@@ -452,6 +465,14 @@ function showVideo(d,n,u){
  v.addEventListener("play",function(){var p=document.getElementById("fsplay");if(p&&v.isConnected)p.className="fsplay"});
  v.addEventListener("pause",function(){var p=document.getElementById("fsplay");if(p&&v.isConnected&&!v.ended&&S.fs)p.className="fsplay show"});
  v.onended=function(){var nx=n+1;if(nx<=d.eps&&d.vids[nx]&&!locked(d,nx)){toast(t("next_auto",nx));playEp(nx)}};
+ var rt=0;if(S.rsm&&S.rsm.id===d.id&&S.rsm.n===n){rt=S.rsm.t||0;S.rsm=null}
+ var wok=!(rt>1),wlast=0;
+ v.addEventListener("loadedmetadata",function(){
+  if(rt>1&&isFinite(v.duration)&&rt<v.duration-3){try{v.currentTime=rt}catch(e){}}
+  wok=true});
+ v.addEventListener("timeupdate",function(){if(!wok||!v.currentTime)return;var now=Date.now();if(now-wlast>3000){wlast=now;wSet(d.id,n,v.currentTime)}});
+ v.addEventListener("pause",function(){if(wok&&v.currentTime&&!v.ended)wSet(d.id,n,v.currentTime)});
+ v.addEventListener("ended",function(){wSet(d.id,n,0)});
  pl.appendChild(v);v.playbackRate=S.spd;var p=v.play();
  /* autoplay ကို browser က တားရင် Play အိုင်ကွန်ပြ – မဟုတ်ရင် မျက်နှာပြင်မဲနေပြီး ဘာလုပ်ရမှန်းမသိ */
  if(p&&p.catch)p.catch(function(){var fp=document.getElementById("fsplay");if(fp&&S.fs&&v.isConnected&&v.paused)fp.className="fsplay show"});
@@ -491,7 +512,7 @@ async function playEp(n){var go=S.fsReq;S.fsReq=false;
   if(info.error){toast(info.locked?t("fs_lock",n):t("failed",info.error));showVideo(d,n,null);return}
   u=info.url||u}
  showVideo(d,n,u)}
-function closeSheet(){S.fs=false;S.fsReq=false;csClose();$("#sheet").className="sheet";var v=document.querySelector("#pl video");if(v)v.pause();navSync()}
+function closeSheet(){S.fs=false;S.fsReq=false;S.rsm=null;csClose();$("#sheet").className="sheet";var v=document.querySelector("#pl video");if(v)v.pause();navSync()}
 
 /* ---------- storage helpers ---------- */
 function upl(path,f,cb){
@@ -638,7 +659,7 @@ async function afterPwChange(){
 var ACT={
  tab:function(v){S.tab=v;render();window.scrollTo(0,0)},
  rank:function(v){S.rank=v;render()},
- open:function(v){S.sel=v;S.ep=0;S.fs=false;sheet()},
+ open:function(v){S.sel=v;S.ep=0;S.fs=false;S.rsm=null;sheet();autoStart()},
  ep:function(v){csClose();S.fsReq=true;playEp(+v)},
  close:closeSheet,
  like:async function(){
