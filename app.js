@@ -279,7 +279,7 @@ function profile(){
  if(S.rw)return'<div class="stickback">'+backbar()+"</div>"+rewards();
  if(S.pset)return'<div class="stickback">'+backbar()+"</div>"+settings()+'<button class="btn" style="background:var(--panel);color:var(--text);border:1px solid var(--line)" data-a="logout">'+t("logout")+"</button>";
  var isC=!!(m.is_vip||m.is_creator);
- var h='<div class="prof"><div class="av" style="'+avBg(m.avatar_url)+'">'+(m.avatar_url?"":"☺")+'<label class="avcam" title="Profile ပုံပြောင်းရန်">📷<input class="fi" type="file" accept="image/*" data-c="avatar"></label></div><div style="flex:1;min-width:0"><strong>'+esc(m.name||m.email)+"</strong>"+(m.is_admin?t("admin_tag"):"")+(m.is_vip?t("vip_tag"):"")+'<div class="sub" style="color:var(--mute)">'+esc(m.email||"")+" · "+t("coin_n",m.coins)+'</div></div><div class="pact"><button class="pill" data-a="pfdaily" aria-label="'+esc(t("pf_daily_a"))+'">'+t("pf_daily")+'</button><button class="gear" data-a="pfset" aria-label="'+esc(t("pf_set"))+'">⚙️</button></div></div>';
+ var h='<div class="prof"><div class="av" style="'+avBg(m.avatar_url)+'">'+(m.avatar_url?"":"☺")+'<label class="avcam" title="Profile ပုံပြောင်းရန်">📷<input class="fi" type="file" accept="image/*" data-c="avatar"></label></div><div style="flex:1;min-width:0"><strong>'+esc(m.name||m.email)+"</strong>"+(m.is_admin?t("admin_tag"):"")+(m.is_vip?t("vip_tag"):"")+'<div class="sub" style="color:var(--mute)">'+esc(m.email||"")+" · "+t("coin_n",m.coins)+'</div></div><button class="gear" data-a="pfset" aria-label="'+esc(t("pf_set"))+'">⚙️</button></div>';
  if(m.is_admin)h+='<button class="btn" data-a="dash">'+t("admin_open")+"</button>";
  if(isC)h+='<button class="btn" data-a="creatorDash">👑 Creator Dashboard</button>';
  if(!m.is_vip&&!m.is_admin)h+='<button class="btn" data-a="vipbox">'+t("vip_btn")+"</button>";
@@ -394,7 +394,11 @@ function render(){
  if(S.tab==="home"){$("#app").innerHTML=home();grid()}
  else $("#app").innerHTML={rank:ranks,list:mylist,me:profile}[S.tab]();
  navSync()}
-function updTop(){$("#ct").textContent=S.me?(S.me.is_vip?"👑 ":"🪙 ")+S.me.coins:t("login")}
+function updTop(){$("#ct").textContent=S.me?(S.me.is_vip?"👑 ":"🪙 ")+S.me.coins:t("login");
+ /* v37: Profile ပင်မ View တစ်ခုတည်းမှာ Logo အစား 🎁 ဆု Pill */
+ var on=!!(S.tab==="me"&&SB&&S.me&&!S.recov&&!S.dash&&!S.creatorDash&&!S.rw&&!S.pset),lg=$("#hlogo"),pb=$("#hrw");
+ if(lg)lg.style.display=on?"none":"";
+ if(pb){pb.hidden=!on;if(on){pb.textContent=t("pf_daily");pb.setAttribute("aria-label",t("pf_daily_a"))}}}
 
 /* ---------- drama sheet & player ---------- */
 function sheet(){
