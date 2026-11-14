@@ -78,7 +78,7 @@ function catUp(f,name,cb){return new Promise(function(res){
 function upErr(e){
  if(e==="big")return"ဖိုင် 200MB ထက် ကြီးနေပါသည် — Link ထည့်ပါ";
  return"တင်မရပါ: "+(e==="net"?"အင်တာနက်/ချိတ်ဆက်မှု ပြတ်သွားပါတယ် (သို့)":e)}
-function pickBtn(tid,kind,flush){return'<div style="padding:'+(flush?"0":"0 16px")+' 8px"><label class="chip up">📁 ဖုန်းထဲမှ ဖိုင်ရွေးတင်ရန် (Cloudinary Auto Link)<input class="fi" type="file" accept="'+(kind==="img"?"image/*":"video/*")+'" data-c="pick" data-t="'+tid+'" data-k="'+kind+'"></label><div id="st_'+tid+'"></div></div>'}
+function pickBtn(tid,kind,flush,label){return'<div style="padding:'+(flush?"0":"0 16px")+' 8px"><label class="chip up">'+(label?esc(label):"📁 ဖုန်းထဲမှ ဖိုင်ရွေးတင်ရန် (Cloudinary Auto Link)")+'<input class="fi" type="file" accept="'+(kind==="img"?"image/*":"video/*")+'" data-c="pick" data-t="'+tid+'" data-k="'+kind+'"></label><div id="st_'+tid+'"></div></div>'}
 function pickSt(tid,msg,pct,bad){var e=$("#st_"+tid);if(!e)return;e.innerHTML='<div class="note" style="padding:6px 0 0;'+(bad?"color:var(--coral)":"")+'">'+esc(msg)+"</div>"+(pct!=null?'<div class="pbar"><i style="width:'+pct+'%"></i></div>':"")}
 async function pickUp(f,tid,kind){
  var inp=$("#"+tid);
@@ -235,7 +235,7 @@ function dash(){
  +'<label class="note" style="display:block" for="nc">'+t("lbl_cover")+'</label><input class="in" id="nc" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_cover_url"))+'">'+pickBtn("nc","img")
  +'<label class="note" style="display:block" for="nv">'+t("lbl_vid1")+'</label><input class="in" id="nv" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_video_url"))+'">'+pickBtn("nv","vid")
  +'<button class="btn" data-a="adddrama">'+t("add_btn")+'</button><div id="ust2" style="padding:0 16px"></div>'+note(t("add_note"));
- h+=h3(t("dramas_h"))+(S.live?S.dr.map(function(d){return'<div class="row"><div class="info" data-a="open" data-v="'+esc(d.id)+'"><strong>'+esc(d.t)+'</strong><div class="sub">'+t("eps_n",d.eps)+" · "+t("vids_n",Object.keys(d.vids).length)+" · "+(d.price<=0?t("free_lbl"):t("coin_lbl",d.price))+'</div></div><button class="chip" data-a="moreep" data-v="'+d.id+'">'+t("more_ep")+'</button><button class="chip" style="color:var(--coral)" data-a="deldramaid" data-v="'+d.id+'">'+t("del")+"</button></div>"}).join(""):note(t("none_dr")));
+ h+=h3(t("dramas_h"))+(S.live?S.dr.map(function(d){return'<div class="row"><div class="info" data-a="open" data-v="'+esc(d.id)+'"><strong>'+esc(d.t)+'</strong><div class="sub">'+t("eps_n",d.eps)+" · "+t("vids_n",Object.keys(d.vids).length)+" · "+(d.price<=0?t("free_lbl"):t("coin_lbl",d.price))+'</div></div><button class="chip" data-a="moreep" data-v="'+d.id+'">'+t("more_ep")+'</button><button class="chip" data-a="editeps" data-v="'+d.id+'">'+t("eps_edit_chip")+'</button><button class="chip" style="color:var(--coral)" data-a="deldramaid" data-v="'+d.id+'">'+t("del")+"</button></div>"}).join(""):note(t("none_dr")));
  h+=h3("👑 Creator စနစ် ဆက်တင်");
  h+='<div class="acard" style="margin:6px 16px 12px"><p class="note" style="padding:0 0 8px">အရည်အသွေးပြည့် View ၁,၀၀၀ အတွက် ပေးမည့်ငွေ (MMK)။ 0 ထားလျှင် ဝင်ငွေမတွက်ပါ။</p><input class="in" id="creatorRate" type="number" min="0" step="0.0001" value="'+Number((a.creatorSettings||{}).rate_per_1000||0)+'" placeholder="View ၁,၀၀၀ အတွက် ငွေ"><input class="in" id="creatorMin" type="number" min="0" step="1" value="'+Number((a.creatorSettings||{}).min_withdrawal||10000)+'" placeholder="အနည်းဆုံး ငွေထုတ်ယူပမာဏ"><button class="btn" data-a="saveCreatorSettings">Creator နှုန်းထား သိမ်းမယ်</button></div>';
  h+='<div class="acard" style="margin:6px 16px 12px"><p class="note" style="padding:0 0 8px">VIP ကို Coin နဲ့ ဝယ်ယူရမယ့်ဈေး။ 0 ထားလျှင် Coin နဲ့ မရောင်းပါ (လျှောက်လွှာနည်းလမ်းသာ ရှိမယ်)။</p><input class="in" id="vipPrice" type="number" min="0" step="1" value="'+Number((a.creatorSettings||{}).vip_coin_price||0)+'" placeholder="VIP coin ဈေး"><button class="btn" data-a="saveVipPrice">VIP ဈေး သိမ်းမယ်</button></div>';
@@ -357,14 +357,53 @@ async function socLoad(d){
 function priceTxt(d){return isVip()?t("price_vip"):d.price<=0?t("price_free"):t("price_txt",d.free,d.price)}
 function admBox(d,adm){
  if(!adm)return"";
- return'<div class="acard"><b>'+t("adm_ctrl")+'</b><p class="note" style="padding:6px 0">'+(S.ep?t("adm_ep_sel",S.ep):t("adm_ep_none"))+"</p>"+
- '<label class="note" style="display:block;padding:4px 0 0" for="epurl">'+(S.ep?t("adm_vurl_lbl",S.ep):t("adm_ep_none"))+'</label><input class="in" id="epurl" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_video_url"))+'" value="'+esc(S.ep&&/^https?:/i.test(d.vids[S.ep]||"")?d.vids[S.ep]:"")+'" style="margin:6px 0;width:100%">'+pickBtn("epurl","vid",1)+'<button class="chip on" data-a="setepurl">'+t("adm_vurl_btn")+'</button> '+
- '<label class="note" style="display:block;padding:10px 0 0" for="cvurl">'+t("adm_curl_lbl")+'</label><input class="in" id="cvurl" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_cover_url"))+'" value="'+esc(/^https?:/i.test(d.cp||"")?d.cp:"")+'" style="margin:6px 0;width:100%">'+pickBtn("cvurl","img",1)+'<button class="chip" data-a="setcvurl">'+t("adm_curl_btn")+'</button> '+
+ /* v26: Admin ထိန်းချုပ်ခန်းထဲမှာတင် အပိုင်းနံပါတ် Dropdown ရွေး – Player မဖွင့်ဘဲ ဗီဒီယိုလင့်ခ်/ဖိုင် တင်နိုင် */
+ var ob="";for(var n=1;n<=d.eps;n++)ob+='<option value="'+n+'"'+(n===S.ep?" selected":"")+'>'+esc(t("adm_ep_opt",n))+(d.vids[n]?" ✓":"")+"</option>";
+ var h='<div class="acard" id="admbox"><b>'+t("adm_ctrl")+'</b><p class="note" style="padding:6px 0">'+(S.ep?t("adm_ep_sel",S.ep):t("adm_ep_none"))+"</p>"+
+ '<label class="note" style="display:block;padding:4px 0 0" for="admep">'+t("adm_ep_pick")+'</label><select class="in" id="admep" data-c="admep" style="margin:6px 0;width:100%"><option value=""'+(S.ep?"":" selected")+' disabled>'+esc(t("adm_ep_none"))+"</option>"+ob+"</select>";
+ if(S.ep){
+  h+='<label class="note" style="display:block;padding:4px 0 0" for="epurl">'+t("adm_vurl_lbl",S.ep)+'</label><input class="in" id="epurl" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_video_url"))+'" value="'+esc(/^https?:/i.test(d.vids[S.ep]||"")?d.vids[S.ep]:"")+'" style="margin:6px 0;width:100%">'+pickBtn("epurl","vid",1,t("adm_pick_vid"))+'<button class="chip on" data-a="setepurl">'+t("adm_vurl_btn")+'</button> '}
+ h+='<label class="note" style="display:block;padding:10px 0 0" for="cvurl">'+t("adm_curl_lbl")+'</label><input class="in" id="cvurl" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_cover_url"))+'" value="'+esc(/^https?:/i.test(d.cp||"")?d.cp:"")+'" style="margin:6px 0;width:100%">'+pickBtn("cvurl","img",1)+'<button class="chip" data-a="setcvurl">'+t("adm_curl_btn")+'</button> '+
  (S.ep&&d.vids[S.ep]?'<button class="chip" style="color:var(--coral)" data-a="delep">'+t("adm_delep",S.ep)+"</button>":"")+
  '<div id="upst"></div>'+
+ '<label class="note" style="display:block;padding:12px 0 0" for="neps">'+t("eps_edit_h")+'</label><div style="display:flex;gap:8px;margin-top:6px;align-items:center"><input class="in" id="neps" type="number" min="1" max="200" value="'+d.eps+'" placeholder="'+esc(t("ph_eps"))+'" style="margin:0;width:50%"><button class="chip on" data-a="seteps">'+t("eps_edit_btn")+'</button></div><p class="note" style="padding:4px 0 0">'+t("eps_edit_hint")+'</p>'+
  '<div style="display:flex;gap:8px;margin-top:12px"><input class="in" id="pp" type="number" min="0" value="'+d.price+'" placeholder="'+esc(t("pp_ph"))+'" style="margin:0;width:50%"><input class="in" id="pf" type="number" min="0" value="'+d.free+'" placeholder="'+esc(t("pf_ph"))+'" style="margin:0;width:50%"></div>'+
  '<p class="note" style="padding:4px 0 8px">'+t("price_hint")+'</p>'+
- '<button class="chip on" data-a="setprice">'+t("save_price")+'</button> <button class="chip" style="color:var(--coral)" data-a="deldrama">'+t("del_drama")+"</button></div>"}
+ '<button class="chip on" data-a="setprice">'+t("save_price")+'</button> <button class="chip" style="color:var(--coral)" data-a="deldrama">'+t("del_drama")+"</button></div>";
+ return h}
+/* v26: Admin ထိန်းချုပ်ခန်းကိုပဲ ပြန်ဆွဲ (Player/Sheet မထိ) + အပိုင်းစာရင်းမှာ ရွေးထားတာ/ဗီဒီယိုရှိတာ အမှတ်အသား update */
+function refAdm(d){
+ var b=$("#admbox");if(!b||!d)return;
+ b.outerHTML=admBox(d,isAdm()&&S.live);
+ var g=document.querySelector("#sb .eps");
+ if(g)Array.prototype.forEach.call(g.children,function(c){var n=+c.getAttribute("data-v");c.classList.toggle("cur",n===S.ep);c.classList.toggle("has",!!d.vids[n])});
+ admFill(d)}
+/* v26: ဇာတ်လမ်း၏ စုစုပေါင်းအပိုင်းအရေအတွက် ပြင်/လျှော့ – ပိုနေတဲ့ episodes row (+ Storage ဖိုင်) ကို အလိုအလျောက်ဖျက် */
+async function setEps(d,v,btn){
+ var n=parseInt(v,10);
+ if(!d||!Number.isFinite(n)||n<1||n>200){toast(t("eps_bad"));return}
+ var old=d.eps;
+ if(n===old){toast(t("eps_same"));return}
+ var cut=n<old?Object.keys(d.vids).filter(function(k){return+k>n}):[];
+ if(n<old&&!confirm(t("eps_cut_q",old,n,n+1,cut.length)))return;
+ if(btn)btn.disabled=true;
+ try{
+  var paths=[];
+  if(n<old){
+   paths=(await Promise.all(cut.map(function(k){return oldPath(d,k)}))).filter(Boolean);
+   var dr=await SB.from("episodes").delete().eq("drama_id",d.id).gt("n",n);
+   if(dr.error){toast(t("del_fail",dr.error.message));return}}
+  var r=await SB.from("dramas").update({eps:n}).eq("id",d.id);
+  if(r.error){toast(t("failed",r.error.message));try{await loadDr()}catch(e){}return}
+  if(paths.length)await rmFiles(paths);
+  cut.forEach(function(k){delete d.vids[k];delete VC[vkey(d,k)]});
+  if(S.ep>n)S.ep=0;
+  var wasOpen=sheetOpen(),sid=String(d.id);
+  await loadDr();if(S.dash){try{await loadAdmin()}catch(e){}}
+  render();if(wasOpen&&find(sid)){S.sel=sid;sheet()}
+  toast(n<old?t("eps_saved_cut",n,old-n):t("eps_saved",n))
+ }catch(e){toast(t("failed",e&&e.message||e))}
+ finally{if(btn)btn.disabled=false}}
 /* v25: video_path ကို ဇာတ်လမ်းစာရင်းနဲ့အတူ မဆွဲတော့ (Coin ပေးရမယ့် အပိုင်း URL ပေါ်မနေအောင် + payload ပေါ့စေအောင်)
    d.vids[n] = 1 (ဗီဒီယိုရှိကြောင်း marker) – URL အစစ်ကို ဖွင့်မယ့်အချိန် get_episode_video() RPC ကနေ ယူ။
    supabase-v25 SQL မ Run ရသေးရင် episodes ဇယားကို တိုက်ရိုက်ဖတ်တဲ့ နည်းအဟောင်းနဲ့ အလိုအလျောက် အလုပ်လုပ် */
@@ -793,7 +832,7 @@ var ACT={
    var r=await saveEpisode(d.id,n,u);
    if(r.error){toast(t("save_fail",r.error.message));return}
    if(old&&old!==u)await rmFiles([old]);
-   d.vids[n]=u;delete VC[vkey(d,n)];toast(t("up_done"));playEp(n)
+   d.vids[n]=u;delete VC[vkey(d,n)];toast(t("up_done"));if(find(S.sel)===d&&S.ep===n)refAdm(d);if(S.dash)loadAdmin().catch(function(){})
   }catch(e){toast(t("save_fail",e&&e.message||e))}
   finally{if(btn)btn.disabled=false}},
  setcvurl:async function(v,btn){
@@ -856,7 +895,10 @@ var ACT={
  undash:function(){S.dash=false;render()},
  moreep:async function(v){var d=find(v);if(!d||d.eps>=200)return;var nn=d.eps+1,r=await SB.from("dramas").update({eps:nn}).eq("id",d.id);if(r.error){toast(t("failed",r.error.message));return}await loadDr();await loadAdmin();render();toast(t("ep_added"));
   /* အပိုင်းအသစ်ကို ရွေးပြီး ဖွင့်ပေးမယ် – ဗီဒီယိုလင့်ခ် ချက်ချင်း paste လုပ်နိုင်အောင် */
-  S.sel=String(d.id);S.ep=nn;sheet()},
+  S.sel=String(d.id);S.ep=nn;S.fs=false;S.fsReq=false;sheet()},
+ editeps:function(v){var d=find(v);if(!d)return;var x=prompt(t("eps_prompt",d.t,d.eps),String(d.eps));if(x===null)return;setEps(d,x)},
+ seteps:function(v,btn){var d=find(S.sel);if(!d)return;setEps(d,($("#neps")||{}).value,btn)},
+ admep:function(v){var d=find(S.sel);if(!d)return;var n=parseInt(v,10);if(!n||n<1||n>d.eps)return;S.ep=n;S.fs=false;S.fsReq=false;refAdm(d)},
  grant:async function(v){var p=String(v).split("|"),amt=parseInt(p[1],10)||0;var r=await SB.rpc("admin_grant_coins",{p_user:p[0],p_amount:amt});if(r.error){toast(t("failed",r.error.message));return}
   var u=(S.ax.list||[]).filter(function(x){return x.id===p[0]})[0];if(u)u.coins=Math.max(0,u.coins+amt);refUl();toast(t("coin_ok",(amt>0?"+":"")+amt))},
  vip:async function(v){var p=String(v).split("|"),on=p[1]==="1";var r=await SB.rpc("admin_set_vip",{p_user:p[0],p_vip:on});if(r.error){toast(t("failed",r.error.message));return}
@@ -988,6 +1030,7 @@ document.addEventListener("input",function(e){if(e.target.id==="q"){S.q=e.target
 document.addEventListener("change",async function(e){
  var el=e.target,c=el.getAttribute&&el.getAttribute("data-c");if(!c)return;
  var f=el.files&&el.files[0];
+ if(c==="admep"){ACT.admep(el.value);return}
  if(c==="pick"){el.value="";if(f)pickUp(f,el.getAttribute("data-t"),el.getAttribute("data-k"));return}
  if(c==="avatar"){el.value="";if(f)setAvatar(f);return}
  if(c==="creatorCover"||c==="creatorVideo"||c==="creatorEpisodeVideo"){if(f){if(c==="creatorCover")S.creatorFiles.cover=f;else if(c==="creatorVideo")S.creatorFiles.video=f;else S.creatorFiles.episode=f;toast("ဖိုင်ရွေးပြီးပါပြီ")}return}
