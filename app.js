@@ -267,16 +267,23 @@ function settings(){
  h+="</div></div>";
  h+=card+"<b>"+t("set_cache")+'</b><p class="note" style="padding:4px 0 8px">'+t("set_cache_note")+'</p><button class="chip" data-a="clearcache">'+t("set_clear")+"</button></div>";
  return h}
+function pfGrid(m){
+ var L=S.dr.filter(function(d){return d.o&&d.o===m.id});
+ if(!L.length)return note(t("pf_none"));
+ return'<div class="pgrid">'+L.map(function(d){return'<div class="pcell" data-a="open" data-v="'+esc(d.id)+'" style="'+bg(d)+'"><span class="pv">▶ '+fmt(d.v||0)+'</span></div>'}).join("")+"</div>"}
 function profile(){
  if(!SB)return h3(t("conn_fail"),1)+note(t("conn_note"))+'<button class="btn" data-a="reload">'+t("retry")+"</button>"+langBox();
  if(S.recov)return newPwForm();
  if(!S.me)return(S.mode==="forgot"?forgotForm():loginForm())+langBox();
  var m=S.me;if(S.dash&&m.is_admin)return dash();if(S.creatorDash&&(m.is_vip||m.is_creator))return creatorDashboard();
- var h='<div class="prof"><div class="av" style="'+avBg(m.avatar_url)+'">'+(m.avatar_url?"":"☺")+'<label class="avcam" title="Profile ပုံပြောင်းရန်">📷<input class="fi" type="file" accept="image/*" data-c="avatar"></label></div><div><strong>'+esc(m.name||m.email)+"</strong>"+(m.is_admin?t("admin_tag"):"")+(m.is_vip?t("vip_tag"):"")+'<div class="sub" style="color:var(--mute)">'+esc(m.email||"")+" · "+t("coin_n",m.coins)+"</div></div></div>";
+ var isC=!!(m.is_vip||m.is_creator);
+ var h='<div class="prof"><div class="av" style="'+avBg(m.avatar_url)+'">'+(m.avatar_url?"":"☺")+'<label class="avcam" title="Profile ပုံပြောင်းရန်">📷<input class="fi" type="file" accept="image/*" data-c="avatar"></label></div><div style="flex:1;min-width:0"><strong>'+esc(m.name||m.email)+"</strong>"+(m.is_admin?t("admin_tag"):"")+(m.is_vip?t("vip_tag"):"")+'<div class="sub" style="color:var(--mute)">'+esc(m.email||"")+" · "+t("coin_n",m.coins)+'</div></div><button class="gear" data-a="pfset" aria-label="'+esc(t("pf_set"))+'">⚙️</button></div>';
  if(m.is_admin)h+='<button class="btn" data-a="dash">'+t("admin_open")+"</button>";
- if(m.is_vip||m.is_creator)h+='<button class="btn" data-a="creatorDash">👑 Creator Dashboard</button>';
+ if(isC)h+='<button class="btn" data-a="creatorDash">👑 Creator Dashboard</button>';
  if(!m.is_vip&&!m.is_admin)h+='<button class="btn" data-a="vipbox">'+t("vip_btn")+"</button>";
- return h+settings()+'<button class="btn" style="background:var(--panel);color:var(--text);border:1px solid var(--line)" data-a="logout">'+t("logout")+"</button>"}
+ if(S.pset)h+=settings()+'<button class="btn" style="background:var(--panel);color:var(--text);border:1px solid var(--line)" data-a="logout">'+t("logout")+"</button>";
+ else if(isC)h+=h3(t("pf_vids"))+pfGrid(m);
+ return h}
 
 /* ----- admin ----- */
 async function loadAdmin(){
@@ -360,16 +367,22 @@ function creatorDashboard(){
  var reserved=d.withdrawals.filter(function(x){return ["pending","approved","paid"].indexOf(x.status)>-1}).reduce(function(a,x){return a+(+x.amount||0)},0);
  var balance=Math.max(0,total-reserved),cur=d.settings.currency_code||"MMK",vc=d.views.length;
  if(d.sum){total=+d.sum.earned||0;balance=Math.max(0,+d.sum.balance||0);vc=+d.sum.views||0}
- var h=backbar()+h3("👑 Creator Dashboard",1);
+ var h='<div class="stickback">'+backbar()+"</div>"+h3("👑 Creator Dashboard",1);
  h+='<div class="days"><div class="day"><strong>'+fmt(d.dramas.length)+'</strong><span>ဇာတ်လမ်း</span></div><div class="day"><strong>'+fmt(vc)+'</strong><span>အရည်အသွေးပြည့် View</span></div><div class="day"><strong>'+total.toFixed(2)+'</strong><span>စုစုပေါင်းရငွေ ('+esc(cur)+')</span></div><div class="day"><strong>'+balance.toFixed(2)+'</strong><span>ထုတ်ယူနိုင်ငွေ</span></div></div>';
+ var ct=S.ct==="pay"?"pay":"up";
+ h+='<div class="chips atabs">'+[["up","🎬 "+t("cr_t_up")],["pay","💰 "+t("cr_t_pay")]].map(function(x){return'<button class="chip'+(ct===x[0]?" on":"")+'" data-a="crtab" data-v="'+x[0]+'">'+esc(x[1])+"</button>"}).join("")+"</div>";
+ if(ct==="up"){
  if(S.me&&S.me.is_vip){h+='<div class="acard" style="margin:6px 16px 12px"><b>Creator ဗီဒီယိုတင်ရန်</b><p class="note" style="padding:4px 0">VIP ဖြစ်နေစဉ်သာ တင်နိုင်ပါတယ်။ လင့်ခ်တွေက https:// နဲ့ စရမယ်၊ ဗီဒီယိုက ဖိုင်တိုက်ရိုက်လင့်ခ် (.mp4) ဖြစ်ရမယ်။ Admin အတည်ပြုပြီးမှ Public မှာ ပေါ်ပါမယ်။</p><input class="in" id="crtitle" placeholder="ဇာတ်လမ်းအမည်">'+genreSel("crgenre")+'<textarea class="in" id="crdesc" rows="3" maxlength="1000" placeholder="'+esc(t("ph_desc"))+'"></textarea><label class="note" for="crcover">🔗 Cover ပုံလင့်ခ် (Image URL)</label><input class="in" id="crcover" type="url" inputmode="url" autocomplete="off" placeholder="https://...">'+pickBtn("crcover","img")+covPrevBox("crcover")+'<label class="note" for="crvideo">🔗 ပထမအပိုင်း ဗီဒီယိုလင့်ခ် (Video URL)</label><input class="in" id="crvideo" type="url" inputmode="url" autocomplete="off" placeholder="https://... (.mp4)">'+pickBtn("crvideo","vid")+'<button class="btn" data-a="creatorSubmit">Admin ထံ ဇာတ်လမ်းတင်သွင်းမယ်</button></div>';
  h+='<div class="acard" style="margin:6px 16px 12px"><b>ရှိပြီးသား ဇာတ်လမ်းအတွက် Episode ထပ်တင်ရန်</b><select class="in" id="crepisodeDrama"><option value="">ဇာတ်လမ်းရွေးပါ</option>'+d.dramas.filter(function(x){return x.moderation_status!=="rejected"}).map(function(x){return'<option value="'+x.id+'">'+esc(x.title)+' ('+esc(x.moderation_status)+')</option>'}).join("")+'</select><input class="in" id="crEpNo" type="number" min="1" max="200" placeholder="Episode နံပါတ်"><input class="in" id="crEpVideo" type="url" inputmode="url" autocomplete="off" placeholder="🔗 ဗီဒီယိုလင့်ခ် (Video URL) https://... (.mp4)">'+pickBtn("crEpVideo","vid")+'<button class="btn" data-a="creatorEpisodeSubmit">Episode တင်သွင်းမယ်</button></div>'}else{h+=note("VIP သက်တမ်းကုန်ဆုံးနေပါသည်။ ရှိပြီးသား Creator ဝင်ငွေကိုတော့ ထုတ်ယူနိုင်ပါတယ်။")}
  h+=h3("မင်းတင်ထားတဲ့ ဇာတ်လမ်းများ");
  h+=d.dramas.length?d.dramas.map(function(x){return'<div class="row" style="cursor:default"><div class="info"><strong>'+esc(x.title)+'</strong><div class="sub">'+esc(x.genre||"")+' · '+esc(x.moderation_status)+(x.moderation_note?" · "+esc(x.moderation_note):"")+'</div></div><span class="heat">'+(x.moderation_status==="approved"?"အတည်ပြုပြီး":x.moderation_status==="pending"?"စစ်ဆေးဆဲ":"ပယ်ချ")+'</span></div>'}).join(""):note("တင်ထားတဲ့ ဇာတ်လမ်း မရှိသေးပါ။");
+ }else{
+ h+=h3("💰 လက်ကျန်ငွေ")+'<div class="acard" style="margin:6px 16px 12px"><b>'+balance.toFixed(2)+' '+esc(cur)+'</b><p class="note" style="padding:2px 0 0">စုစုပေါင်းရငွေ '+total.toFixed(2)+' '+esc(cur)+'</p></div>';
  h+=h3("ငွေထုတ်ယူရန်");
  h+='<div class="acard" style="margin:6px 16px 12px"><p class="note" style="padding:0 0 8px">အနည်းဆုံး '+Number(d.settings.min_withdrawal||0).toLocaleString()+' '+esc(cur)+' · View ၁,၀၀၀ အတွက် '+Number(d.settings.rate_per_1000||0).toFixed(4)+' '+esc(cur)+'</p><input class="in" id="crAmount" type="number" min="0" step="0.01" placeholder="ထုတ်ယူလိုသော ပမာဏ"><input class="in" id="crMethod" placeholder="ငွေလက်ခံနည်း (ဥပမာ KPay / WavePay)"><input class="in" id="crAccount" placeholder="ဖုန်းနံပါတ် / အကောင့်အမည်"><button class="btn" data-a="creatorWithdraw">ငွေထုတ်ရန် တောင်းဆိုမယ်</button></div>';
  h+=h3("ငွေထုတ်မှတ်တမ်း");
  h+=d.withdrawals.length?d.withdrawals.map(function(x){return'<div class="row" style="cursor:default"><div class="info"><strong>'+Number(x.amount).toFixed(2)+' '+esc(x.currency_code)+'</strong><div class="sub">'+esc(x.payout_method)+' · '+esc(x.status)+' · '+new Date(x.created_at).toLocaleDateString()+'</div></div></div>'}).join(""):note("ငွေထုတ်မှတ်တမ်း မရှိသေးပါ။");
+ }
  h+='<button class="btn" style="background:var(--panel);color:var(--text);border:1px solid var(--line)" data-a="creatorBack">ပြန်သွားမယ်</button>';
  return h;
 }
@@ -782,7 +795,9 @@ async function afterPwChange(){
  await setUser(s.data&&s.data.session);toast(t("fp_done"))}
 
 var ACT={
- tab:function(v){S.tab=v;render();window.scrollTo(0,0)},
+ tab:function(v){S.tab=v;S.pset=false;render();window.scrollTo(0,0)},
+ pfset:function(){S.pset=!S.pset;render();window.scrollTo(0,0)},
+ crtab:function(v){S.ct=v==="pay"?"pay":"up";render();window.scrollTo(0,0)},
  rank:function(v){S.rank=v;render()},
  open:function(v){S.sel=v;S.ep=0;S.fs=false;S.rsm=null;S.fsReq=!S.dash&&!S.creatorDash;sheet();autoStart();S.fsReq=false},
  ep:function(v){csClose();S.fsReq=true;playEp(+v)},
@@ -917,7 +932,7 @@ var ACT={
   var r=await SB.auth.signInWithOAuth({provider:"google",options:{redirectTo:mailRedirect(),queryParams:{prompt:"select_account"}}});
   if(r.error){try{sessionStorage.removeItem("zoauth")}catch(e){}fail(r.error.message)}},
  dash:async function(){S.dash=true;S.creatorDash=false;try{await loadAdmin()}catch(e){toast(t("dash_fail"))}render()},
- creatorDash:async function(){if(!S.me||!(S.me.is_vip||S.me.is_creator)){toast("Creator အကောင့် မရှိသေးပါ");return}S.dash=false;S.creatorDash=true;S.creatorFiles={};await loadCreator();render()},
+ creatorDash:async function(){if(!S.me||!(S.me.is_vip||S.me.is_creator)){toast("Creator အကောင့် မရှိသေးပါ");return}S.dash=false;S.creatorDash=true;S.ct="up";S.creatorFiles={};await loadCreator();render();window.scrollTo(0,0)},
  creatorBack:function(){S.creatorDash=false;render()},
  creatorSubmit:async function(v,btn){
   if(!SB||!S.me||!S.me.is_vip){toast("VIP Creator များသာ Video တင်နိုင်ပါတယ်");return}
@@ -1067,7 +1082,7 @@ var ACT={
   await rmFiles([p]);delete d.vids[n];delete VC[vkey(d,n)];sheet();if(S.dash)await loadAdmin();toast(t("vid_deleted"))},
  deldramaid:function(v){S.sel=v;ACT.deldrama()},
  reload:function(){location.reload()},
- logout:async function(){S.dash=false;S.creatorDash=false;await SB.auth.signOut();S.tab="home";render()},
+ logout:async function(){S.pset=false;S.dash=false;S.creatorDash=false;await SB.auth.signOut();S.tab="home";render()},
  checkin:async function(){
   if(!SB||!S.me){toast(t("need_login"));S.tab="me";render();return}
   var r=await SB.rpc("checkin");
