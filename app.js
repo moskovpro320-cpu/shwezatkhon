@@ -14,8 +14,9 @@ my:{lbl_cover:"🔗 Cover ပုံလင့်ခ် (Image URL)",lbl_vid1:"�
  vip_desc:"VIP ဖြစ်ရင် ဇာတ်လမ်းအားလုံး အကန့်မရှိကြည့်ခွင့်ရပြီး Creator Dashboard ကနေ ကိုယ့်ဗီဒီယိုလင့်ခ်တင်ကာ View အလိုက် ဝင်ငွေရနိုင်ပါတယ်။",
  vip_coin_h:"🪙 Coin နဲ့ ဝယ်ယူရန်",vip_coin_txt:"VIP ဈေး {0} coin · သင့်မှာ {1} coin ရှိပါတယ်",vip_coin_off:"Coin နဲ့ ဝယ်ယူခွင့် လောလောဆယ် မဖွင့်သေးပါ – အောက်က လျှောက်လွှာနည်းလမ်းကို သုံးပါ။",
  vip_buy:"Coin {0} နဲ့ VIP ဝယ်မယ်",vip_buy_q:"Coin နဲ့ VIP ဝယ်ယူမှာ သေချာပါသလား?",vip_no_coin:"Coin မလောက်ပါ",vip_ok:"VIP ဖြစ်သွားပါပြီ 🎉 Creator Dashboard ကို ဖွင့်ပေးထားပါတယ်",vip_now:"သင် VIP ဖြစ်ပြီးသား ဖြစ်ပါတယ် 🎉",
- vip_apply_h:"📝 Admin ထံ လျှောက်ထားရန်",vip_apply_txt:"Admin က စစ်ဆေးပြီး အတည်ပြုပေးပါလိမ့်မယ်။ မှတ်ချက် (ဥပမာ ငွေလွှဲ ID / ဆက်သွယ်ရန်ဖုန်း) ရေးနိုင်ပါတယ်။",
- vip_msg_ph:"မှတ်ချက် (မရေးလည်းရ)",vip_apply_btn:"VIP လျှောက်လွှာ တင်မယ်",vip_applied:"လျှောက်လွှာ တင်ပြီးပါပြီ",vip_pending:"⏳ လျှောက်လွှာ စစ်ဆေးဆဲပါ – Admin အတည်ပြုပြီးရင် ဒီစာမျက်နှာကို ပြန်ဖွင့်ကြည့်ပါ။",vip_rejected:"❌ ယခင်လျှောက်လွှာ ပယ်ချခံရပါတယ်"},
+ vip_apply_h:"📝 TikTok Creator လျှောက်လွှာ",vip_apply_txt:"Creator / VIP လျှောက်ထားရန် Follower အနည်းဆုံး 10K ရှိသော TikTok Account Link ထည့်သွင်းပေးပါ။ Admin မှ စစ်ဆေးပြီး အတည်ပြုပေးပါမည်။",
+ vip_tt_lbl:"🎵 TikTok Profile Link (မဖြစ်မနေ ဖြည့်ရန်)",vip_tt_ph:"https://www.tiktok.com/@username",vip_tt_req:"TikTok Profile Link ကို ထည့်ပေးပါ",vip_tt_bad:"TikTok လင့်ခ် မမှန်ပါ – https://www.tiktok.com/@username ပုံစံ ဖြစ်ရမယ်",vip_tt_view:"🔗 TikTok ဖွင့်ကြည့်မယ်",vip_approve:"✅ အတည်ပြုမည် (Approve)",vip_reject:"❌ ပယ်ဖျက်မည် (Reject)",
+ vip_msg_ph:"အပိုမှတ်ချက် (မရေးလည်းရ)",vip_apply_btn:"VIP လျှောက်လွှာ တင်မယ်",vip_applied:"လျှောက်လွှာ တင်ပြီးပါပြီ",vip_pending:"⏳ လျှောက်လွှာ စစ်ဆေးဆဲပါ – Admin အတည်ပြုပြီးရင် ဒီစာမျက်နှာကို ပြန်ဖွင့်ကြည့်ပါ။",vip_rejected:"❌ ယခင်လျှောက်လွှာ ပယ်ချခံရပါတယ်"},
 en:{lbl_cover:"🔗 Cover image link (Image URL)",lbl_vid1:"🔗 Video link – episode 1 (Video URL)",
  add_note:"After adding, the drama opens right away – pick an episode number and paste its video link. Links must start with https:// and the video must be a direct file link (e.g. .mp4), not a YouTube page.",
  ph_cover_url:"https://... (cover image link)",ph_video_url:"https://... (video link .mp4)",
@@ -25,8 +26,9 @@ en:{lbl_cover:"🔗 Cover image link (Image URL)",lbl_vid1:"🔗 Video link – 
  vip_desc:"VIP members watch every drama without limits and can post their own video links in the Creator Dashboard to earn per view.",
  vip_coin_h:"🪙 Buy with coins",vip_coin_txt:"VIP price {0} coins · you have {1} coins",vip_coin_off:"Buying with coins is not open yet – use the application below.",
  vip_buy:"Buy VIP for {0} coins",vip_buy_q:"Buy VIP with your coins?",vip_no_coin:"Not enough coins",vip_ok:"You are VIP now 🎉 Creator Dashboard is open",vip_now:"You are already VIP 🎉",
- vip_apply_h:"📝 Apply to Admin",vip_apply_txt:"An Admin will review and approve it. You can add a note (e.g. payment ID / contact phone).",
- vip_msg_ph:"Note (optional)",vip_apply_btn:"Submit VIP application",vip_applied:"Application submitted",vip_pending:"⏳ Your application is being reviewed – reopen this page once an Admin approves it.",vip_rejected:"❌ Your previous application was rejected"}};
+ vip_apply_h:"📝 TikTok Creator application",vip_apply_txt:"To apply as a Creator / VIP, enter the link to a TikTok account with at least 10K followers. An Admin will review and approve it.",
+ vip_tt_lbl:"🎵 TikTok profile link (required)",vip_tt_ph:"https://www.tiktok.com/@username",vip_tt_req:"Please enter your TikTok profile link",vip_tt_bad:"Invalid TikTok link – it should look like https://www.tiktok.com/@username",vip_tt_view:"🔗 Open TikTok",vip_approve:"✅ Approve",vip_reject:"❌ Reject",
+ vip_msg_ph:"Extra note (optional)",vip_apply_btn:"Submit VIP application",vip_applied:"Application submitted",vip_pending:"⏳ Your application is being reviewed – reopen this page once an Admin approves it.",vip_rejected:"❌ Your previous application was rejected"}};
 ["my","en"].forEach(function(l){I18N[l]=I18N[l]||{};for(var k in A[l])I18N[l][k]=A[l][k]})})();
 var NAV={hd:0,nb:0,nr:0};
 var BOOT={qs:new URLSearchParams(location.search),hs:new URLSearchParams((location.hash||"").replace(/^#/,"")),hash:location.hash||"",search:location.search||""};
@@ -235,12 +237,12 @@ function dash(){
  +'<label class="note" style="display:block" for="nc">'+t("lbl_cover")+'</label><input class="in" id="nc" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_cover_url"))+'">'+pickBtn("nc","img")
  +'<label class="note" style="display:block" for="nv">'+t("lbl_vid1")+'</label><input class="in" id="nv" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_video_url"))+'">'+pickBtn("nv","vid")
  +'<button class="btn" data-a="adddrama">'+t("add_btn")+'</button><div id="ust2" style="padding:0 16px"></div>'+note(t("add_note"));
- h+=h3(t("dramas_h"))+(S.live?S.dr.map(function(d){return'<div class="row"><div class="info" data-a="open" data-v="'+esc(d.id)+'"><strong>'+esc(d.t)+'</strong><div class="sub">'+t("eps_n",d.eps)+" · "+t("vids_n",Object.keys(d.vids).length)+" · "+(d.price<=0?t("free_lbl"):t("coin_lbl",d.price))+'</div></div><button class="chip" data-a="moreep" data-v="'+d.id+'">'+t("more_ep")+'</button><button class="chip" data-a="editeps" data-v="'+d.id+'">'+t("eps_edit_chip")+'</button><button class="chip" style="color:var(--coral)" data-a="deldramaid" data-v="'+d.id+'">'+t("del")+"</button></div>"}).join(""):note(t("none_dr")));
+ h+=h3(t("dramas_h"))+(S.live?S.dr.map(function(d){return'<div class="row admdr"><div class="info" data-a="open" data-v="'+esc(d.id)+'"><strong>'+esc(d.t)+'</strong><div class="sub">'+t("eps_n",d.eps)+" · "+t("vids_n",Object.keys(d.vids).length)+" · "+(d.price<=0?t("free_lbl"):t("coin_lbl",d.price))+'</div></div><div class="btns"><button class="chip" data-a="moreep" data-v="'+d.id+'">'+t("more_ep")+'</button><button class="chip" data-a="editeps" data-v="'+d.id+'">'+t("eps_edit_chip")+'</button><button class="chip" style="color:var(--coral)" data-a="deldramaid" data-v="'+d.id+'">'+t("del")+"</button></div></div>"}).join(""):note(t("none_dr")));
  h+=h3("👑 Creator စနစ် ဆက်တင်");
  h+='<div class="acard" style="margin:6px 16px 12px"><p class="note" style="padding:0 0 8px">အရည်အသွေးပြည့် View ၁,၀၀၀ အတွက် ပေးမည့်ငွေ (MMK)။ 0 ထားလျှင် ဝင်ငွေမတွက်ပါ။</p><input class="in" id="creatorRate" type="number" min="0" step="0.0001" value="'+Number((a.creatorSettings||{}).rate_per_1000||0)+'" placeholder="View ၁,၀၀၀ အတွက် ငွေ"><input class="in" id="creatorMin" type="number" min="0" step="1" value="'+Number((a.creatorSettings||{}).min_withdrawal||10000)+'" placeholder="အနည်းဆုံး ငွေထုတ်ယူပမာဏ"><button class="btn" data-a="saveCreatorSettings">Creator နှုန်းထား သိမ်းမယ်</button></div>';
  h+='<div class="acard" style="margin:6px 16px 12px"><p class="note" style="padding:0 0 8px">VIP ကို Coin နဲ့ ဝယ်ယူရမယ့်ဈေး။ 0 ထားလျှင် Coin နဲ့ မရောင်းပါ (လျှောက်လွှာနည်းလမ်းသာ ရှိမယ်)။</p><input class="in" id="vipPrice" type="number" min="0" step="1" value="'+Number((a.creatorSettings||{}).vip_coin_price||0)+'" placeholder="VIP coin ဈေး"><button class="btn" data-a="saveVipPrice">VIP ဈေး သိမ်းမယ်</button></div>';
  h+=h3("👑 VIP လျှောက်လွှာများ ("+(a.vipApps||[]).length+")");
- h+=(a.vipApps||[]).length?a.vipApps.map(function(x){var u=(a.list||[]).filter(function(q){return q.id===x.user_id})[0]||{};return'<div class="acard" style="margin:6px 16px 12px"><b>'+esc(u.name||u.email||x.user_id)+'</b><p class="note" style="padding:2px 0">'+esc(u.email||"")+(x.message?" · "+esc(x.message):"")+'</p><div style="display:flex;gap:8px"><button class="chip on" data-a="reviewVip" data-v="'+x.id+'|1">Approve</button><button class="chip" data-a="reviewVip" data-v="'+x.id+'|0">Reject</button></div></div>'}).join(""):note("VIP လျှောက်လွှာ မရှိသေးပါ။");
+ h+=(a.vipApps||[]).length?a.vipApps.map(function(x){var u=(a.list||[]).filter(function(q){return q.id===x.user_id})[0]||{};var pm=ttParse(x.message),lk=pm.url?'<a class="ttlink" href="'+esc(pm.url)+'" target="_blank" rel="noopener noreferrer">'+t("vip_tt_view")+'</a><div class="ttu">'+esc(pm.url)+'</div>':(pm.raw?'<div class="ttu">'+esc(pm.raw)+'</div>':"");return'<div class="acard" style="margin:6px 16px 12px"><b>'+esc(u.name||u.email||x.user_id)+'</b><p class="note" style="padding:2px 0">'+esc(u.email||"")+(pm.note?" · "+esc(pm.note):"")+'</p>'+lk+'<div class="vbtns"><button class="chip on" data-a="reviewVip" data-v="'+x.id+'|1">'+t("vip_approve")+'</button><button class="chip" data-a="reviewVip" data-v="'+x.id+'|0">'+t("vip_reject")+'</button></div></div>'}).join(""):note("VIP လျှောက်လွှာ မရှိသေးပါ။");
  h+=h3("စစ်ဆေးရန် Creator ဇာတ်လမ်းများ ("+(a.pending||[]).length+")");
  h+=(a.pending||[]).length?a.pending.map(function(x){return'<div class="acard" style="margin:6px 16px 12px"><b>'+esc(x.title)+'</b><p class="note" style="padding:2px 0">Creator: '+byName(x.owner_id)+' · '+esc(x.genre||"")+'</p><div style="display:flex;gap:8px"><button class="chip on" data-a="reviewDrama" data-v="'+x.id+'|1">Approve</button><button class="chip" data-a="reviewDrama" data-v="'+x.id+'|0">Reject</button></div></div>'}).join(""):note("စစ်ဆေးရန် မရှိသေးပါ။");
  h+=h3("စစ်ဆေးရန် Episode များ ("+(a.pendingEpisodes||[]).length+")");
@@ -485,6 +487,11 @@ function showVideo(d,n,u){
    if(last!==null&&!v.paused&&c>last&&c-last<1.5)played+=c-last;
    last=c;
    if(played>=30){viewSent=true;SB.rpc("record_episode_view",{p_drama:d.id,p_n:n}).then(function(r){if(r.error){console.warn("view count:",r.error.message);return}viewMark(d.id,n)},function(){})}})}}
+/* ===== v28: TikTok Creator လျှောက်လွှာ – လင့်ခ်ကို message ထဲ "TikTok: <url> | Note: <note>" ပုံစံနဲ့ သိမ်း (SQL/RLS မပြောင်း) ===== */
+function ttNorm(u){u=String(u||"").trim();if(/^(www\.|m\.|vm\.|vt\.)?tiktok\.com\//i.test(u))u="https://"+u;
+ return /^https:\/\/([a-z0-9-]+\.)*tiktok\.com\/[^\s"'<>]+$/i.test(u)&&u.length<=250?u:""}
+function ttParse(m){var x=/^TikTok:\s*(\S+)(?:\s*\|\s*Note:\s*([\s\S]*))?$/.exec(String(m||"").trim());
+ if(!x)return{url:"",note:String(m||"")};return{url:ttNorm(x[1]),raw:x[1],note:(x[2]||"").trim()}}
 function viewKey(id,n){return"zv:"+(S.me?S.me.id:"x")+":"+id+":"+n}
 function viewSeen(id,n){try{var x=parseInt(localStorage.getItem(viewKey(id,n)),10);return!!x&&Date.now()-x<864e5}catch(e){return false}}
 function viewMark(id,n){try{localStorage.setItem(viewKey(id,n),String(Date.now()))}catch(e){}}
@@ -886,7 +893,7 @@ var ACT={
    if(ap&&ap.status==="pending")h+='<p class="note" style="padding:6px 0 0">'+t("vip_pending")+"</p>";
    else{
     if(ap&&ap.status==="rejected")h+='<p class="note" style="padding:6px 0 0">'+t("vip_rejected")+(ap.admin_note?": "+esc(ap.admin_note):"")+"</p>";
-    h+='<p class="note" style="padding:4px 0 8px">'+t("vip_apply_txt")+'</p><input class="in" id="vipmsg" maxlength="500" placeholder="'+esc(t("vip_msg_ph"))+'" style="margin:0 0 10px;width:100%"><button class="btn" style="margin:0;width:100%" data-a="applyvip">'+t("vip_apply_btn")+"</button>"}
+    h+='<p class="note" style="padding:4px 0 8px">'+t("vip_apply_txt")+'</p><label class="note" for="viptt" style="display:block;padding:0 0 4px">'+t("vip_tt_lbl")+'</label><input class="in" id="viptt" type="url" inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="250" placeholder="'+esc(t("vip_tt_ph"))+'" style="margin:0 0 10px;width:100%"><input class="in" id="vipmsg" maxlength="200" placeholder="'+esc(t("vip_msg_ph"))+'" style="margin:0 0 10px;width:100%"><button class="btn" style="margin:0;width:100%" data-a="applyvip">'+t("vip_apply_btn")+"</button>"}
    h+="</div>";
    h+='<button class="btn" style="margin:12px 0 0;width:100%;background:var(--panel);color:var(--text);border:1px solid var(--line)" data-a="close">'+t("close")+"</button>";
    $("#sb").innerHTML=h
@@ -903,10 +910,14 @@ var ACT={
   finally{if(btn)btn.disabled=false}},
  applyvip:async function(v,btn){
   if(!SB||!S.me)return;
-  var msg=(($("#vipmsg")||{}).value||"").trim();
+  var note=(($("#vipmsg")||{}).value||"").trim(),tt0=(($("#viptt")||{}).value||"").trim();
+  if(!tt0){toast(t("vip_tt_req"));var ti=$("#viptt");if(ti)ti.focus();return}
+  var tt=ttNorm(tt0);
+  if(!tt){toast(t("vip_tt_bad"));var tj=$("#viptt");if(tj)tj.focus();return}
+  var msg="TikTok: "+tt+(note?" | Note: "+note.slice(0,200):"");
   if(btn)btn.disabled=true;
   try{
-   var r=await SB.rpc("apply_for_vip",{p_message:msg||null});
+   var r=await SB.rpc("apply_for_vip",{p_message:msg});
    if(r.error){toast(/pending/i.test(r.error.message)?t("vip_pending"):t("failed",r.error.message));return}
    toast(t("vip_applied"));await ACT.vipbox()
   }catch(e){toast(t("failed",e&&e.message||e))}
