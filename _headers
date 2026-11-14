@@ -1,12 +1,12 @@
 /*
-  Cache-Control: no-cache, no-store, must-revalidate
+  Cache-Control: no-cache
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
 /sw.js
   Cache-Control: no-cache, no-store, must-revalidate
-/config.js
-  Cache-Control: no-cache, no-store, must-revalidate
-/app.js
-  Cache-Control: no-cache, no-store, must-revalidate
-/i18n.js
-  Cache-Control: no-cache, no-store, must-revalidate
-/index.html
-  Cache-Control: no-cache, no-store, must-revalidate
+
+/.well-known/assetlinks.json
+  Cache-Control: no-cache
