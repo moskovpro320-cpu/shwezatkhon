@@ -140,7 +140,7 @@ function okUrl(u){return /^https:\/\/[^\s"'<>]+$/i.test(u||"")&&String(u).length
 function backbar(){return'<button class="backtop" data-a="navback">'+t("back_btn")+"</button>"}
 function fmt(v){return v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":String(v)}
 function poster(d,tag){return'<div class="poster" style="'+bg(d)+'">'+(tag?'<span class="tag">Hot</span>':"")+"</div>"}
-function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'">'+poster(d,tag)+'<p class="ct">'+esc(d.t)+"</p></div>"}
+function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span></div>"+'<p class="ct">'+esc(d.t)+"</p></div>"}
 function row(d,n){return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+poster(d)+'<div class="info"><strong>'+esc(d.t)+'</strong><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div><span class="heat">▶ '+fmt(d.v)+"</span></div>"}
 function note(x){return'<p class="note">'+x+"</p>"}
 var GSVG='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
@@ -279,8 +279,7 @@ function profile(){
  if(S.rw)return'<div class="stickback">'+backbar()+"</div>"+rewards();
  if(S.pset)return'<div class="stickback">'+backbar()+"</div>"+settings()+'<button class="btn" style="background:var(--panel);color:var(--text);border:1px solid var(--line)" data-a="logout">'+t("logout")+"</button>";
  var isC=!!(m.is_vip||m.is_creator);
- var h='<div class="prof"><div class="av" style="'+avBg(m.avatar_url)+'">'+(m.avatar_url?"":"☺")+'<label class="avcam" title="Profile ပုံပြောင်းရန်">📷<input class="fi" type="file" accept="image/*" data-c="avatar"></label></div><div style="flex:1;min-width:0"><strong>'+esc(m.name||m.email)+"</strong>"+(m.is_admin?t("admin_tag"):"")+(m.is_vip?t("vip_tag"):"")+'<div class="sub" style="color:var(--mute)">'+esc(m.email||"")+" · "+t("coin_n",m.coins)+'</div></div><button class="gear" data-a="pfset" aria-label="'+esc(t("pf_set"))+'">⚙️</button></div>';
- h+='<button class="btn" data-a="pfdaily">'+t("pf_daily")+"</button>";
+ var h='<div class="prof"><div class="av" style="'+avBg(m.avatar_url)+'">'+(m.avatar_url?"":"☺")+'<label class="avcam" title="Profile ပုံပြောင်းရန်">📷<input class="fi" type="file" accept="image/*" data-c="avatar"></label></div><div style="flex:1;min-width:0"><strong>'+esc(m.name||m.email)+"</strong>"+(m.is_admin?t("admin_tag"):"")+(m.is_vip?t("vip_tag"):"")+'<div class="sub" style="color:var(--mute)">'+esc(m.email||"")+" · "+t("coin_n",m.coins)+'</div></div><div class="pact"><button class="pill" data-a="pfdaily" aria-label="'+esc(t("pf_daily_a"))+'">'+t("pf_daily")+'</button><button class="gear" data-a="pfset" aria-label="'+esc(t("pf_set"))+'">⚙️</button></div></div>';
  if(m.is_admin)h+='<button class="btn" data-a="dash">'+t("admin_open")+"</button>";
  if(isC)h+='<button class="btn" data-a="creatorDash">👑 Creator Dashboard</button>';
  if(!m.is_vip&&!m.is_admin)h+='<button class="btn" data-a="vipbox">'+t("vip_btn")+"</button>";

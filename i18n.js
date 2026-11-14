@@ -82,7 +82,7 @@ adm_ep_opt:"အပိုင်း {0}",adm_ep_pick:"📌 အပိုင်း�
  cover_prep:"Cover ပြင်ဆင်နေပါတယ်...",cover_changed:"Cover ပြောင်းပြီးပါပြီ",drama_default:"ဇာတ်လမ်း",
  auth_err:"Auth error: {0}",
  ucm_q:"🔒 အပိုင်း {0} ကို {1} Coin ဖြင့် ဖွင့်ကြည့်မည်လား?",ucm_bal:"လက်ကျန် Coin – 🪙 {0}",ucm_no:"မလုပ်တော့ပါ (Cancel)",ucm_yes:"ဖွင့်ကြည့်မည် ({0} Coin)",hero_wk:"ဒီအပတ်",
- adm_t_add:"ဇာတ်လမ်းထည့်ရန်",adm_t_list:"ဇာတ်လမ်းများ",adm_t_vip:"VIP & Creator",adm_t_users:"အသုံးပြုသူများ",cr_t_up:"ဗီဒီယိုတင်ရန်",cr_t_pay:"ငွေထုတ်ယူရန်",pf_vids:"🎬 ဗီဒီယိုများ",pf_none:"တင်ထားတဲ့ ဗီဒီယို မရှိသေးပါ",pf_set:"ဆက်တင်",pf_daily:"🎁 နေ့စဉ်ဆုယူရန်"
+ adm_t_add:"ဇာတ်လမ်းထည့်ရန်",adm_t_list:"ဇာတ်လမ်းများ",adm_t_vip:"VIP & Creator",adm_t_users:"အသုံးပြုသူများ",cr_t_up:"ဗီဒီယိုတင်ရန်",cr_t_pay:"ငွေထုတ်ယူရန်",pf_vids:"🎬 ဗီဒီယိုများ",pf_none:"တင်ထားတဲ့ ဗီဒီယို မရှိသေးပါ",pf_set:"ဆက်တင်",pf_daily:"🎁 ဆု",pf_daily_a:"နေ့စဉ်ဆုယူရန်"
 },
 en:{
  cm_ph:"Write a comment...",cm_send:"Send",cm_none:"No comments yet – be the first",cm_loading:"Loading...",cm_login:"Log in to comment",cm_empty:"Write a comment",cm_del:"Delete",cm_del_ask:"Delete this comment?",cm_del_fail:"Could not delete",cm_now:"just now",cm_min:"{0}m ago",cm_hr:"{0}h ago",cm_day:"{0}d ago",cm_need_sql:"Run supabase-v19-patch.sql first",
@@ -166,5 +166,5 @@ adm_ep_opt:"Episode {0}",adm_ep_pick:"📌 Pick an episode",adm_pick_vid:"📁 P
  cover_prep:"Preparing cover...",cover_changed:"Cover changed",drama_default:"Drama",
  auth_err:"Auth error: {0}",
  ucm_q:"🔒 Unlock episode {0} for {1} coins?",ucm_bal:"Your balance – 🪙 {0}",ucm_no:"Cancel",ucm_yes:"Unlock ({0} coins)",hero_wk:"this week",
- adm_t_add:"Add drama",adm_t_list:"Dramas",adm_t_vip:"VIP & Creator",adm_t_users:"Users",cr_t_up:"Upload video",cr_t_pay:"Withdraw",pf_vids:"🎬 Videos",pf_none:"No videos uploaded yet",pf_set:"Settings",pf_daily:"🎁 Claim daily reward"
+ adm_t_add:"Add drama",adm_t_list:"Dramas",adm_t_vip:"VIP & Creator",adm_t_users:"Users",cr_t_up:"Upload video",cr_t_pay:"Withdraw",pf_vids:"🎬 Videos",pf_none:"No videos uploaded yet",pf_set:"Settings",pf_daily:"🎁 Reward",pf_daily_a:"Claim daily reward"
 }};
