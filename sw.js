@@ -1,10 +1,10 @@
-/* ရွှေဇာတ်ခုံ v28 – Network-first Service Worker (Auto-update)
+/* ရွှေဇာတ်ခုံ v29 – Network-first Service Worker (Auto-update)
    ─ CACHE_VERSION ကို ဗားရှင်းအသစ်ထွက်တိုင်း မြှင့်ပါ → activate မှာ cache အဟောင်းအားလုံး အလိုအလျောက်ဖျက်
    ─ HTML / JS / CSS / JSON (same-origin GET) = အရင် Network ကနေယူ၊ အောင်မြင်ရင် cache ကို update လုပ်၊
      အင်တာနက်ပြတ်မှ cache ထဲက ပြန်ပြ (Offline fallback)
    ─ မကြားဖြတ်တာ: Supabase API / Google OAuth / Cloudinary / CDN (cross-origin)၊ POST စတဲ့ GET မဟုတ်တာ၊
      ဗီဒီယို Range request၊ sw.js ကိုယ်တိုင်၊ OAuth callback (?code= / #access_token) ကို cache ထဲမထည့် */
-var CACHE_VERSION = "shwezatkhon-v28";
+var CACHE_VERSION = "shwezatkhon-v29";
 var INDEX_KEY = "./index.html";
 
 self.addEventListener("install", function () { self.skipWaiting(); });

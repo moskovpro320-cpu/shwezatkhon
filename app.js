@@ -5,7 +5,13 @@ var ADMIN_EMAIL="moskovpro320@gmail.com";
 var I18N=window.I18N||{my:{},en:{}};
 /* v13: စာသားအသစ်များ (i18n.js ကို မထိဘဲ ဒီနေရာကနေ ပေါင်းထည့်) */
 (function(){var A={
-my:{lbl_cover:"🔗 Cover ပုံလင့်ခ် (Image URL)",lbl_vid1:"🔗 ဗီဒီယိုလင့်ခ် – အပိုင်း ၁ (Video URL)",
+my:{pick_genre:"အမျိုးအစား ရွေးပါ",ph_desc:"ဇာတ်လမ်းအကျဉ်း (Synopsis) – ဇာတ်လမ်းအကြောင်း အကျဉ်းချုပ် ရေးပါ (မရေးလည်းရ)",
+ ph_free:"အခမဲ့ကြည့်ရမယ့် အပိုင်းရေ (မဖြည့်ရင် 10)",all_free_chk:"🎁 အားလုံးအခမဲ့ (Lock မချပါ)",
+ fixed_price_note:"🔒 အခမဲ့အပိုင်းရေကို ကျော်တဲ့ အပိုင်းတိုင်းကို 30 Coin စီ အလိုအလျောက် Lock ချပါမယ်။ အခမဲ့အပိုင်းရေက စုစုပေါင်းထက် ကြီးရင် (သို့) “အားလုံးအခမဲ့” ရွေးထားရင် Lock မချပါ။",
+ hot_chk:"🔥 ပင်မစာမျက်နှာမှာ “Hot” တံဆိပ် ပြမယ်",cov_preview:"Cover အစမ်းမြင်ကွင်း",cov_bad:"ပုံကို မပြနိုင်ပါ – လင့်ခ်ကို ပြန်စစ်ပါ",
+ uploader_lbl:"👤 တင်သူ: {0}",uploader_admin:"Admin",hot_on:"🔥 Hot တံဆိပ် ပိတ်မယ် (လက်ရှိ ON)",hot_off:"🔥 Hot တံဆိပ် ဖွင့်မယ် (လက်ရှိ OFF)",hot_set:"Hot တံဆိပ် ပြောင်းပြီးပါပြီ",
+ ext_need_sql:"⚠️ ဇာတ်လမ်း ထည့်ပြီးပါပြီ၊ ဒါပေမဲ့ အကျဉ်း/Hot ကို မသိမ်းနိုင်သေးပါ – supabase-v29.sql ကို Run ရန်လိုပါတယ်",
+ lbl_cover:"🔗 Cover ပုံလင့်ခ် (Image URL)",lbl_vid1:"🔗 ဗီဒီယိုလင့်ခ် – အပိုင်း ၁ (Video URL)",
  add_note:"ထည့်ပြီးတာနဲ့ ဇာတ်လမ်းကို တန်းဖွင့်ပေးပါမယ် – အပိုင်းနံပါတ်ရွေးပြီး ဗီဒီယိုလင့်ခ် ထည့်နိုင်ပါတယ်။ လင့်ခ်တွေက https:// နဲ့ စရမယ်၊ ဗီဒီယိုက ဖိုင်တိုက်ရိုက်လင့်ခ် (ဥပမာ .mp4) ဖြစ်ရမယ် (YouTube စာမျက်နှာလင့်ခ် မရပါ)။",
  ph_cover_url:"https://... (Cover ပုံလင့်ခ်)",ph_video_url:"https://... (ဗီဒီယိုလင့်ခ် .mp4)",
  adm_vurl_lbl:"🔗 အပိုင်း {0} ဗီဒီယိုလင့်ခ် (Video URL)",adm_vurl_btn:"ဗီဒီယိုလင့်ခ် သိမ်းမယ်",adm_curl_lbl:"🔗 Cover ပုံလင့်ခ် (Image URL)",adm_curl_btn:"Cover လင့်ခ် သိမ်းမယ်",
@@ -17,7 +23,13 @@ my:{lbl_cover:"🔗 Cover ပုံလင့်ခ် (Image URL)",lbl_vid1:"�
  vip_apply_h:"📝 TikTok Creator လျှောက်လွှာ",vip_apply_txt:"Creator / VIP လျှောက်ထားရန် Follower အနည်းဆုံး 10K ရှိသော TikTok Account Link ထည့်သွင်းပေးပါ။ Admin မှ စစ်ဆေးပြီး အတည်ပြုပေးပါမည်။",
  vip_tt_lbl:"🎵 TikTok Profile Link (မဖြစ်မနေ ဖြည့်ရန်)",vip_tt_ph:"https://www.tiktok.com/@username",vip_tt_req:"TikTok Profile Link ကို ထည့်ပေးပါ",vip_tt_bad:"TikTok လင့်ခ် မမှန်ပါ – https://www.tiktok.com/@username ပုံစံ ဖြစ်ရမယ်",vip_tt_view:"🔗 TikTok ဖွင့်ကြည့်မယ်",vip_approve:"✅ အတည်ပြုမည် (Approve)",vip_reject:"❌ ပယ်ဖျက်မည် (Reject)",
  vip_msg_ph:"အပိုမှတ်ချက် (မရေးလည်းရ)",vip_apply_btn:"VIP လျှောက်လွှာ တင်မယ်",vip_applied:"လျှောက်လွှာ တင်ပြီးပါပြီ",vip_pending:"⏳ လျှောက်လွှာ စစ်ဆေးဆဲပါ – Admin အတည်ပြုပြီးရင် ဒီစာမျက်နှာကို ပြန်ဖွင့်ကြည့်ပါ။",vip_rejected:"❌ ယခင်လျှောက်လွှာ ပယ်ချခံရပါတယ်"},
-en:{lbl_cover:"🔗 Cover image link (Image URL)",lbl_vid1:"🔗 Video link – episode 1 (Video URL)",
+en:{pick_genre:"Choose a genre",ph_desc:"Synopsis – a short summary of the story (optional)",
+ ph_free:"Free episodes (blank = 10)",all_free_chk:"🎁 Everything free (no locked episodes)",
+ fixed_price_note:"🔒 Every episode after the free ones is locked at a fixed 30 coins. If the free-episode number is higher than the total, or “Everything free” is ticked, nothing is locked.",
+ hot_chk:"🔥 Show a “Hot” badge on the home page",cov_preview:"Cover preview",cov_bad:"Can’t show this image – check the link",
+ uploader_lbl:"👤 Uploader: {0}",uploader_admin:"Admin",hot_on:"🔥 Turn Hot badge off (now ON)",hot_off:"🔥 Turn Hot badge on (now OFF)",hot_set:"Hot badge updated",
+ ext_need_sql:"⚠️ Drama added, but the synopsis/Hot flag could not be saved yet – run supabase-v29.sql",
+ lbl_cover:"🔗 Cover image link (Image URL)",lbl_vid1:"🔗 Video link – episode 1 (Video URL)",
  add_note:"After adding, the drama opens right away – pick an episode number and paste its video link. Links must start with https:// and the video must be a direct file link (e.g. .mp4), not a YouTube page.",
  ph_cover_url:"https://... (cover image link)",ph_video_url:"https://... (video link .mp4)",
  adm_vurl_lbl:"🔗 Episode {0} video link (Video URL)",adm_vurl_btn:"Save video link",adm_curl_lbl:"🔗 Cover image link (Image URL)",adm_curl_btn:"Save cover link",
@@ -88,6 +100,7 @@ async function pickUp(f,tid,kind){
  if(kind==="vid"&&f.type&&f.type.indexOf("video")!==0){pickSt(tid,t("only_video"),null,1);return}
  if(f.size>CBMAX){pickSt(tid,upErr("big"),null,1);return}
  pickSt(tid,"⏳ တင်နေပါသည်... (0%)",0);
+ if(kind==="img"){try{if(window.__pvB)URL.revokeObjectURL(window.__pvB);window.__pvB=URL.createObjectURL(f);covPrev(tid,window.__pvB)}catch(e){}}
  try{
   var body=f,name="f"+Date.now()+"."+vidExt(f);
   if(kind==="img"){body=await shrink(f);name="f"+Date.now()+".jpg"}
@@ -139,7 +152,7 @@ function grid(){
  var q=S.q.toLowerCase(),l=S.dr.filter(function(d){return d.t.toLowerCase().indexOf(q)>-1}),h="";
  if(!q&&l.length){var f=l[0];h+='<div class="hero" data-a="open" data-v="'+esc(f.id)+'" style="'+bg(f)+'"><div class="meta"><span class="heat">🔥 '+t("viewed",fmt(f.v))+'</span><h2>'+esc(f.t)+'</h2><div class="sub" style="color:var(--mute)">'+esc(f.g)+" · "+t("eps_n",f.eps)+"</div></div></div>"}
  h+=h3(q?t("search_res"):t("you_may_like"));
- h+=l.length?'<div class="grid">'+l.map(function(d,i){return card(d,i<6)}).join("")+"</div>":'<div class="empty">'+t("no_match",esc(S.q))+"</div>";
+ h+=l.length?'<div class="grid">'+l.map(function(d,i){return card(d,S.live&&!S.noExt?!!d.hot:i<6)}).join("")+"</div>":'<div class="empty">'+t("no_match",esc(S.q))+"</div>";
  if(S.err&&!q)h+=note(t("db_err",esc(S.err)));
  if(!S.live&&!q)h+=note(SB?t("no_live_sb"):t("no_live"));
  $("#hb").innerHTML=h}
@@ -233,11 +246,11 @@ function setSt(id,msg,pct){var e=$("#"+id);if(!e)return;e.innerHTML='<div class=
 function dash(){
  var a=S.ax||{users:0,dramas:0,eps:0,views:0,list:[]};
  var h=backbar()+h3(t("adm_title"),1)+'<div class="days">'+[[t("st_users"),a.users],[t("st_dramas"),a.dramas],[t("st_eps"),a.eps],[t("st_views"),fmt(a.views)]].map(function(x){return'<div class="day"><strong>'+x[1]+"</strong><span>"+x[0]+"</span></div>"}).join("")+"</div>";
- h+=h3(t("add_title"))+'<input class="in" id="nt" placeholder="'+esc(t("ph_title"))+'"><input class="in" id="ng" placeholder="'+esc(t("ph_genre"))+'"><input class="in" id="ne" type="number" placeholder="'+esc(t("ph_eps"))+'"><input class="in" id="np" type="number" min="0" placeholder="'+esc(t("ph_price"))+'"><input class="in" id="nf" type="number" min="0" placeholder="'+esc(t("ph_free"))+'">'
- +'<label class="note" style="display:block" for="nc">'+t("lbl_cover")+'</label><input class="in" id="nc" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_cover_url"))+'">'+pickBtn("nc","img")
+ h+=h3(t("add_title"))+'<input class="in" id="nt" placeholder="'+esc(t("ph_title"))+'">'+genreSel("ng")+'<textarea class="in" id="nd" rows="3" maxlength="1000" placeholder="'+esc(t("ph_desc"))+'"></textarea><input class="in" id="ne" type="number" placeholder="'+esc(t("ph_eps"))+'"><input class="in" id="nf" type="number" min="0" placeholder="'+esc(t("ph_free"))+'"><label class="chk"><input type="checkbox" id="nall"> '+t("all_free_chk")+'</label><p class="note" style="padding:0 16px 10px">'+t("fixed_price_note")+'</p>'
+ +'<label class="note" style="display:block" for="nc">'+t("lbl_cover")+'</label><input class="in" id="nc" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_cover_url"))+'">'+pickBtn("nc","img")+covPrevBox("nc")
  +'<label class="note" style="display:block" for="nv">'+t("lbl_vid1")+'</label><input class="in" id="nv" type="url" inputmode="url" autocomplete="off" placeholder="'+esc(t("ph_video_url"))+'">'+pickBtn("nv","vid")
- +'<button class="btn" data-a="adddrama">'+t("add_btn")+'</button><div id="ust2" style="padding:0 16px"></div>'+note(t("add_note"));
- h+=h3(t("dramas_h"))+(S.live?S.dr.map(function(d){return'<div class="row admdr"><div class="info" data-a="open" data-v="'+esc(d.id)+'"><strong>'+esc(d.t)+'</strong><div class="sub">'+t("eps_n",d.eps)+" · "+t("vids_n",Object.keys(d.vids).length)+" · "+(d.price<=0?t("free_lbl"):t("coin_lbl",d.price))+'</div></div><div class="btns"><button class="chip" data-a="moreep" data-v="'+d.id+'">'+t("more_ep")+'</button><button class="chip" data-a="editeps" data-v="'+d.id+'">'+t("eps_edit_chip")+'</button><button class="chip" style="color:var(--coral)" data-a="deldramaid" data-v="'+d.id+'">'+t("del")+"</button></div></div>"}).join(""):note(t("none_dr")));
+ +'<label class="chk"><input type="checkbox" id="nhot"> '+t("hot_chk")+'</label><button class="btn" data-a="adddrama">'+t("add_btn")+'</button><div id="ust2" style="padding:0 16px"></div>'+note(t("add_note"));
+ h+=h3(t("dramas_h"))+(S.live?S.dr.map(function(d){return'<div class="row admdr"><div class="info" data-a="open" data-v="'+esc(d.id)+'"><strong>'+esc(d.t)+'</strong><div class="sub">'+t("eps_n",d.eps)+" · "+t("vids_n",Object.keys(d.vids).length)+" · "+(d.price<=0?t("free_lbl"):t("coin_lbl",d.price))+'</div><div class="sub upl">'+esc(t("uploader_lbl",upName(d,a)))+'</div></div><div class="btns"><button class="chip" data-a="moreep" data-v="'+d.id+'">'+t("more_ep")+'</button><button class="chip" data-a="editeps" data-v="'+d.id+'">'+t("eps_edit_chip")+'</button><button class="chip" style="color:var(--coral)" data-a="deldramaid" data-v="'+d.id+'">'+t("del")+"</button></div></div>"}).join(""):note(t("none_dr")));
  h+=h3("👑 Creator စနစ် ဆက်တင်");
  h+='<div class="acard" style="margin:6px 16px 12px"><p class="note" style="padding:0 0 8px">အရည်အသွေးပြည့် View ၁,၀၀၀ အတွက် ပေးမည့်ငွေ (MMK)။ 0 ထားလျှင် ဝင်ငွေမတွက်ပါ။</p><input class="in" id="creatorRate" type="number" min="0" step="0.0001" value="'+Number((a.creatorSettings||{}).rate_per_1000||0)+'" placeholder="View ၁,၀၀၀ အတွက် ငွေ"><input class="in" id="creatorMin" type="number" min="0" step="1" value="'+Number((a.creatorSettings||{}).min_withdrawal||10000)+'" placeholder="အနည်းဆုံး ငွေထုတ်ယူပမာဏ"><button class="btn" data-a="saveCreatorSettings">Creator နှုန်းထား သိမ်းမယ်</button></div>';
  h+='<div class="acard" style="margin:6px 16px 12px"><p class="note" style="padding:0 0 8px">VIP ကို Coin နဲ့ ဝယ်ယူရမယ့်ဈေး။ 0 ထားလျှင် Coin နဲ့ မရောင်းပါ (လျှောက်လွှာနည်းလမ်းသာ ရှိမယ်)။</p><input class="in" id="vipPrice" type="number" min="0" step="1" value="'+Number((a.creatorSettings||{}).vip_coin_price||0)+'" placeholder="VIP coin ဈေး"><button class="btn" data-a="saveVipPrice">VIP ဈေး သိမ်းမယ်</button></div>';
@@ -275,7 +288,7 @@ function creatorDashboard(){
  if(d.sum){total=+d.sum.earned||0;balance=Math.max(0,+d.sum.balance||0);vc=+d.sum.views||0}
  var h=backbar()+h3("👑 Creator Dashboard",1);
  h+='<div class="days"><div class="day"><strong>'+fmt(d.dramas.length)+'</strong><span>ဇာတ်လမ်း</span></div><div class="day"><strong>'+fmt(vc)+'</strong><span>အရည်အသွေးပြည့် View</span></div><div class="day"><strong>'+total.toFixed(2)+'</strong><span>စုစုပေါင်းရငွေ ('+esc(cur)+')</span></div><div class="day"><strong>'+balance.toFixed(2)+'</strong><span>ထုတ်ယူနိုင်ငွေ</span></div></div>';
- if(S.me&&S.me.is_vip){h+='<div class="acard" style="margin:6px 16px 12px"><b>Creator ဗီဒီယိုတင်ရန်</b><p class="note" style="padding:4px 0">VIP ဖြစ်နေစဉ်သာ တင်နိုင်ပါတယ်။ လင့်ခ်တွေက https:// နဲ့ စရမယ်၊ ဗီဒီယိုက ဖိုင်တိုက်ရိုက်လင့်ခ် (.mp4) ဖြစ်ရမယ်။ Admin အတည်ပြုပြီးမှ Public မှာ ပေါ်ပါမယ်။</p><input class="in" id="crtitle" placeholder="ဇာတ်လမ်းအမည်"><input class="in" id="crgenre" placeholder="အမျိုးအစား"><label class="note" for="crcover">🔗 Cover ပုံလင့်ခ် (Image URL)</label><input class="in" id="crcover" type="url" inputmode="url" autocomplete="off" placeholder="https://...">'+pickBtn("crcover","img")+'<label class="note" for="crvideo">🔗 ပထမအပိုင်း ဗီဒီယိုလင့်ခ် (Video URL)</label><input class="in" id="crvideo" type="url" inputmode="url" autocomplete="off" placeholder="https://... (.mp4)">'+pickBtn("crvideo","vid")+'<button class="btn" data-a="creatorSubmit">Admin ထံ ဇာတ်လမ်းတင်သွင်းမယ်</button></div>';
+ if(S.me&&S.me.is_vip){h+='<div class="acard" style="margin:6px 16px 12px"><b>Creator ဗီဒီယိုတင်ရန်</b><p class="note" style="padding:4px 0">VIP ဖြစ်နေစဉ်သာ တင်နိုင်ပါတယ်။ လင့်ခ်တွေက https:// နဲ့ စရမယ်၊ ဗီဒီယိုက ဖိုင်တိုက်ရိုက်လင့်ခ် (.mp4) ဖြစ်ရမယ်။ Admin အတည်ပြုပြီးမှ Public မှာ ပေါ်ပါမယ်။</p><input class="in" id="crtitle" placeholder="ဇာတ်လမ်းအမည်">'+genreSel("crgenre")+'<textarea class="in" id="crdesc" rows="3" maxlength="1000" placeholder="'+esc(t("ph_desc"))+'"></textarea><label class="note" for="crcover">🔗 Cover ပုံလင့်ခ် (Image URL)</label><input class="in" id="crcover" type="url" inputmode="url" autocomplete="off" placeholder="https://...">'+pickBtn("crcover","img")+covPrevBox("crcover")+'<label class="note" for="crvideo">🔗 ပထမအပိုင်း ဗီဒီယိုလင့်ခ် (Video URL)</label><input class="in" id="crvideo" type="url" inputmode="url" autocomplete="off" placeholder="https://... (.mp4)">'+pickBtn("crvideo","vid")+'<button class="btn" data-a="creatorSubmit">Admin ထံ ဇာတ်လမ်းတင်သွင်းမယ်</button></div>';
  h+='<div class="acard" style="margin:6px 16px 12px"><b>ရှိပြီးသား ဇာတ်လမ်းအတွက် Episode ထပ်တင်ရန်</b><select class="in" id="crepisodeDrama"><option value="">ဇာတ်လမ်းရွေးပါ</option>'+d.dramas.filter(function(x){return x.moderation_status!=="rejected"}).map(function(x){return'<option value="'+x.id+'">'+esc(x.title)+' ('+esc(x.moderation_status)+')</option>'}).join("")+'</select><input class="in" id="crEpNo" type="number" min="1" max="200" placeholder="Episode နံပါတ်"><input class="in" id="crEpVideo" type="url" inputmode="url" autocomplete="off" placeholder="🔗 ဗီဒီယိုလင့်ခ် (Video URL) https://... (.mp4)">'+pickBtn("crEpVideo","vid")+'<button class="btn" data-a="creatorEpisodeSubmit">Episode တင်သွင်းမယ်</button></div>'}else{h+=note("VIP သက်တမ်းကုန်ဆုံးနေပါသည်။ ရှိပြီးသား Creator ဝင်ငွေကိုတော့ ထုတ်ယူနိုင်ပါတယ်။")}
  h+=h3("မင်းတင်ထားတဲ့ ဇာတ်လမ်းများ");
  h+=d.dramas.length?d.dramas.map(function(x){return'<div class="row" style="cursor:default"><div class="info"><strong>'+esc(x.title)+'</strong><div class="sub">'+esc(x.genre||"")+' · '+esc(x.moderation_status)+(x.moderation_note?" · "+esc(x.moderation_note):"")+'</div></div><span class="heat">'+(x.moderation_status==="approved"?"အတည်ပြုပြီး":x.moderation_status==="pending"?"စစ်ဆေးဆဲ":"ပယ်ချ")+'</span></div>'}).join(""):note("တင်ထားတဲ့ ဇာတ်လမ်း မရှိသေးပါ။");
@@ -300,7 +313,7 @@ function sheet(){
  var d=find(S.sel);if(!d)return;
  var adm=isAdm()&&S.live,e="";
  for(var n=1;n<=d.eps;n++){var lock=locked(d,n);e+='<div class="ep'+(lock?" lock":"")+(n===S.ep?" cur":"")+(d.vids[n]?" has":"")+'" data-a="ep" data-v="'+n+'">'+(lock?"🔒":"")+n+"</div>"}
- $("#sb").innerHTML=backbar()+"<h2>"+esc(d.t)+'</h2><div class="sub" style="color:var(--mute)">'+esc(d.g)+" · "+t("eps_n",d.eps)+" · "+priceTxt(d)+'</div><div id="by">'+byHtml(d)+'</div><div class="pwrap"><div id="pl" class="player" style="'+bg(d)+'"></div>'+socHtml(d)+fsHtml(d)+"</div>"+spdBar()+'<div class="eps">'+e+"</div>"+
+ $("#sb").innerHTML=backbar()+"<h2>"+esc(d.t)+'</h2><div class="sub" style="color:var(--mute)">'+esc(d.g)+" · "+t("eps_n",d.eps)+" · "+priceTxt(d)+'</div><div id="by">'+byHtml(d)+'</div>'+(d.desc?'<p class="syn">'+esc(d.desc)+'</p>':"")+'<div class="pwrap"><div id="pl" class="player" style="'+bg(d)+'"></div>'+socHtml(d)+fsHtml(d)+"</div>"+spdBar()+'<div class="eps">'+e+"</div>"+
  admBox(d,adm)+
  '<button class="btn" style="margin:12px 0 0;width:100%;background:var(--panel);color:var(--text);border:1px solid var(--line)" data-a="close">'+t("close")+"</button>";
  $("#sheet").className="sheet open"+(S.fs&&S.ep?" fs":"");navSync();socInit(d);admFill(d)}
@@ -371,6 +384,7 @@ function admBox(d,adm){
  '<label class="note" style="display:block;padding:12px 0 0" for="neps">'+t("eps_edit_h")+'</label><div style="display:flex;gap:8px;margin-top:6px;align-items:center"><input class="in" id="neps" type="number" min="1" max="200" value="'+d.eps+'" placeholder="'+esc(t("ph_eps"))+'" style="margin:0;width:50%"><button class="chip on" data-a="seteps">'+t("eps_edit_btn")+'</button></div><p class="note" style="padding:4px 0 0">'+t("eps_edit_hint")+'</p>'+
  '<div style="display:flex;gap:8px;margin-top:12px"><input class="in" id="pp" type="number" min="0" value="'+d.price+'" placeholder="'+esc(t("pp_ph"))+'" style="margin:0;width:50%"><input class="in" id="pf" type="number" min="0" value="'+d.free+'" placeholder="'+esc(t("pf_ph"))+'" style="margin:0;width:50%"></div>'+
  '<p class="note" style="padding:4px 0 8px">'+t("price_hint")+'</p>'+
+ (S.noExt?"":'<div style="margin:0 0 10px"><button class="chip'+(d.hot?" on":"")+'" data-a="sethot">'+t(d.hot?"hot_on":"hot_off")+'</button></div>')+
  '<button class="chip on" data-a="setprice">'+t("save_price")+'</button> <button class="chip" style="color:var(--coral)" data-a="deldrama">'+t("del_drama")+"</button></div>";
  return h}
 /* v26: Admin ထိန်းချုပ်ခန်းကိုပဲ ပြန်ဆွဲ (Player/Sheet မထိ) + အပိုင်းစာရင်းမှာ ရွေးထားတာ/ဗီဒီယိုရှိတာ အမှတ်အသား update */
@@ -492,6 +506,29 @@ function ttNorm(u){u=String(u||"").trim();if(/^(www\.|m\.|vm\.|vt\.)?tiktok\.com
  return /^https:\/\/([a-z0-9-]+\.)*tiktok\.com\/[^\s"'<>]+$/i.test(u)&&u.length<=250?u:""}
 function ttParse(m){var x=/^TikTok:\s*(\S+)(?:\s*\|\s*Note:\s*([\s\S]*))?$/.exec(String(m||"").trim());
  if(!x)return{url:"",note:String(m||"")};return{url:ttNorm(x[1]),raw:x[1],note:(x[2]||"").trim()}}
+/* ===== v29: ပုံသေ Coin ဈေး၊ Genre Dropdown၊ Synopsis၊ Cover Preview၊ Hot flag ===== */
+var FIXED_PRICE=30;
+var GENRES=[["အချစ်","Romance"],["ဟာသ","Comedy"],["အက်ရှင်","Action"],["ဒရာမာ","Drama"],["သဘာဝလွန်","Supernatural"],["AI ဇာတ်လမ်း","AI Story"],["ထိတ်လန့်ဖွယ်","Horror"]];
+function genreSel(id){return'<select class="in" id="'+id+'"><option value="" selected>'+esc(t("pick_genre"))+'</option>'+GENRES.map(function(g){return'<option value="'+esc(g[0])+'">'+esc(S.lang==="en"?g[1]:g[0])+'</option>'}).join("")+'</select>'}
+function covPrevBox(id){return'<div class="covpv" id="pv_'+id+'"></div>'}
+function covPrev(id,u){var b=document.getElementById("pv_"+id);if(!b)return;u=String(u||"").trim();
+ if(!u||!(/^blob:/i.test(u)||okUrl(u))){b.innerHTML="";return}
+ b.innerHTML='<img alt="" src="'+esc(u)+'"><div class="note">'+esc(t("cov_preview"))+'</div>';
+ var im=b.querySelector("img");if(im)im.onerror=function(){b.innerHTML='<div class="note">'+esc(t("cov_bad"))+'</div>'}}
+async function insDrama(row){
+ var r=await SB.from("dramas").insert(row).select("id").single();
+ if(r.error&&("description" in row||"is_hot" in row)&&/description|is_hot|column|schema cache/i.test(r.error.message||"")){
+  var r2={};for(var k in row)if(k!=="description"&&k!=="is_hot")r2[k]=row[k];
+  var q=await SB.from("dramas").insert(r2).select("id").single();
+  if(!q.error){S.noExt=true;q.dropped=true}
+  return q}
+ return r}
+function upName(d,a){
+ var nm=function(p){if(!p)return"";var n=String(p.name||"").trim(),e=String(p.email||"").trim();return n&&e&&n!==e?n+" · "+e:(n||e)};
+ var L=(a&&a.list)||[];
+ if(d.o){var u=L.filter(function(q){return q.id===d.o})[0];return nm(u)||nm(S.cc[d.o])||String(d.o).slice(0,8)}
+ var ad=L.filter(function(q){return q.is_admin})[0],x=nm(ad)||(typeof ADMIN_EMAIL==="string"?ADMIN_EMAIL:"");
+ return t("uploader_admin")+(x?" ("+x+")":"")}
 function viewKey(id,n){return"zv:"+(S.me?S.me.id:"x")+":"+id+":"+n}
 function viewSeen(id,n){try{var x=parseInt(localStorage.getItem(viewKey(id,n)),10);return!!x&&Date.now()-x<864e5}catch(e){return false}}
 function viewMark(id,n){try{localStorage.setItem(viewKey(id,n),String(Date.now()))}catch(e){}}
@@ -566,12 +603,15 @@ function vidExt(f){return((f.name.split(".").pop()||"mp4").toLowerCase().replace
 async function loadDr(){
  if(!SB)return;
  var base="id,title,genre,eps,color_a,color_b,views,cover_path,price,free_eps,owner_id,episodes(n)";
- var r=await SB.from("dramas").select(base+",likes_count,comments_count").order("id");
- if(r.error&&/likes_count|comments_count|column/i.test(r.error.message||"")){S.noSoc=true;r=await SB.from("dramas").select(base).order("id")}else if(!r.error)S.noSoc=false;
+ var V=[[1,1],[1,0],[0,1],[0,0]],r;
+ for(var vi=0;vi<V.length;vi++){
+  r=await SB.from("dramas").select(base+(V[vi][0]?",description,is_hot":"")+(V[vi][1]?",likes_count,comments_count":"")).order("id");
+  if(!r.error){S.noExt=!V[vi][0];S.noSoc=!V[vi][1];break}
+  if(!/likes_count|comments_count|description|is_hot|column/i.test(r.error.message||""))break}
  S.err=r.error?r.error.message:"";
  if(r.error||!r.data||!r.data.length){S.dr=SAMPLE;S.live=false;return}
  S.live=true;
- S.dr=r.data.map(function(x){var v={};(x.episodes||[]).forEach(function(e){v[e.n]=1});return{id:x.id,t:x.title,g:x.genre||"",eps:x.eps,a:x.color_a,b:x.color_b,v:x.views||0,vids:v,cp:x.cover_path||null,cover:x.cover_path?pubUrl(x.cover_path):null,price:x.price==null?30:x.price,free:x.free_eps==null?10:x.free_eps,o:x.owner_id||null,lk:+x.likes_count||0,cm:+x.comments_count||0}});
+ S.dr=r.data.map(function(x){var v={};(x.episodes||[]).forEach(function(e){v[e.n]=1});return{id:x.id,t:x.title,g:x.genre||"",eps:x.eps,a:x.color_a,b:x.color_b,v:x.views||0,vids:v,cp:x.cover_path||null,cover:x.cover_path?pubUrl(x.cover_path):null,price:x.price==null?30:x.price,free:x.free_eps==null?10:x.free_eps,o:x.owner_id||null,desc:x.description||"",hot:!!x.is_hot,lk:+x.likes_count||0,cm:+x.comments_count||0}});
  loadCC(S.dr.map(function(d){return d.o})).then(function(){var b=$("#by"),d=find(S.sel);if(b&&d)b.innerHTML=byHtml(d)})}
 async function setUser(ses){
  VC={}; /* user ပြောင်း/logout လုပ်ရင် မှတ်ထားတဲ့ ဗီဒီယို URL cache ရှင်း */
@@ -803,14 +843,16 @@ var ACT={
  creatorBack:function(){S.creatorDash=false;render()},
  creatorSubmit:async function(v,btn){
   if(!SB||!S.me||!S.me.is_vip){toast("VIP Creator များသာ Video တင်နိုင်ပါတယ်");return}
-  var title=($("#crtitle")||{}).value||"",genre=($("#crgenre")||{}).value||"",cover=(($("#crcover")||{}).value||"").trim(),video=(($("#crvideo")||{}).value||"").trim();
+  var title=($("#crtitle")||{}).value||"",genre=($("#crgenre")||{}).value||"",cover=(($("#crcover")||{}).value||"").trim(),video=(($("#crvideo")||{}).value||"").trim(),desc=(($("#crdesc")||{}).value||"").trim().slice(0,1000);
   if(!title.trim()||!video){toast("ဇာတ်လမ်းအမည်နဲ့ ပထမအပိုင်း ဗီဒီယိုလင့်ခ် လိုအပ်ပါတယ်");return}
   if(!okUrl(video)){toast(t("bad_url"));return}
   if(cover&&!okUrl(cover)){toast(t("bad_url"));return}
   if(btn)btn.disabled=true;
   var id=null;
   try{
-   var dr=await SB.from("dramas").insert({title:title.trim(),genre:genre.trim()||"အထွေထွေ",eps:1,color_a:"#3a2a5a",color_b:"#c06a8a",price:30,free_eps:1,owner_id:S.me.id,moderation_status:"pending",submitted_at:new Date().toISOString(),cover_path:cover||null}).select("id").single();
+   var crow={title:title.trim(),genre:genre.trim()||"အထွေထွေ",eps:1,color_a:"#3a2a5a",color_b:"#c06a8a",price:FIXED_PRICE,free_eps:1,owner_id:S.me.id,moderation_status:"pending",submitted_at:new Date().toISOString(),cover_path:cover||null};
+   if(desc&&!S.noExt)crow.description=desc;
+   var dr=await insDrama(crow);
    if(dr.error)throw dr.error;
    id=dr.data.id;
    var ep=await SB.from("episodes").insert({drama_id:id,n:1,video_path:video,uploaded_by:S.me.id,moderation_status:"pending",submitted_at:new Date().toISOString()});
@@ -935,6 +977,10 @@ var ACT={
   var u=(S.ax.list||[]).filter(function(x){return x.id===p[0]})[0];if(u)u.coins=Math.max(0,u.coins+amt);refUl();toast(t("coin_ok",(amt>0?"+":"")+amt))},
  vip:async function(v){var p=String(v).split("|"),on=p[1]==="1";var r=await SB.rpc("admin_set_vip",{p_user:p[0],p_vip:on});if(r.error){toast(t("failed",r.error.message));return}
   var u=(S.ax.list||[]).filter(function(x){return x.id===p[0]})[0];if(u)u.is_vip=on;refUl();toast(on?t("vip_given"):t("vip_removed"))},
+ sethot:async function(){var d=find(S.sel);if(!d)return;
+  var r=await SB.from("dramas").update({is_hot:!d.hot}).eq("id",d.id);
+  if(r.error){toast(/is_hot|column|schema/i.test(r.error.message||"")?t("ext_need_sql"):t("failed",r.error.message));return}
+  await loadDr();sheet();render();toast(t("hot_set"))},
  setprice:async function(){var d=find(S.sel);if(!d)return;var pr=Math.max(0,parseInt($("#pp").value,10)||0),fr=Math.max(0,parseInt($("#pf").value,10)||0);
   var r=await SB.from("dramas").update({price:pr,free_eps:fr}).eq("id",d.id);if(r.error){toast(t("price_fail",r.error.message));return}
   await loadDr();sheet();toast(pr<=0?t("all_free_set"):t("price_set",pr))},
@@ -955,14 +1001,19 @@ var ACT={
   if(cu&&!okUrl(cu)){toast(t("bad_url"));return}
   if(vu&&!okUrl(vu)){toast(t("bad_url"));return}
   var P=[["#3a2a5a","#c06a8a"],["#1f3a4a","#c97b5a"],["#5a2a2a","#e0b15a"],["#14262a","#5aa89a"],["#35224f","#9a7ad0"]],p=P[Math.floor(Math.random()*P.length)];
-  var pr=$("#np").value.trim(),fr=$("#nf").value.trim();
-  var row={title:ti,genre:$("#ng").value.trim()||t("drama_default"),eps:Math.max(1,Math.min(200,parseInt($("#ne").value,10)||20)),color_a:p[0],color_b:p[1],price:pr===""?30:Math.max(0,parseInt(pr,10)||0),free_eps:fr===""?10:Math.max(0,parseInt(fr,10)||0)};
+  var fr=$("#nf").value.trim(),eps=Math.max(1,Math.min(200,parseInt($("#ne").value,10)||20)),free=fr===""?10:Math.max(0,parseInt(fr,10)||0),allf=!!($("#nall")||{}).checked;
+  /* v29: Lock ချထားသမျှ အပိုင်းအားလုံး ပုံသေ 30 Coin – အားလုံးအခမဲ့ ရွေး / အခမဲ့အပိုင်းရေ > စုစုပေါင်း ဆိုရင် Lock မချ (price=0) */
+  var row={title:ti,genre:$("#ng").value.trim()||t("drama_default"),eps:eps,color_a:p[0],color_b:p[1],price:(allf||free>eps)?0:FIXED_PRICE,free_eps:free};
+  var desc=(($("#nd")||{}).value||"").trim().slice(0,1000),hot=!!($("#nhot")||{}).checked;
+  if(desc&&!S.noExt)row.description=desc;
+  if(hot&&!S.noExt)row.is_hot=true;
   if(cu)row.cover_path=cu;
   if(btn)btn.disabled=true;
   try{
    setSt("ust2",t("adding"));
-   var r=await SB.from("dramas").insert(row).select("id").single();
+   var r=await insDrama(row);
    if(r.error){setSt("ust2","");fail(t("add_fail",r.error.message));return}
+   var dropped=!!r.dropped||((desc||hot)&&S.noExt);
    var id=r.data.id;
    if(vu){
     var e2=await saveEpisode(id,1,vu);
@@ -970,7 +1021,7 @@ var ACT={
    await loadDr();await loadAdmin();
    /* ထည့်ပြီးတာနဲ့ ဇာတ်လမ်းကို ဖွင့်ပြီး အပိုင်းဗီဒီယိုလင့်ခ် ထည့်ဖို့ အဆင်သင့်ပေးမယ် */
    var nd=find(id);S.sel=String(id);S.ep=(nd&&nd.vids[1]&&nd.eps>1)?2:1;
-   render();sheet();toast(t("drama_added"))
+   render();sheet();toast(dropped?t("ext_need_sql"):t("drama_added"))
   }catch(e){fail(e&&e.message||e)}
   finally{if(btn)btn.disabled=false;var st=$("#ust2");if(st&&!$("#sheet").classList.contains("open"))st.innerHTML=""}},
  deldrama:async function(){
@@ -1058,7 +1109,7 @@ document.addEventListener("pointerup",function(e){
  FG.lt=now;FG.lx=e.clientX;FG.ly=e.clientY;
  clearTimeout(FG.tm);FG.tm=setTimeout(function(){FG.lt=0;fsToggle()},280)});
 document.addEventListener("click",function(e){var el=e.target.closest("[data-a]");if(!el||el.disabled)return;var f=ACT[el.getAttribute("data-a")];if(f)f(el.getAttribute("data-v"),el,e)});
-document.addEventListener("input",function(e){if(e.target.id==="q"){S.q=e.target.value;grid()}else if(e.target.id==="us")refUl()});
+document.addEventListener("input",function(e){if(e.target.id==="q"){S.q=e.target.value;grid()}else if(e.target.id==="us")refUl();else if(e.target.id==="nc"||e.target.id==="crcover")covPrev(e.target.id,e.target.value)});
 document.addEventListener("change",async function(e){
  var el=e.target,c=el.getAttribute&&el.getAttribute("data-c");if(!c)return;
  var f=el.files&&el.files[0];
