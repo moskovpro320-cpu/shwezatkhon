@@ -158,7 +158,11 @@ function heroPick(){
 function heroHtml(){
  var p=heroPick(),h='<div class="hcar"><div class="htrack" id="htrack">';
  p.l.forEach(function(x,i){var d=x.d;
-  h+='<div class="hslide" data-a="open" data-v="'+esc(d.id)+'" style="'+bg(d)+'"><span class="hrk">#'+(i+1)+'</span><div class="meta"><span class="heat">🔥 '+t("viewed",fmt(x.v))+(p.mode==="wk"?" · "+t("hero_wk"):"")+'</span><h2>'+esc(d.t)+'</h2><div class="sub" style="color:var(--mute)">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div></div></div>"});
+  var cu=d.cover?"url('"+encodeURI(d.cover).replace(/['()]/g,escape)+"')":"";
+  var base="background-color:"+col(d.a,"#3a2a5a")+";";
+  var pst=cu?base+"background-image:"+cu+";background-size:cover;background-position:top center":"background:linear-gradient(160deg,"+col(d.a,"#3a2a5a")+","+col(d.b,"#c06a8a")+" 150%)";
+  var bd=cu?base+"background-image:"+cu:"background:linear-gradient(160deg,"+col(d.a,"#3a2a5a")+","+col(d.b,"#c06a8a")+" 150%)";
+  h+='<div class="hslide" data-a="open" data-v="'+esc(d.id)+'"><div class="hbd" style="'+bd+'"></div><div class="hshade"></div><span class="hrk">#'+(i+1)+' TOP</span><div class="hpost" style="'+pst+'"></div><div class="meta"><span class="heat">🔥 '+t("viewed",fmt(x.v))+(p.mode==="wk"?" · "+t("hero_wk"):"")+'</span><h2>'+esc(d.t)+'</h2><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div></div></div>"});
  h+='</div><div class="hdots" id="hdots">'+p.l.map(function(x,i){return'<button class="hdot'+(i===0?" on":"")+'" data-a="hgo" data-v="'+i+'" aria-label="'+(i+1)+'"></button>'}).join("")+"</div></div>";
  return{html:h,key:p.mode+":"+p.l.map(function(x){return x.d.id}).join(",")}}
 function heroInit(){
