@@ -141,7 +141,7 @@ function backbar(){return'<button class="backtop" data-a="navback">'+t("back_btn
 function fmt(v){return v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":String(v)}
 function poster(d,tag){return'<div class="poster" style="'+bg(d)+'">'+(tag?'<span class="tag">Hot</span>':"")+"</div>"}
 function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'">'+poster(d,tag)+'<p class="ct">'+esc(d.t)+"</p></div>"}
-function row(d,n){return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+poster(d)+'<div class="info"><strong>'+esc(d.t)+'</strong><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div><span class="heat">🔥 '+fmt(d.v)+"</span></div>"}
+function row(d,n){return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+poster(d)+'<div class="info"><strong>'+esc(d.t)+'</strong><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div><span class="heat">▶ '+fmt(d.v)+"</span></div>"}
 function note(x){return'<p class="note">'+x+"</p>"}
 var GSVG='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
 function h3(x,big){return'<h3 class="serif"'+(big?' style="font-size:24px"':"")+">"+x+"</h3>"}
@@ -158,11 +158,9 @@ function heroPick(){
 function heroHtml(){
  var p=heroPick(),h='<div class="hcar"><div class="htrack" id="htrack">';
  p.l.forEach(function(x,i){var d=x.d;
-  var cu=d.cover?"url('"+encodeURI(d.cover).replace(/['()]/g,escape)+"')":"";
-  var base="background-color:"+col(d.a,"#3a2a5a")+";";
-  var pst=cu?base+"background-image:"+cu+";background-size:cover;background-position:top center":"background:linear-gradient(160deg,"+col(d.a,"#3a2a5a")+","+col(d.b,"#c06a8a")+" 150%)";
-  var bd=cu?base+"background-image:"+cu:"background:linear-gradient(160deg,"+col(d.a,"#3a2a5a")+","+col(d.b,"#c06a8a")+" 150%)";
-  h+='<div class="hslide" data-a="open" data-v="'+esc(d.id)+'"><div class="hbd" style="'+bd+'"></div><div class="hshade"></div><span class="hrk">#'+(i+1)+' TOP</span><div class="hpost" style="'+pst+'"></div><div class="meta"><span class="heat">🔥 '+t("viewed",fmt(x.v))+(p.mode==="wk"?" · "+t("hero_wk"):"")+'</span><h2>'+esc(d.t)+'</h2><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div></div></div>"});
+  var pic=d.cover?'<img class="hpic" alt="" loading="'+(i?"lazy":"eager")+'" decoding="async" src="'+esc(d.cover)+'" onerror="this.style.display=\'none\'">':"";
+  var fb="background:linear-gradient(160deg,"+col(d.a,"#3a2a5a")+","+col(d.b,"#c06a8a")+" 150%)";
+  h+='<div class="hslide" data-a="open" data-v="'+esc(d.id)+'" style="'+fb+'">'+pic+'<div class="hshade"></div><span class="hrk">#'+(i+1)+' TOP</span><div class="meta"><span class="heat">▶ '+t("viewed",fmt(x.v))+(p.mode==="wk"?" · "+t("hero_wk"):"")+'</span><h2>'+esc(d.t)+'</h2><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div></div></div>"});
  h+='</div><div class="hdots" id="hdots">'+p.l.map(function(x,i){return'<button class="hdot'+(i===0?" on":"")+'" data-a="hgo" data-v="'+i+'" aria-label="'+(i+1)+'"></button>'}).join("")+"</div></div>";
  return{html:h,key:p.mode+":"+p.l.map(function(x){return x.d.id}).join(",")}}
 function heroInit(){
@@ -388,8 +386,8 @@ function fsName(d){var c=d&&d.o&&S.cc[d.o];return"@"+String((c&&c.name)||"mglisa
 function fsHtml(d){
  if(!S.ep)return"";
  return'<div class="fsgest"></div><div class="fsplay" id="fsplay"><span>▶</span></div>'+
- '<div class="fstop"><button class="fsb" data-a="fsback" aria-label="'+esc(t("close"))+'">←</button><span class="fsep">EP.'+S.ep+'</span><span style="flex:1"></span><button class="fsb fsspd" id="fsspd" data-a="fsspd">'+spdTxt(S.spd)+"</button></div>"+
- '<div class="fsbot"><div class="fsnm">'+esc(fsName(d))+'</div><div class="fstt">'+esc(d.t)+'</div><button class="fseps" data-a="fseps">☰ '+t("fs_eps")+" · "+S.ep+"/"+d.eps+"</button></div>"+
+ '<div class="fstop"><button class="fsb" data-a="fsback" aria-label="'+esc(t("close"))+'">←</button></div>'+
+ '<div class="fsbot"><div class="fsnm">'+esc(fsName(d))+'</div><div class="fstt">'+esc(d.t)+'</div><div class="fsrow"><span class="fsep">EP.'+S.ep+' / '+d.eps+'</span><span class="fsspdr">'+[1,1.5,2].map(function(s){return'<button class="fssp'+(S.spd===s?" on":"")+'" data-a="speed" data-v="'+s+'">'+s+'x</button>'}).join("")+'</span></div></div>'+
  '<div class="fsbar" id="fsbar"><div class="fstrk"><b id="fsfill"></b></div></div>'}
 
 /* ===== v19: ❤️ Like + 💬 Comment (dramas.id = video_id, bigint) ===== */
@@ -401,6 +399,7 @@ function socBar(d,s){
  var sv=S.list.indexOf(String(d.id))>-1,h="";
  if(socOn())h+='<button class="sbtn'+(s.liked?" on":"")+'" data-a="like" aria-pressed="'+(s.liked?"true":"false")+'"><i>'+(s.liked?"❤️":"🤍")+"</i><span>"+fmt(d.lk||0)+"</span></button>"+
   '<button class="sbtn" data-a="cmts" aria-label="'+esc(t("cm_ph"))+'"><i>💬</i><span>'+fmt(d.cm||0)+"</span></button>";
+ if(S.fs&&S.ep)h+='<button class="sbtn" data-a="fseps" aria-label="'+esc(t("fs_eps"))+'"><i>☰</i><span>'+S.ep+"/"+d.eps+"</span></button>";
  h+='<button class="sbtn" data-a="share" aria-label="'+esc(t("share_lbl"))+'"><i>↗️</i><span>'+t("share_lbl")+"</span></button>"+
   '<button class="sbtn bm'+(sv?" on":"")+'" data-a="save" aria-pressed="'+(sv?"true":"false")+'" aria-label="'+esc(sv?t("list_rm"):t("list_add"))+'"><i>🔖</i><span>'+t("bm_lbl")+"</span></button>";
  return h}
@@ -512,7 +511,7 @@ async function epUrl(d,n){
  return o}
 var SPD=[0.75,1,1.25,1.5,2];
 function spdBar(){return'<div id="pc" class="chips" style="padding:10px 0 0;display:none">'+SPD.map(function(s){return'<button class="chip '+(S.spd===s?"on":"")+'" data-a="speed" data-v="'+s+'">'+s+'x</button>'}).join("")+'<button class="chip" data-a="full">'+t("immersive")+'</button></div>'}
-function applySpd(){var v=document.querySelector("#pl video");if(v)v.playbackRate=S.spd;var fb=$("#fsspd");if(fb)fb.textContent=spdTxt(S.spd);var pc=$("#pc");if(pc){var b=pc.querySelectorAll("[data-a=speed]");for(var i=0;i<b.length;i++)b[i].className="chip"+(+b[i].getAttribute("data-v")===S.spd?" on":"")}}
+function applySpd(){var v=document.querySelector("#pl video");if(v)v.playbackRate=S.spd;var fb=$("#fsspd");if(fb)fb.textContent=spdTxt(S.spd);var fc=document.querySelectorAll(".fssp");for(var q=0;q<fc.length;q++)fc[q].className="fssp"+(+fc[q].getAttribute("data-v")===S.spd?" on":"");var pc=$("#pc");if(pc){var b=pc.querySelectorAll("[data-a=speed]");for(var i=0;i<b.length;i++)b[i].className="chip"+(+b[i].getAttribute("data-v")===S.spd?" on":"")}}
 function isStandalone(){return window.matchMedia&&matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}
 function isIOS(){return/iphone|ipad|ipod/i.test(navigator.userAgent)}
 function installBar(){
@@ -773,7 +772,7 @@ async function afterPwChange(){
 var ACT={
  tab:function(v){S.tab=v;render();window.scrollTo(0,0)},
  rank:function(v){S.rank=v;render()},
- open:function(v){S.sel=v;S.ep=0;S.fs=false;S.rsm=null;sheet();autoStart()},
+ open:function(v){S.sel=v;S.ep=0;S.fs=false;S.rsm=null;S.fsReq=!S.dash&&!S.creatorDash;sheet();autoStart();S.fsReq=false},
  ep:function(v){csClose();S.fsReq=true;playEp(+v)},
  close:closeSheet,
  like:async function(){
@@ -822,7 +821,7 @@ var ACT={
   try{sessionStorage.removeItem("sw_cleaned")}catch(e){}
   toast(t("set_cleared"));
   setTimeout(function(){location.replace(location.pathname+"?r="+Date.now())},800)},
- fsback:function(){var v=fsVid();if(v)v.pause();S.fs=false;S.fsReq=false;csClose();sheet()},
+ fsback:function(){var v=fsVid();if(v)v.pause();S.fs=false;S.fsReq=false;csClose();if(isAdm())sheet();else closeSheet()},
  fsspd:function(){var L=[1,1.25,1.5,2],i=L.indexOf(S.spd);S.spd=L[(i+1)%L.length];try{localStorage.setItem("zsp",String(S.spd))}catch(e){}applySpd()},
  fseps:function(){
   var d=find(S.sel);if(!d)return;
@@ -1150,8 +1149,7 @@ function fsStep(dir){
  var n=S.ep+dir;
  if(n<1){toast(t("fs_first"));return}
  if(n>d.eps){toast(t("fs_last"));return}
- if(locked(d,n)){toast(t("fs_lock",n));ACT.fseps();return}
- S.fsDir=dir;playEp(n)}
+ S.fsDir=dir;if(locked(d,n))S.fsReq=true;playEp(n)}
 function fsSeek(e){
  var v=fsVid(),b=document.getElementById("fsbar");
  if(!v||!b||!isFinite(v.duration)||!v.duration)return;
