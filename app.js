@@ -139,9 +139,13 @@ async function loadCC(ids){
 function okUrl(u){return /^https:\/\/[^\s"'<>]+$/i.test(u||"")&&String(u).length<=2000}
 function backbar(){return'<button class="backtop" data-a="navback">'+t("back_btn")+"</button>"}
 function fmt(v){return v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":String(v)}
+/* v38: Admin View Editor (Password ဖြင့် Admin ဝင်) – Admin mode ဖွင့်ထားမှသာ ✎ ခလုတ်ပေါ် */
+function isVE(){return !!(S.vpw||isAdm())}
+function editBtn(d){return isVE()?'<button class="vedit" type="button" data-a="editviews" data-v="'+esc(d.id)+'" aria-label="Edit views" title="Edit views">✎</button>':""}
+function parseViews(x){var m=String(x==null?"":x).replace(/[,\s_]/g,"").match(/^(\d+(?:\.\d+)?)([kKmM])?$/);if(!m)return null;var n=parseFloat(m[1]);if(m[2]){n*=/k/i.test(m[2])?1e3:1e6}n=Math.round(n);return n>=0&&n<=2000000000?n:null}
 function poster(d,tag){return'<div class="poster" style="'+bg(d)+'">'+(tag?'<span class="tag">Hot</span>':"")+"</div>"}
-function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span></div>"+'<p class="ct">'+esc(d.t)+"</p></div>"}
-function row(d,n){return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+poster(d)+'<div class="info"><strong>'+esc(d.t)+'</strong><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div><span class="heat">▶ '+fmt(d.v)+"</span></div>"}
+function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span>"+editBtn(d)+"</div>"+'<p class="ct">'+esc(d.t)+"</p></div>"}
+function row(d,n){return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+poster(d)+'<div class="info"><strong>'+esc(d.t)+'</strong><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div><span class="heat">▶ '+fmt(d.v)+"</span>"+editBtn(d)+"</div>"}
 function note(x){return'<p class="note">'+x+"</p>"}
 var GSVG='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
 function h3(x,big){return'<h3 class="serif"'+(big?' style="font-size:24px"':"")+">"+x+"</h3>"}
@@ -270,7 +274,7 @@ function settings(){
 function pfGrid(m){
  var L=S.dr.filter(function(d){return d.o===m.id||(m.is_admin&&!d.o)});
  if(!L.length)return note(t("pf_none"));
- return'<div class="pgrid">'+L.map(function(d){return'<div class="pcell" data-a="open" data-v="'+esc(d.id)+'" style="'+bg(d)+'"><span class="pv">▶ '+fmt(d.v||0)+'</span></div>'}).join("")+"</div>"}
+ return'<div class="pgrid">'+L.map(function(d){return'<div class="pcell" data-a="open" data-v="'+esc(d.id)+'" style="'+bg(d)+'"><span class="pv">▶ '+fmt(d.v||0)+'</span>'+editBtn(d)+'</div>'}).join("")+"</div>"}
 function profile(){
  if(!SB)return h3(t("conn_fail"),1)+note(t("conn_note"))+'<button class="btn" data-a="reload">'+t("retry")+"</button>"+langBox();
  if(S.recov)return newPwForm();
@@ -1076,6 +1080,27 @@ var ACT={
   var u=(S.ax.list||[]).filter(function(x){return x.id===p[0]})[0];if(u)u.coins=Math.max(0,u.coins+amt);refUl();toast(t("coin_ok",(amt>0?"+":"")+amt))},
  vip:async function(v){var p=String(v).split("|"),on=p[1]==="1";var r=await SB.rpc("admin_set_vip",{p_user:p[0],p_vip:on});if(r.error){toast(t("failed",r.error.message));return}
   var u=(S.ax.list||[]).filter(function(x){return x.id===p[0]})[0];if(u)u.is_vip=on;refUl();toast(on?t("vip_given"):t("vip_removed"))},
+ editviews:async function(v){
+  if(!isVE()){toast("Admin အဖြစ် အရင်ဝင်ပါ");return}
+  if(!SB){toast("Server မချိတ်ရသေးပါ");return}
+  var d=find(v);if(!d)return;
+  var inp=prompt("View အရေအတွက်အသစ် ရိုက်ထည့်ပါ (ဥပမာ 10000 / 50k / 1.5M)\n"+d.t,String(d.v||0));
+  if(inp===null)return;
+  var n=parseViews(inp);
+  if(n===null){toast("ဂဏန်း မမှန်ပါ – ဥပမာ 10000, 50k, 1.5M");return}
+  var nv;
+  if(S.vpw){
+   var r=await SB.rpc("admin_set_views",{p_pass:S.vpw,p_drama:+d.id,p_views:n});
+   if(r.error){var wrong=/wrong password/i.test(r.error.message||"");if(wrong){S.vpw=null;try{sessionStorage.removeItem("vpw")}catch(e){}render()}
+    toast(wrong?"Password မမှန်တော့ပါ – Admin mode ပိတ်လိုက်ပါပြီ":t("failed",r.error.message));return}
+   nv=+r.data
+  }else{
+   var r2=await SB.from("dramas").update({views:n}).eq("id",d.id).select("id,views");
+   if(r2.error){toast(t("failed",r2.error.message));return}
+   if(!r2.data||!r2.data.length){toast("မသိမ်းနိုင်ပါ – Admin ခွင့်ပြုချက် စစ်ပါ");return}
+   nv=+r2.data[0].views
+  }
+  d.v=nv||0;render();toast("✔ Views → "+fmt(d.v))},
  sethot:async function(){var d=find(S.sel);if(!d)return;
   var r=await SB.from("dramas").update({is_hot:!d.hot}).eq("id",d.id);
   if(r.error){toast(/is_hot|column|schema/i.test(r.error.message||"")?t("ext_need_sql"):t("failed",r.error.message));return}
@@ -1216,6 +1241,17 @@ ACT.ucmok=function(){ucmYes()};
 ACT.ucmno=function(){ucmClose()};
 ACT.ucmshade=function(v,el,e){if(e.target===el)ucmClose()};
 ACT.hgo=function(v){if(HC.go)HC.go(+v)};
+/* v38: Admin ဝင်ရန် – Logo ကို ၂ စက္ကန့်အတွင်း ၅ ချက်ဆက်နှိပ် → Password မေးမယ် (အကြိမ်ထပ်နှိပ်ရင် Admin mode ပိတ်ဖို့မေးမယ်) */
+(function(){var n=0,tm=0;try{S.vpw=sessionStorage.getItem("vpw")||null}catch(e){}
+ document.addEventListener("click",async function(e){var lg=e.target.closest("#hlogo");if(!lg)return;n++;clearTimeout(tm);tm=setTimeout(function(){n=0},2000);
+  if(n<5)return;n=0;
+  if(S.vpw){if(confirm("Admin mode ကို ပိတ်မလား?")){S.vpw=null;try{sessionStorage.removeItem("vpw")}catch(_){}render();toast("Admin mode ပိတ်ပြီး")}return}
+  if(!SB){toast("Server မချိတ်ရသေးပါ");return}
+  var pw=prompt("Admin Password ရိုက်ထည့်ပါ");if(!pw)return;
+  var r=await SB.rpc("admin_check_pass",{p_pass:pw});
+  if(r.error){toast(/admin_check_pass|function|schema/i.test(r.error.message||"")?"supabase-v38-views.sql ကို Supabase မှာ အရင် Run ပါ":t("failed",r.error.message));return}
+  if(r.data!==true){toast("Password မှားနေပါတယ်");return}
+  S.vpw=pw;try{sessionStorage.setItem("vpw",pw)}catch(_){}render();toast("🔧 Admin mode ON – ✎ ကိုနှိပ်ပြီး Views ပြင်ပါ")})})();
 document.addEventListener("click",function(e){var el=e.target.closest("[data-a]");if(!el||el.disabled)return;var f=ACT[el.getAttribute("data-a")];if(f)f(el.getAttribute("data-v"),el,e)});
 document.addEventListener("input",function(e){if(e.target.id==="q"){S.q=e.target.value;grid()}else if(e.target.id==="us")refUl();else if(e.target.id==="nc"||e.target.id==="crcover")covPrev(e.target.id,e.target.value)});
 document.addEventListener("change",async function(e){
