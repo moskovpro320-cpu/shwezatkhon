@@ -146,16 +146,76 @@ function note(x){return'<p class="note">'+x+"</p>"}
 var GSVG='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
 function h3(x,big){return'<h3 class="serif"'+(big?' style="font-size:24px"':"")+">"+x+"</h3>"}
 
+/* ===== v30: Hero Banner = လွန်ခဲ့သော ၇ ရက် ကြည့်ရှုမှု အများဆုံး Top 6 Swipe Carousel ===== */
+var HC={t:null,key:"",go:null};
+function heroPick(){
+ var need=Math.min(6,S.dr.length),out=[],seen={},wk=(S.live&&S.wk)||[];
+ wk.forEach(function(x){var d=find(x.id);if(d&&!seen[d.id]&&x.v>0){seen[d.id]=1;out.push({d:d,v:x.v})}});
+ if(need&&out.length>=need)return{mode:"wk",l:out.slice(0,need)};
+ /* တစ်ပတ်အတွင်း View data မစုံသေးရင် စုစုပေါင်း View အများဆုံးနဲ့ အစားထိုး */
+ var l=S.dr.slice().sort(function(x,y){return y.v-x.v}).slice(0,need);
+ return{mode:"tot",l:l.map(function(d){return{d:d,v:d.v}})}}
+function heroHtml(){
+ var p=heroPick(),h='<div class="hcar"><div class="htrack" id="htrack">';
+ p.l.forEach(function(x,i){var d=x.d;
+  h+='<div class="hslide" data-a="open" data-v="'+esc(d.id)+'" style="'+bg(d)+'"><span class="hrk">#'+(i+1)+'</span><div class="meta"><span class="heat">🔥 '+t("viewed",fmt(x.v))+(p.mode==="wk"?" · "+t("hero_wk"):"")+'</span><h2>'+esc(d.t)+'</h2><div class="sub" style="color:var(--mute)">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div></div></div>"});
+ h+='</div><div class="hdots" id="hdots">'+p.l.map(function(x,i){return'<button class="hdot'+(i===0?" on":"")+'" data-a="hgo" data-v="'+i+'" aria-label="'+(i+1)+'"></button>'}).join("")+"</div></div>";
+ return{html:h,key:p.mode+":"+p.l.map(function(x){return x.d.id}).join(",")}}
+function heroInit(){
+ clearInterval(HC.t);HC.t=null;HC.go=null;
+ var tr=document.getElementById("htrack");if(!tr)return;
+ var n=tr.children.length,pauseUntil=0,raf=0;
+ function hold(ms){pauseUntil=Date.now()+ms}
+ function idx(){var best=0,bd=1e9;for(var i=0;i<n;i++){var dd=Math.abs(tr.children[i].offsetLeft-tr.scrollLeft);if(dd<bd){bd=dd;best=i}}return best}
+ function dots(i){var ds=document.querySelectorAll("#hdots .hdot");for(var k=0;k<ds.length;k++)ds[k].className="hdot"+(k===i?" on":"")}
+ function goTo(i){try{tr.scrollTo({left:tr.children[i].offsetLeft,behavior:"smooth"})}catch(e){tr.scrollLeft=tr.children[i].offsetLeft}}
+ tr.addEventListener("scroll",function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;dots(idx())})},{passive:true});
+ /* လက်နဲ့ထိ / ပွတ်ဆွဲနေရင် Auto-slide ရပ် – လက်လွှတ်ပြီး ၆ စက္ကန့်မှ ပြန်စ */
+ ["touchstart","pointerdown","mousedown","wheel"].forEach(function(ev){tr.addEventListener(ev,function(){hold(8000)},{passive:true})});
+ ["touchend","touchcancel"].forEach(function(ev){tr.addEventListener(ev,function(){hold(6000)},{passive:true})});
+ HC.go=function(i){if(i<0||i>=n)return;hold(8000);goTo(i)};
+ var calm=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ if(n>1&&!calm)HC.t=setInterval(function(){
+  if(document.getElementById("htrack")!==tr){clearInterval(HC.t);HC.t=null;return}
+  if(document.hidden||Date.now()<pauseUntil||S.tab!=="home"||sheetOpen()||ucmIsOpen())return;
+  var i=idx()+1;if(i>=n)i=0;goTo(i)},4500)}
+async function loadWeekly(force){
+ if(!SB||!S.live)return;
+ var now=Date.now();if(!force&&S.wkAt&&now-S.wkAt<120000)return;S.wkAt=now;
+ try{
+  var r=await SB.rpc("get_weekly_top_dramas",{p_limit:12});
+  if(r.error||!Array.isArray(r.data)){S.wk=null;return}
+  S.wk=r.data.map(function(x){return{id:x.drama_id,v:+x.views||0}});
+  if(S.tab==="home"&&!S.q&&!sheetOpen()&&heroHtml().key!==HC.key)grid()
+ }catch(e){S.wk=null}}
+/* ===== v30: Lock အပိုင်း နှိပ်ရင် Coin မဖြတ်ခင် Confirm Modal ===== */
+var UCM=null;
+function ucmIsOpen(){var e=document.getElementById("ucm");return!!(e&&e.classList.contains("open"))}
+function ucmHide(){var e=document.getElementById("ucm");if(e)e.className="ucm";UCM=null}
+function ucmClose(){ucmHide();navSync()}
+function ucmShow(d,n,go){
+ var e=document.getElementById("ucm");
+ if(!e){e=document.createElement("div");e.id="ucm";e.className="ucm";e.setAttribute("role","dialog");e.setAttribute("aria-modal","true");e.setAttribute("data-a","ucmshade");document.body.appendChild(e)}
+ var pr=+d.price||FIXED_PRICE;
+ UCM={id:d.id,n:n,go:go,busy:false};
+ e.innerHTML='<div class="ucmb"><h3 class="ucmt">'+esc(t("ucm_q",n,pr))+'</h3><p class="ucmbal">'+esc(t("ucm_bal",+S.me.coins||0))+'</p><div class="ucmbtn"><button class="ucmc" data-a="ucmno">'+esc(t("ucm_no"))+'</button><button class="ucmy" data-a="ucmok">'+esc(t("ucm_yes",pr))+"</button></div></div>";
+ e.className="ucm open";navSync()}
+async function ucmYes(){
+ if(!UCM||UCM.busy)return;
+ var u=UCM;u.busy=true;
+ var d=find(u.id);ucmHide();navSync();
+ if(!d||find(S.sel)!==d||!sheetOpen())return;
+ S.fsReq=!!u.go;await playEp(u.n,true)}
 /* ---------- pages ---------- */
 function home(){return installBar()+'<input class="search" id="q" placeholder="'+esc(t("search_ph"))+'" value="'+esc(S.q)+'"><div id="hb"></div>'}
 function grid(){
  var q=S.q.toLowerCase(),l=S.dr.filter(function(d){return d.t.toLowerCase().indexOf(q)>-1}),h="";
- if(!q&&l.length){var f=l[0];h+='<div class="hero" data-a="open" data-v="'+esc(f.id)+'" style="'+bg(f)+'"><div class="meta"><span class="heat">🔥 '+t("viewed",fmt(f.v))+'</span><h2>'+esc(f.t)+'</h2><div class="sub" style="color:var(--mute)">'+esc(f.g)+" · "+t("eps_n",f.eps)+"</div></div></div>"}
+ if(!q&&l.length){var hh=heroHtml();h+=hh.html;HC.key=hh.key}
  h+=h3(q?t("search_res"):t("you_may_like"));
  h+=l.length?'<div class="grid">'+l.map(function(d,i){return card(d,S.live&&!S.noExt?!!d.hot:i<6)}).join("")+"</div>":'<div class="empty">'+t("no_match",esc(S.q))+"</div>";
  if(S.err&&!q)h+=note(t("db_err",esc(S.err)));
  if(!S.live&&!q)h+=note(SB?t("no_live_sb"):t("no_live"));
- $("#hb").innerHTML=h}
+ $("#hb").innerHTML=h;heroInit()}
 function ranks(){
  var names={hot:t("rk_hot"),"new":t("rk_new"),trend:t("rk_trend")},l=S.dr.slice();
  if(S.rank==="hot")l.sort(function(a,b){return b.v-a.v});
@@ -500,7 +560,7 @@ function showVideo(d,n,u){
    /* တကယ်ကြည့်တဲ့ playback စက္ကန့်ကိုပဲ ပေါင်းမယ် (ရှေ့ကို ဆွဲကျော်ရုံနဲ့ မရေတွက်) */
    if(last!==null&&!v.paused&&c>last&&c-last<1.5)played+=c-last;
    last=c;
-   if(played>=30){viewSent=true;SB.rpc("record_episode_view",{p_drama:d.id,p_n:n}).then(function(r){if(r.error){console.warn("view count:",r.error.message);return}viewMark(d.id,n)},function(){})}})}}
+   if(played>=30){viewSent=true;SB.rpc("record_episode_view",{p_drama:d.id,p_n:n}).then(function(r){if(r.error){console.warn("view count:",r.error.message);return}viewMark(d.id,n);SB.rpc("log_drama_view",{p_drama:d.id,p_n:n}).then(function(){},function(){})},function(){})}})}}
 /* ===== v28: TikTok Creator လျှောက်လွှာ – လင့်ခ်ကို message ထဲ "TikTok: <url> | Note: <note>" ပုံစံနဲ့ သိမ်း (SQL/RLS မပြောင်း) ===== */
 function ttNorm(u){u=String(u||"").trim();if(/^(www\.|m\.|vm\.|vt\.)?tiktok\.com\//i.test(u))u="https://"+u;
  return /^https:\/\/([a-z0-9-]+\.)*tiktok\.com\/[^\s"'<>]+$/i.test(u)&&u.length<=250?u:""}
@@ -533,7 +593,7 @@ function viewKey(id,n){return"zv:"+(S.me?S.me.id:"x")+":"+id+":"+n}
 function viewSeen(id,n){try{var x=parseInt(localStorage.getItem(viewKey(id,n)),10);return!!x&&Date.now()-x<864e5}catch(e){return false}}
 function viewMark(id,n){try{localStorage.setItem(viewKey(id,n),String(Date.now()))}catch(e){}}
 showVideo.c={};
-async function playEp(n){var go=S.fsReq;S.fsReq=false;
+async function playEp(n,ok){var go=S.fsReq;S.fsReq=false;
  var d=find(S.sel);if(!d)return;
  var hasEp=!!d.vids[n];
  if(locked(d,n)){
@@ -541,6 +601,8 @@ async function playEp(n){var go=S.fsReq;S.fsReq=false;
   if(!S.me){toast(t("need_login"));closeSheet();S.tab="me";render();return}
   /* v25: ဗီဒီယိုမတင်ရသေးတဲ့ အပိုင်းအတွက် Coin မနှုတ် */
   if(!hasEp){S.ep=n;if(go)S.fs=true;sheet();showVideo(d,n,null);return}
+  /* v30: Coin မဖြတ်ခင် အတည်ပြုချက် အရင်မေး – "ဖွင့်ကြည့်မည်" နှိပ်မှ ဆက်လုပ် */
+  if(!ok){if((+S.me.coins||0)<(+d.price||FIXED_PRICE)){toast(t("no_coin",d.price));return}ucmShow(d,n,go);return}
   var before=+S.me.coins||0;
   var r=await SB.rpc("unlock_episode",{p_drama:d.id,p_n:n});
   if(r.error){toast(/enough/i.test(r.error.message)?t("no_coin",d.price):t("unlock_fail"));return}
@@ -612,6 +674,7 @@ async function loadDr(){
  if(r.error||!r.data||!r.data.length){S.dr=SAMPLE;S.live=false;return}
  S.live=true;
  S.dr=r.data.map(function(x){var v={};(x.episodes||[]).forEach(function(e){v[e.n]=1});return{id:x.id,t:x.title,g:x.genre||"",eps:x.eps,a:x.color_a,b:x.color_b,v:x.views||0,vids:v,cp:x.cover_path||null,cover:x.cover_path?pubUrl(x.cover_path):null,price:x.price==null?30:x.price,free:x.free_eps==null?10:x.free_eps,o:x.owner_id||null,desc:x.description||"",hot:!!x.is_hot,lk:+x.likes_count||0,cm:+x.comments_count||0}});
+ loadWeekly();
  loadCC(S.dr.map(function(d){return d.o})).then(function(){var b=$("#by"),d=find(S.sel);if(b&&d)b.innerHTML=byHtml(d)})}
 async function setUser(ses){
  VC={}; /* user ပြောင်း/logout လုပ်ရင် မှတ်ထားတဲ့ ဗီဒီယို URL cache ရှင်း */
@@ -1043,8 +1106,9 @@ function subLayer(){
  if(S.dash&&S.me.is_admin)return"dash";
  if(S.creatorDash&&(S.me.is_vip||S.me.is_creator))return"creator";
  return null}
-function depth(){return(S.tab!=="home"?1:0)+(subLayer()?1:0)+(sheetOpen()?1:0)}
+function depth(){return(S.tab!=="home"?1:0)+(subLayer()?1:0)+(sheetOpen()?1:0)+(ucmIsOpen()?1:0)}
 function closeTop(){
+ if(ucmIsOpen()){ucmClose();return}
  if(sheetOpen()){closeSheet();return}
  var l=subLayer();
  if(l==="recov")S.recov=false;
@@ -1108,6 +1172,10 @@ document.addEventListener("pointerup",function(e){
  if(dbl||now-FG.lh<350){clearTimeout(FG.tm);FG.lt=0;FG.lh=now;fsHeart(e.clientX,e.clientY);return}
  FG.lt=now;FG.lx=e.clientX;FG.ly=e.clientY;
  clearTimeout(FG.tm);FG.tm=setTimeout(function(){FG.lt=0;fsToggle()},280)});
+ACT.ucmok=function(){ucmYes()};
+ACT.ucmno=function(){ucmClose()};
+ACT.ucmshade=function(v,el,e){if(e.target===el)ucmClose()};
+ACT.hgo=function(v){if(HC.go)HC.go(+v)};
 document.addEventListener("click",function(e){var el=e.target.closest("[data-a]");if(!el||el.disabled)return;var f=ACT[el.getAttribute("data-a")];if(f)f(el.getAttribute("data-v"),el,e)});
 document.addEventListener("input",function(e){if(e.target.id==="q"){S.q=e.target.value;grid()}else if(e.target.id==="us")refUl();else if(e.target.id==="nc"||e.target.id==="crcover")covPrev(e.target.id,e.target.value)});
 document.addEventListener("change",async function(e){
