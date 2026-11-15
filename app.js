@@ -1654,3 +1654,11 @@ window.addEventListener("unhandledrejection",function(e){var rs=e&&e.reason,nm=r
  initAuth().catch(function(e){showErr(t("auth_err",e&&e.message||e))});
 })();
 })();
+
+// App Load ဖြစ်ပြီးပါက Splash Screen ကို ဖျောက်ပေးရန်
+window.addEventListener('load', function(){
+  setTimeout(function(){
+    var splash=document.getElementById('splash-screen');
+    if(splash){splash.style.opacity='0';setTimeout(function(){splash.remove()},500)}
+  },1000);
+});
