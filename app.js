@@ -171,7 +171,7 @@ function likeBtn(d){return isVE()?'<button class="ledit" type="button" data-a="e
 function likeIcon(d){return isVE()?'<button class="lpen" type="button" data-a="editlikes" data-v="'+esc(d.id)+'" aria-label="Edit likes" title="Edit likes">✎</button>':""}
 function poster(d,tag){return'<div class="poster" style="'+bg(d)+'">'+(tag?'<span class="tag">Hot</span>':"")+"</div>"}
 function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span>"+likeBtn(d)+editBtn(d)+"</div>"+'<p class="ct">'+esc(d.t)+"</p></div>"}
-function row(d,n){return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+poster(d)+'<div class="info"><strong>'+esc(d.t)+'</strong><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div><span class="heat">▶ '+fmt(d.v)+"</span>"+likeBtn(d)+editBtn(d)+"</div>"}
+function row(d,n){var tag=S.live&&!S.noExt?!!d.hot:false,adm=likeBtn(d)+editBtn(d);return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+'<div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span></div>"+'<div class="info"><p class="ct">'+esc(d.t)+'</p><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div>"+(adm?'<div class="racts">'+adm+"</div>":"")+"</div></div>"}
 function note(x){return'<p class="note">'+x+"</p>"}
 var GSVG='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
 function h3(x,big){return'<h3 class="serif"'+(big?' style="font-size:24px"':"")+">"+x+"</h3>"}
@@ -1655,21 +1655,17 @@ window.addEventListener("unhandledrejection",function(e){var rs=e&&e.reason,nm=r
 })();
 })();
 
-// App Launch Splash Screen: Logo ကို Zoom/Fade-in ပြပြီး App အဆင်သင့်ဖြစ်မှ Smooth ဖျောက်မည်
+// App Launch Splash Screen: Full-screen Splash ကို ၅ စက္ကန့်တိတိ (5000ms) ပြပြီးမှ ပင်မစာမျက်နှာသို့ Smooth ဝင်မည်
 (function(){
+  var SPLASH_MS=5000;            // ← ပြသချိန် (milliseconds)
   var splash=document.getElementById('splash-screen');
   if(!splash)return;
-  var MIN_MS=1800, MAX_MS=6000, start=Date.now(), closed=false;
+  var t0=window.__SPLASH_T0||Date.now();   // Splash စပေါ်ချိန်ကစပြီး တွက်မည် (index.html ထဲက script က သတ်မှတ်သည်)
+  var closed=false;
   function closeSplash(){
     if(closed)return; closed=true;
-    splash.classList.add('hide');
-    setTimeout(function(){ if(splash.parentNode) splash.remove(); },700);
+    splash.classList.add('hide');                                  // Fade-out (.6s)
+    setTimeout(function(){ if(splash.parentNode)splash.remove() },700);
   }
-  function onReady(){
-    var wait=Math.max(0,MIN_MS-(Date.now()-start));
-    setTimeout(closeSplash,wait);
-  }
-  if(document.readyState==='complete') onReady();
-  else window.addEventListener('load',onReady);
-  setTimeout(closeSplash,MAX_MS); // load မပြီးလည်း အကန့်အသတ်ထားပြီး ပိတ်ပေးမည်
+  setTimeout(closeSplash,Math.max(0,SPLASH_MS-(Date.now()-t0)));
 })();
