@@ -359,16 +359,24 @@ async function loadCreator(){
  var sm=null;try{var sr=await SB.rpc("creator_summary");if(!sr.error&&sr.data)sm=sr.data}catch(e){}
  var none=Promise.resolve({data:[]});
  var r=await Promise.all([
-  SB.from("dramas").select("id,title,genre,eps,moderation_status,moderation_note,submitted_at").eq("owner_id",S.me.id).order("created_at",{ascending:false}),
+  SB.from("dramas").select("id,title,genre,eps,moderation_status,moderation_note,submitted_at,episodes(n)").eq("owner_id",S.me.id).order("created_at",{ascending:false}),
   sm?none:SB.from("creator_earnings").select("amount,currency_code,created_at").eq("creator_id",S.me.id).order("created_at",{ascending:false}).limit(5000),
   SB.from("creator_withdrawals").select("id,amount,currency_code,status,payout_method,created_at,admin_note").eq("creator_id",S.me.id).order("created_at",{ascending:false}).limit(200),
   SB.from("creator_settings").select("rate_per_1000,min_withdrawal,currency_code").eq("id",1).maybeSingle(),
   sm?none:SB.from("creator_view_events").select("id,drama_id,episode_n,viewed_on").limit(10000)
  ]);
+ if(r[0].error)r[0]=await SB.from("dramas").select("id,title,genre,eps,moderation_status,moderation_note,submitted_at").eq("owner_id",S.me.id).order("created_at",{ascending:false});
  var er=r.filter(function(x){return x.error})[0];
  if(er){toast("Creator အချက်အလက် ဖတ်မရပါ: "+er.error.message);return}
  S.creatorData={dramas:r[0].data||[],earnings:r[1].data||[],withdrawals:r[2].data||[],settings:r[3].data||{rate_per_1000:0,min_withdrawal:10000,currency_code:"MMK"},views:r[4].data||[],sum:sm};
 }
+/* v40: VIP Creator – ကိုယ်တင်ထားတဲ့ ဗီဒီယို/ဇာတ်လမ်း ဖျက်ခွင့် (စာရင်းနဲ့ Storage နှစ်ခုလုံးက ဖယ်) */
+function crRow(x){
+ var vip=!!(S.me&&S.me.is_vip),eps=(x.episodes||[]).map(function(e){return+e.n}).filter(Boolean).sort(function(a,b){return a-b});
+ var h='<div class="row" style="cursor:default;flex-wrap:wrap"><div class="info"><strong>'+esc(x.title)+'</strong><div class="sub">'+esc(x.genre||"")+' · '+esc(x.moderation_status)+(x.moderation_note?" · "+esc(x.moderation_note):"")+'</div></div><span class="heat">'+(x.moderation_status==="approved"?"အတည်ပြုပြီး":x.moderation_status==="pending"?"စစ်ဆေးဆဲ":"ပယ်ချ")+'</span>';
+ if(vip)h+='<button class="crdel" type="button" data-a="creatorDelDrama" data-v="'+esc(x.id)+'" aria-label="ဇာတ်လမ်းဖျက်မယ်">🗑 ဖျက်မယ်</button>';
+ if(vip&&eps.length>1)h+='<div class="creps">'+eps.map(function(n){return'<button class="crdel sm" type="button" data-a="creatorDelEp" data-v="'+esc(x.id)+'|'+n+'" aria-label="Episode '+n+' ဖျက်မယ်">EP'+n+' 🗑</button>'}).join("")+"</div>";
+ return h+"</div>"}
 function creatorDashboard(){
  var d=S.creatorData||{dramas:[],earnings:[],withdrawals:[],views:[],settings:{rate_per_1000:0,min_withdrawal:10000,currency_code:"MMK"}};
  var total=d.earnings.reduce(function(a,x){return a+(+x.amount||0)},0);
@@ -383,7 +391,7 @@ function creatorDashboard(){
  if(S.me&&S.me.is_vip){h+='<div class="acard" style="margin:6px 16px 12px"><b>Creator ဗီဒီယိုတင်ရန်</b><p class="note" style="padding:4px 0">VIP ဖြစ်နေစဉ်သာ တင်နိုင်ပါတယ်။ လင့်ခ်တွေက https:// နဲ့ စရမယ်၊ ဗီဒီယိုက ဖိုင်တိုက်ရိုက်လင့်ခ် (.mp4) ဖြစ်ရမယ်။ Admin အတည်ပြုပြီးမှ Public မှာ ပေါ်ပါမယ်။</p><input class="in" id="crtitle" placeholder="ဇာတ်လမ်းအမည်">'+genreSel("crgenre")+'<textarea class="in" id="crdesc" rows="3" maxlength="1000" placeholder="'+esc(t("ph_desc"))+'"></textarea><label class="note" for="crcover">🔗 Cover ပုံလင့်ခ် (Image URL)</label><input class="in" id="crcover" type="url" inputmode="url" autocomplete="off" placeholder="https://...">'+pickBtn("crcover","img")+covPrevBox("crcover")+'<label class="note" for="crvideo">🔗 ပထမအပိုင်း ဗီဒီယိုလင့်ခ် (Video URL)</label><input class="in" id="crvideo" type="url" inputmode="url" autocomplete="off" placeholder="https://... (.mp4)">'+pickBtn("crvideo","vid")+'<button class="btn" data-a="creatorSubmit">Admin ထံ ဇာတ်လမ်းတင်သွင်းမယ်</button></div>';
  h+='<div class="acard" style="margin:6px 16px 12px"><b>ရှိပြီးသား ဇာတ်လမ်းအတွက် Episode ထပ်တင်ရန်</b><select class="in" id="crepisodeDrama"><option value="">ဇာတ်လမ်းရွေးပါ</option>'+d.dramas.filter(function(x){return x.moderation_status!=="rejected"}).map(function(x){return'<option value="'+x.id+'">'+esc(x.title)+' ('+esc(x.moderation_status)+')</option>'}).join("")+'</select><input class="in" id="crEpNo" type="number" min="1" max="200" placeholder="Episode နံပါတ်"><input class="in" id="crEpVideo" type="url" inputmode="url" autocomplete="off" placeholder="🔗 ဗီဒီယိုလင့်ခ် (Video URL) https://... (.mp4)">'+pickBtn("crEpVideo","vid")+'<button class="btn" data-a="creatorEpisodeSubmit">Episode တင်သွင်းမယ်</button></div>'}else{h+=note("VIP သက်တမ်းကုန်ဆုံးနေပါသည်။ ရှိပြီးသား Creator ဝင်ငွေကိုတော့ ထုတ်ယူနိုင်ပါတယ်။")}
  h+=h3("မင်းတင်ထားတဲ့ ဇာတ်လမ်းများ");
- h+=d.dramas.length?d.dramas.map(function(x){return'<div class="row" style="cursor:default"><div class="info"><strong>'+esc(x.title)+'</strong><div class="sub">'+esc(x.genre||"")+' · '+esc(x.moderation_status)+(x.moderation_note?" · "+esc(x.moderation_note):"")+'</div></div><span class="heat">'+(x.moderation_status==="approved"?"အတည်ပြုပြီး":x.moderation_status==="pending"?"စစ်ဆေးဆဲ":"ပယ်ချ")+'</span></div>'}).join(""):note("တင်ထားတဲ့ ဇာတ်လမ်း မရှိသေးပါ။");
+ h+=d.dramas.length?d.dramas.map(function(x){return crRow(x)}).join(""):note("တင်ထားတဲ့ ဇာတ်လမ်း မရှိသေးပါ။");
  }else{
  h+=h3("💰 လက်ကျန်ငွေ")+'<div class="acard" style="margin:6px 16px 12px"><b>'+balance.toFixed(2)+' '+esc(cur)+'</b><p class="note" style="padding:2px 0 0">စုစုပေါင်းရငွေ '+total.toFixed(2)+' '+esc(cur)+'</p></div>';
  h+=h3("ငွေထုတ်ယူရန်");
@@ -947,6 +955,38 @@ var ACT={
  dash:async function(){S.dash=true;S.creatorDash=false;try{await loadAdmin()}catch(e){toast(t("dash_fail"))}render()},
  creatorDash:async function(){if(!S.me||!(S.me.is_vip||S.me.is_creator)){toast("Creator အကောင့် မရှိသေးပါ");return}S.dash=false;S.creatorDash=true;S.ct="up";S.creatorFiles={};await loadCreator();render();window.scrollTo(0,0)},
  creatorBack:function(){S.creatorDash=false;render()},
+ creatorDelDrama:async function(v,btn){
+  if(!SB||!S.me||!S.me.is_vip){toast("VIP Creator များသာ ဖျက်နိုင်ပါတယ်");return}
+  var id=+v;if(!id)return;
+  var cd=S.creatorData&&S.creatorData.dramas||[],x=cd.filter(function(q){return+q.id===id})[0];
+  if(!confirm("«"+(x?x.title:"")+"» ကို ဗီဒီယိုအားလုံးနဲ့တကွ အပြီးဖျက်မှာ သေချာပါသလား?\n(ပြန်မရနိုင်ပါ)"))return;
+  if(btn)btn.disabled=true;
+  try{
+   var pr=await SB.rpc("creator_item_paths",{p_drama:id,p_n:null});
+   if(pr.error)throw pr.error;
+   await rmFiles(pr.data||[]); /* Storage ကို အရင်ရှင်း (Row မပျက်ခင် – ပိုင်ရှင်ဖြစ်မှ ဖျက်ခွင့်ရ) */
+   var r=await SB.rpc("creator_delete_drama",{p_drama:id});
+   if(r.error)throw r.error;
+   if(String(S.sel)===String(id)&&sheetOpen())closeSheet();
+   delete VC[id];
+   await loadCreator();await loadDr();render();toast("✔ ဖျက်ပြီးပါပြီ")
+  }catch(e){toast(/creator_item_paths|creator_delete|function|schema/i.test(e.message||"")?"supabase-v40-creator-delete.sql ကို Supabase မှာ အရင် Run ပါ":"ဖျက်မရပါ: "+(e.message||e))}
+  finally{if(btn)btn.disabled=false}},
+ creatorDelEp:async function(v,btn){
+  if(!SB||!S.me||!S.me.is_vip){toast("VIP Creator များသာ ဖျက်နိုင်ပါတယ်");return}
+  var p=String(v).split("|"),id=+p[0],n=parseInt(p[1],10);if(!id||!n)return;
+  if(!confirm("Episode "+n+" ကို အပြီးဖျက်မှာ သေချာပါသလား?"))return;
+  if(btn)btn.disabled=true;
+  try{
+   var pr=await SB.rpc("creator_item_paths",{p_drama:id,p_n:n});
+   if(pr.error)throw pr.error;
+   await rmFiles(pr.data||[]);
+   var r=await SB.rpc("creator_delete_episode",{p_drama:id,p_n:n});
+   if(r.error)throw r.error;
+   var d=find(id);if(d){delete d.vids[n];delete VC[vkey(d,n)]}
+   await loadCreator();await loadDr();render();toast("✔ Episode "+n+" ဖျက်ပြီးပါပြီ")
+  }catch(e){toast(/creator_item_paths|creator_delete|function|schema/i.test(e.message||"")?"supabase-v40-creator-delete.sql ကို Supabase မှာ အရင် Run ပါ":"ဖျက်မရပါ: "+(e.message||e))}
+  finally{if(btn)btn.disabled=false}},
  creatorSubmit:async function(v,btn){
   if(!SB||!S.me||!S.me.is_vip){toast("VIP Creator များသာ Video တင်နိုင်ပါတယ်");return}
   var title=($("#crtitle")||{}).value||"",genre=($("#crgenre")||{}).value||"",cover=(($("#crcover")||{}).value||"").trim(),video=(($("#crvideo")||{}).value||"").trim(),desc=(($("#crdesc")||{}).value||"").trim().slice(0,1000);
