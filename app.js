@@ -1670,3 +1670,17 @@ window.addEventListener("unhandledrejection",function(e){var rs=e&&e.reason,nm=r
   }
   setTimeout(closeSplash,Math.max(0,SPLASH_MS-(Date.now()-t0)));
 })();
+
+/* v47: Hero slide = Grid Card layout. CSS ကို app.js ကနေလည်း ထည့်ပေးထားလို့ index.html cache အဟောင်း ကျန်နေရင်တောင် layout မပျက်ပါ */
+(function(){
+  if(document.getElementById("hero-card-css"))return;
+  var s=document.createElement("style");s.id="hero-card-css";
+  s.textContent=
+   ".htrack{border-radius:0}"+
+   ".hslide{aspect-ratio:auto;max-height:none;overflow:visible;border-radius:0;background:none;position:relative;cursor:pointer;min-width:0}"+
+   ".hslide .hcpw{position:relative;overflow:hidden;width:100%;aspect-ratio:3/4;max-height:440px;border-radius:12px}"+
+   ".hslide.card p.ct{font-size:13px;font-weight:600;line-height:1.45;margin:6px 0 0;color:inherit;text-shadow:none}"+
+   ".hslide.card .sub{font-size:12.5px;line-height:1.5;margin-top:2px;color:var(--mute);text-shadow:none}"+
+   ".hslide .hrk{top:10px;left:10px}";
+  document.head.appendChild(s);
+})();
