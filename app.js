@@ -1660,7 +1660,7 @@ window.addEventListener("unhandledrejection",function(e){var rs=e&&e.reason,nm=r
   var SPLASH_MS=5000;            // ← ပြသချိန် (milliseconds)
   var splash=document.getElementById('splash-screen');
   if(!splash)return;
-  var t0=window.__SPLASH_T0||Date.now();   // Splash စပေါ်ချိန်ကစပြီး တွက်မည်
+  var t0=window.__SPLASH_T0||Date.now();   // Splash စပေါ်ချိန်ကစပြီး တွက်မည် (index.html ထဲက script က သတ်မှတ်သည်)
   var closed=false;
   function closeSplash(){
     if(closed)return; closed=true;
