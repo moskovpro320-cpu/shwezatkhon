@@ -1655,21 +1655,17 @@ window.addEventListener("unhandledrejection",function(e){var rs=e&&e.reason,nm=r
 })();
 })();
 
-// App Launch Splash Screen: Logo ကို Zoom/Fade-in ပြပြီး App အဆင်သင့်ဖြစ်မှ Smooth ဖျောက်မည်
+// App Launch Splash Screen: Full-screen Splash ကို ၅ စက္ကန့်တိတိ (5000ms) ပြပြီးမှ ပင်မစာမျက်နှာသို့ Smooth ဝင်မည်
 (function(){
+  var SPLASH_MS=5000;            // ← ပြသချိန် (milliseconds)
   var splash=document.getElementById('splash-screen');
   if(!splash)return;
-  var MIN_MS=1800, MAX_MS=6000, start=Date.now(), closed=false;
+  var t0=window.__SPLASH_T0||Date.now();   // Splash စပေါ်ချိန်ကစပြီး တွက်မည်
+  var closed=false;
   function closeSplash(){
     if(closed)return; closed=true;
-    splash.classList.add('hide');
-    setTimeout(function(){ if(splash.parentNode) splash.remove(); },700);
+    splash.classList.add('hide');                                  // Fade-out (.6s)
+    setTimeout(function(){ if(splash.parentNode)splash.remove() },700);
   }
-  function onReady(){
-    var wait=Math.max(0,MIN_MS-(Date.now()-start));
-    setTimeout(closeSplash,wait);
-  }
-  if(document.readyState==='complete') onReady();
-  else window.addEventListener('load',onReady);
-  setTimeout(closeSplash,MAX_MS); // load မပြီးလည်း အကန့်အသတ်ထားပြီး ပိတ်ပေးမည်
+  setTimeout(closeSplash,Math.max(0,SPLASH_MS-(Date.now()-t0)));
 })();
