@@ -170,10 +170,8 @@ function parseViews(x){var m=String(x==null?"":x).replace(/[,\s_]/g,"").match(/^
 function likeBtn(d){return isVE()?'<button class="ledit" type="button" data-a="editlikes" data-v="'+esc(d.id)+'" aria-label="Edit likes" title="Edit likes">♥ '+fmt(d.lk||0)+' ✎</button>':""}
 function likeIcon(d){return isVE()?'<button class="lpen" type="button" data-a="editlikes" data-v="'+esc(d.id)+'" aria-label="Edit likes" title="Edit likes">✎</button>':""}
 function poster(d,tag){return'<div class="poster" style="'+bg(d)+'">'+(tag?'<span class="tag">Hot</span>':"")+"</div>"}
-function vwLine(v){return'<div class="vw">▶ '+fmt(v||0)+"</div>"}
-function cbody(d,v){return'<p class="ct">'+esc(d.t)+"</p>"+vwLine(v)+'<div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div>"}
-function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw">'+poster(d,tag)+likeBtn(d)+editBtn(d)+"</div>"+cbody(d,d.v)+"</div>"}
-function row(d,n){var tag=S.live&&!S.noExt?!!d.hot:false,adm=likeBtn(d)+editBtn(d);return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+'<div class="cpw">'+poster(d,tag)+"</div>"+'<div class="info">'+cbody(d,d.v)+(adm?'<div class="racts">'+adm+"</div>":"")+"</div></div>"}
+function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span>"+likeBtn(d)+editBtn(d)+"</div>"+'<p class="ct">'+esc(d.t)+"</p></div>"}
+function row(d,n){return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+poster(d)+'<div class="info"><strong>'+esc(d.t)+'</strong><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div><span class="heat">▶ '+fmt(d.v)+"</span>"+likeBtn(d)+editBtn(d)+"</div>"}
 function note(x){return'<p class="note">'+x+"</p>"}
 var GSVG='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
 function h3(x,big){return'<h3 class="serif"'+(big?' style="font-size:24px"':"")+">"+x+"</h3>"}
@@ -192,8 +190,7 @@ function heroHtml(){
  p.l.forEach(function(x,i){var d=x.d;
   var pic=d.cover?'<img class="hpic" alt="" loading="'+(i?"lazy":"eager")+'" decoding="async" src="'+esc(d.cover)+'" onerror="this.style.display=\'none\'">':"";
   var fb="background:linear-gradient(160deg,"+col(d.a,"#3a2a5a")+","+col(d.b,"#c06a8a")+" 150%)";
-  var tg=S.live&&!S.noExt?!!d.hot:false;
-   h+='<div class="hslide card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw hcpw" style="'+fb+'">'+pic+'<span class="hrk">#'+(i+1)+' TOP'+(p.mode==="wk"?" · "+t("hero_wk"):"")+'</span>'+(tg?'<span class="tag">Hot</span>':"")+likeBtn(d)+editBtn(d)+"</div>"+cbody(d,x.v)+"</div>"});
+  h+='<div class="hslide" data-a="open" data-v="'+esc(d.id)+'" style="'+fb+'">'+pic+'<div class="hshade"></div><span class="hrk">#'+(i+1)+' TOP</span><div class="meta"><span class="heat">▶ '+t("viewed",fmt(x.v))+(p.mode==="wk"?" · "+t("hero_wk"):"")+'</span><h2>'+esc(d.t)+'</h2><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div></div></div>"});
  h+='</div><div class="hdots" id="hdots">'+p.l.map(function(x,i){return'<button class="hdot'+(i===0?" on":"")+'" data-a="hgo" data-v="'+i+'" aria-label="'+(i+1)+'"></button>'}).join("")+"</div></div>";
  return{html:h,key:p.mode+":"+p.l.map(function(x){return x.d.id}).join(",")}}
 function heroInit(){
@@ -1658,33 +1655,21 @@ window.addEventListener("unhandledrejection",function(e){var rs=e&&e.reason,nm=r
 })();
 })();
 
-// App Launch Splash Screen: Full-screen Splash ကို ၅ စက္ကန့်တိတိ (5000ms) ပြပြီးမှ ပင်မစာမျက်နှာသို့ Smooth ဝင်မည်
+// App Launch Splash Screen: Logo ကို Zoom/Fade-in ပြပြီး App အဆင်သင့်ဖြစ်မှ Smooth ဖျောက်မည်
 (function(){
-  var SPLASH_MS=5000;            // ← ပြသချိန် (milliseconds)
   var splash=document.getElementById('splash-screen');
   if(!splash)return;
-  var t0=window.__SPLASH_T0||Date.now();   // Splash စပေါ်ချိန်ကစပြီး တွက်မည် (index.html ထဲက script က သတ်မှတ်သည်)
-  var closed=false;
+  var MIN_MS=1800, MAX_MS=6000, start=Date.now(), closed=false;
   function closeSplash(){
     if(closed)return; closed=true;
-    splash.classList.add('hide');                                  // Fade-out (.6s)
-    setTimeout(function(){ if(splash.parentNode)splash.remove() },700);
+    splash.classList.add('hide');
+    setTimeout(function(){ if(splash.parentNode) splash.remove(); },700);
   }
-  setTimeout(closeSplash,Math.max(0,SPLASH_MS-(Date.now()-t0)));
-})();
-
-/* v48: Hero slide = Grid Card layout (ပုံ → ခေါင်းစဉ် → ဗျူး → အချက်အလက်). CSS ကို app.js ကနေလည်း ထည့်ပေးထားလို့ index.html cache အဟောင်း ကျန်နေရင်တောင် layout မပျက်ပါ */
-(function(){
-  if(document.getElementById("hero-card-css"))return;
-  var s=document.createElement("style");s.id="hero-card-css";
-  s.textContent=
-   ".htrack{border-radius:0}"+
-   ".hslide{aspect-ratio:auto;max-height:none;overflow:visible;border-radius:0;background:none;position:relative;cursor:pointer;min-width:0}"+
-   ".hslide .hcpw{position:relative;overflow:hidden;width:100%;aspect-ratio:3/4;max-height:440px;border-radius:12px}"+
-   ".hslide.card p.ct{font-size:13px;font-weight:600;line-height:1.45;margin:6px 0 0;color:inherit;text-shadow:none}"+
-   ".hslide.card .sub{font-size:12.5px;line-height:1.5;margin-top:2px;color:var(--mute);text-shadow:none}"+
-   ".hslide .hrk{top:10px;left:10px}"+
-   ".vw{color:var(--text);font:700 12px Inter,sans-serif;line-height:1.5;margin-top:2px;white-space:nowrap}"+
-   ".hslide.card .vw{color:var(--text);text-shadow:none}";
-  document.head.appendChild(s);
+  function onReady(){
+    var wait=Math.max(0,MIN_MS-(Date.now()-start));
+    setTimeout(closeSplash,wait);
+  }
+  if(document.readyState==='complete') onReady();
+  else window.addEventListener('load',onReady);
+  setTimeout(closeSplash,MAX_MS); // load မပြီးလည်း အကန့်အသတ်ထားပြီး ပိတ်ပေးမည်
 })();
