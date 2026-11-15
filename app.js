@@ -1655,10 +1655,21 @@ window.addEventListener("unhandledrejection",function(e){var rs=e&&e.reason,nm=r
 })();
 })();
 
-// App Load ဖြစ်ပြီးပါက Splash Screen ကို ဖျောက်ပေးရန်
-window.addEventListener('load', function(){
-  setTimeout(function(){
-    var splash=document.getElementById('splash-screen');
-    if(splash){splash.style.opacity='0';setTimeout(function(){splash.remove()},500)}
-  },1000);
-});
+// App Launch Splash Screen: Logo ကို Zoom/Fade-in ပြပြီး App အဆင်သင့်ဖြစ်မှ Smooth ဖျောက်မည်
+(function(){
+  var splash=document.getElementById('splash-screen');
+  if(!splash)return;
+  var MIN_MS=1800, MAX_MS=6000, start=Date.now(), closed=false;
+  function closeSplash(){
+    if(closed)return; closed=true;
+    splash.classList.add('hide');
+    setTimeout(function(){ if(splash.parentNode) splash.remove(); },700);
+  }
+  function onReady(){
+    var wait=Math.max(0,MIN_MS-(Date.now()-start));
+    setTimeout(closeSplash,wait);
+  }
+  if(document.readyState==='complete') onReady();
+  else window.addEventListener('load',onReady);
+  setTimeout(closeSplash,MAX_MS); // load မပြီးလည်း အကန့်အသတ်ထားပြီး ပိတ်ပေးမည်
+})();
