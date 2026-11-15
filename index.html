@@ -252,6 +252,36 @@ nav button{min-width:0}
 .row .ledit,.pcell .ledit{position:static;flex:none;margin-left:6px;background:var(--panel);border:1px solid var(--line)}
 .pcell .ledit{position:absolute;left:4px;right:auto;bottom:22px;border:0;background:rgba(0,0,0,.65)}
 .lpen{width:26px;height:26px;margin:-6px 0 0;border:0;border-radius:50%;background:rgba(0,0,0,.65);color:#ff8fa3;font:700 13px/26px Inter,sans-serif;text-align:center;padding:0;cursor:pointer;text-shadow:none;-webkit-tap-highlight-color:transparent;align-self:center}
+/* v41: Threaded replies + 1-on-1 chat */
+nav button{position:relative}
+.nbadge{position:absolute;top:4px;left:calc(50% + 8px);min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--coral);color:#fff;font:700 10px/16px Inter,sans-serif;text-align:center}
+.nbadge2{flex:none;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--coral);color:#fff;font:700 11px/20px Inter,sans-serif;text-align:center}
+.cmn{cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
+.cma{margin-top:2px}
+.cmrp{background:none;border:0;color:var(--mute);font:600 12px "Noto Sans Myanmar",Inter,sans-serif;padding:2px 0;cursor:pointer}
+.cmrs{margin-left:40px;border-left:2px solid var(--line);padding-left:10px}
+.cm.rp{border-top:0;padding:6px 0}
+.cmtog{background:none;border:0;color:var(--gold);font:600 12px "Noto Sans Myanmar",Inter,sans-serif;padding:6px 0;cursor:pointer}
+.crb{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;padding:6px 10px;border-radius:12px;background:var(--panel);color:var(--mute);font-size:12.5px}
+.crb .cclose{font-size:16px;padding:0 4px}
+.chatv{position:fixed;inset:0;z-index:10002;background:var(--bg);display:none}
+.chatv.open{display:block}
+.chin{width:100%;max-width:520px;height:100%;height:100dvh;margin:0 auto;display:flex;flex-direction:column}
+.chh{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 10px;border-bottom:1px solid var(--line)}
+.chb{background:none;border:0;color:var(--text);font-size:24px;line-height:1;padding:4px 8px;cursor:pointer}
+.chn{font-size:16px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#cmsgs{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px;display:flex;flex-direction:column;gap:6px}
+.bub{max-width:78%;padding:8px 12px;border-radius:18px;font-size:14px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.bub.me{align-self:flex-end;background:linear-gradient(90deg,#ff7a5c,var(--coral));color:#fff;border-bottom-right-radius:6px}
+.bub.th{align-self:flex-start;background:var(--panel);border:1px solid var(--line);border-bottom-left-radius:6px}
+.btm{font-size:10.5px;opacity:.7;margin-top:2px;text-align:right}
+.bday{align-self:center;color:var(--mute);font-size:11px;padding:6px 0}
+.chf{display:flex;align-items:flex-end;gap:8px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.chf .in{flex:1;min-width:0;width:auto;margin:0;resize:none;max-height:120px}
+.chf .chip{flex:none;white-space:nowrap}
+.chsub{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chtm{flex:none;color:var(--mute);font-size:11.5px}
+#cres{margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -261,6 +291,7 @@ nav button{min-width:0}
 <nav><div id="nav"></div></nav>
 <div class="sheet" id="sheet" data-a="shade"><div id="sb"></div></div>
 <div class="csheet" id="csheet" data-a="cshade"><div class="cpanel" id="cpanel"></div></div>
+<div class="chatv" id="chatv"></div>
 <div class="toast" id="toast"></div>
 <script src="config.js?v=25"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
