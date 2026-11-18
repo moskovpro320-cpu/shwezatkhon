@@ -1654,18 +1654,3 @@ window.addEventListener("unhandledrejection",function(e){var rs=e&&e.reason,nm=r
  initAuth().catch(function(e){showErr(t("auth_err",e&&e.message||e))});
 })();
 })();
-
-// App Launch Splash Screen: Full-screen Splash ကို ၅ စက္ကန့်တိတိ (5000ms) ပြပြီးမှ ပင်မစာမျက်နှာသို့ Smooth ဝင်မည်
-(function(){
-  var SPLASH_MS=5000;            // ← ပြသချိန် (milliseconds)
-  var splash=document.getElementById('splash-screen');
-  if(!splash)return;
-  var t0=window.__SPLASH_T0||Date.now();   // Splash စပေါ်ချိန်ကစပြီး တွက်မည် (index.html ထဲက script က သတ်မှတ်သည်)
-  var closed=false;
-  function closeSplash(){
-    if(closed)return; closed=true;
-    splash.classList.add('hide');                                  // Fade-out (.6s)
-    setTimeout(function(){ if(splash.parentNode)splash.remove() },700);
-  }
-  setTimeout(closeSplash,Math.max(0,SPLASH_MS-(Date.now()-t0)));
-})();
