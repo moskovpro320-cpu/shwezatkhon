@@ -2,6 +2,26 @@
 <html lang="my">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<style>
+:root{--bg:#120d0b;--line:#3a2a24;--gold:#e3b765;--coral:#ff6a55;--mute:#a8978a;color-scheme:dark}
+html,body{background:#120d0b;margin:0}
+#splash-screen{position:fixed;inset:0;z-index:99999;background:radial-gradient(circle at 50% 42%,#2a1a14 0%,var(--bg) 62%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .6s ease,transform .6s ease,visibility .6s;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+#splash-screen.hide{opacity:0;transform:scale(1.06);visibility:hidden;pointer-events:none}
+#splash-screen .sp-logo{position:relative;width:110px;height:110px;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.5);animation:spZoom .8s cubic-bezier(.2,.9,.3,1.2) 0s forwards}
+#splash-screen .sp-logo svg{width:100%;height:100%;filter:drop-shadow(0 8px 24px rgba(255,106,85,.35))}
+#splash-screen .sp-logo::before,#splash-screen .sp-logo::after{content:"";position:absolute;inset:-10px;border-radius:32px;border:2px solid var(--gold);opacity:0;animation:spRing 2s ease-out .8s infinite}
+#splash-screen .sp-logo::after{animation-delay:1.8s}
+#splash-screen .sp-name{font-size:26px;font-weight:700;color:var(--gold);letter-spacing:.5px;opacity:0;transform:translateY(12px);animation:spUp .8s ease 0s forwards}
+#splash-screen .sp-sub{font-size:13px;color:var(--mute);opacity:0;animation:spUp .8s ease 0s forwards}
+#splash-screen .sp-bar{width:140px;height:3px;border-radius:3px;background:var(--line);overflow:hidden;opacity:0;animation:spUp .8s ease 0s forwards}
+#splash-screen .sp-bar i{display:block;height:100%;width:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--coral));transform:translateX(-100%);animation:spFill 5s linear 0s forwards}
+@keyframes spZoom{to{opacity:1;transform:scale(1)}}
+@keyframes spUp{to{opacity:1;transform:none}}
+@keyframes spRing{0%{opacity:.6;transform:scale(.9)}100%{opacity:0;transform:scale(1.5)}}
+@keyframes spFill{to{transform:translateX(0)}}
+@media (prefers-reduced-motion:reduce){#splash-screen *{animation-duration:.01s!important;animation-delay:0s!important;animation-iteration-count:1!important}}
+</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ရွှေဇာတ်ခုံ (Shwe Zat Khon) - Official App Download</title>
 <meta name="description" content="ရွှေဇာတ်ခုံ (Shwe Zat Khon) ဇာတ်လမ်းတိုများ ကြည့်ရှုရန် Official Android App (APK) ကို အခမဲ့ ဒေါင်းလုဒ်ရယူပါ။">
@@ -26,11 +46,17 @@
  }
 }catch(e){}})();
 </script>
+<!-- v44: CDN / Font / Video host တွေကို ကြိုချိတ် (DNS+TLS ကြိုလုပ်) – Supabase origin ကို app.js က JS နဲ့ ထပ်ထည့်ပေး -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://res.cloudinary.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="manifest" href="manifest.json?v=25">
 <meta name="theme-color" content="#120d0b">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+Myanmar:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+Myanmar:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+Myanmar:wght@400;600;700&display=swap"></noscript>
 <style>
 :root{--bg:#120d0b;--panel:#1f1512;--line:#3a2a24;--gold:#e3b765;--coral:#ff6a55;--text:#f6ece0;--mute:#a8978a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;margin:0}
@@ -108,7 +134,10 @@ nav button.on{color:var(--gold)}
 .prof{display:flex;gap:14px;align-items:center;padding:8px 16px 18px}
 .av{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--coral));display:flex;align-items:center;justify-content:center;font-size:26px;color:#1a1210}
 .player video{width:100%;height:100%;border-radius:14px;background:#000;object-fit:cover;display:block}.player video:fullscreen{object-fit:contain}.player video:-webkit-full-screen{object-fit:contain}
-.player.v{padding:0}
+.player.v{padding:0;position:relative;contain:layout paint}
+.vspin{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:var(--gold);z-index:3;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .2s ease .3s,visibility 0s linear .5s}
+.vspin.on{opacity:1;visibility:visible;animation:vspin .8s linear infinite;transition:opacity .2s ease .3s,visibility 0s}
+@keyframes vspin{to{transform:rotate(360deg)}}
 .ep.cur{outline:2px solid var(--gold)}.ep.has{color:var(--gold)}
 .in{display:block;width:calc(100% - 32px);margin:0 16px 10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text);font:inherit}
 #err{display:none;background:#7a1f1f;color:#fff;padding:8px 14px;font-size:13px}
@@ -361,9 +390,18 @@ nav button.on svg{fill:rgba(227,183,101,.3)}
 .imgv.open{display:flex;animation:ucmf .18s ease-out}
 .imgv img{max-width:100%;max-height:100%;object-fit:contain}
 .imgx{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;width:40px;height:40px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+/* ===== v43: Comment avatar -> chat · Save photo ===== */
+.cmav{cursor:pointer;box-shadow:0 0 0 1.5px rgba(227,183,101,.4);transition:transform .15s;-webkit-tap-highlight-color:transparent}
+.cmav:active{transform:scale(.9)}
+.imgsv{position:absolute;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);height:46px;padding:0 24px;border:0;border-radius:23px;background:rgba(255,255,255,.18);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;display:flex;align-items:center;gap:8px;font:600 14.5px "Noto Sans Myanmar",Inter,sans-serif;white-space:nowrap;cursor:pointer}
+.imgsv:active{background:rgba(255,255,255,.28)}
+.imgsv:disabled{opacity:.55}
+.imgv img{max-height:calc(100% - 90px)}
 </style>
 </head>
 <body>
+<div id="splash-screen" role="status" aria-label="Loading"><div class="sp-logo"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3b765"/><stop offset="1" stop-color="#ff6a55"/></linearGradient></defs><rect width="40" height="40" rx="10" fill="url(#lg2)"/><path d="M16 11l15 9-15 9z" fill="#120d0b"/><g fill="#120d0b" opacity=".45"><circle cx="7" cy="11" r="1.7"/><circle cx="7" cy="20" r="1.7"/><circle cx="7" cy="29" r="1.7"/></g></svg></div><div class="sp-name">ရွှေဇာတ်ခုံ</div><div class="sp-sub">Shwe Zat Khon</div><div class="sp-bar"><i></i></div></div>
+<script>(function(){var n=Date.now(),t=n;try{var s=+sessionStorage.getItem("sp_t0");if(s&&n-s>=0&&n-s<5000)t=s;else sessionStorage.setItem("sp_t0",n)}catch(e){}window.__SPLASH_T0=t})()</script>
 <header><span class="logo serif" id="hlogo"><svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3b765"/><stop offset="1" stop-color="#ff6a55"/></linearGradient></defs><rect width="40" height="40" rx="10" fill="url(#lg)"/><path d="M16 11l15 9-15 9z" fill="#120d0b"/><g fill="#120d0b" opacity=".45"><circle cx="7" cy="11" r="1.7"/><circle cx="7" cy="20" r="1.7"/><circle cx="7" cy="29" r="1.7"/></g></svg>ရွှေဇာတ်ခုံ</span><button class="pill" id="hrw" data-a="pfdaily" hidden></button><span class="coins" id="ct" data-a="tab" data-v="rewards">Login</span></header>
 <div id="err"></div>
 <main id="app"></main>
@@ -378,7 +416,7 @@ nav button.on svg{fill:rgba(227,183,101,.3)}
 <script>window.supabase||document.write('<script src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"><\/script>')</script>
 <script>window.supabase||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/supabase-js/2.45.4/umd/supabase.min.js"><\/script>')</script>
 <script src="i18n.js?v=37"></script>
-<script src="app.js?v=39"></script>
+<script src="app.js?v=44"></script>
 
 <script>
 /* v25: Netlify badge ဖျောက် (ပေါ့ပါးတဲ့ ပုံစံ)
