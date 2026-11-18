@@ -51,9 +51,6 @@ en:{n_chat:"Chat",cm_reply:"Reply",cm_replying:"Replying to {0}",cm_view_rep:"Vi
  ch_title:"Chat",ch_search_ph:"Find people by name (min. 2 letters)",ch_login:"Log in to chat",ch_none:"No conversations yet – search above or tap a name in the comments",
  ch_ph:"Type a message...",ch_send:"Send",ch_empty:"Say hi 👋",ch_you:"You: ",ch_need_sql:"Run supabase-v41-reply-chat.sql in Supabase first",ch_nores:"No one found",ch_self:"You can’t chat with yourself",ch_fast:"Sending too fast – wait a moment",ch_fail:"Couldn’t send: {0}",ch_loading:"Please wait...",ch_chat_tip:"Tap to chat",ch_photo:"📷 Photo",ch_photo_btn:"Send a photo",ch_photo_exp:"This photo was deleted after 7 days",ch_photo_note:"Photos are deleted automatically after 7 days",ch_days_left:"{0}d left",ch_sending_img:"Sending photo...",ch_img_big:"Photo too large (max 25MB)",ch_need_sql2:"Run supabase-v42-chat-photos.sql in Supabase first",ch_seen:"Seen",ch_close:"Close",ch_save:"Save to phone",ch_saved:"✅ Photo saved",ch_save_fail:"Couldn’t save – press and hold the photo to save it"}};
 ["my","en"].forEach(function(l){I18N[l]=I18N[l]||{};for(var k in A[l])I18N[l][k]=A[l][k]})})();
-/* v44: Video faststart သတိပေးချက် */
-(function(){var A={my:{no_faststart:"⚠️ ဒီ mp4 က faststart မဟုတ်ပါ – စကြည့်ရတာ နှေးပါမယ်။ ffmpeg -movflags +faststart နဲ့ ပြန်ထုတ်ပါ"},en:{no_faststart:"⚠️ This mp4 is not faststart – playback will start slowly. Re-export with ffmpeg -movflags +faststart"}};
-["my","en"].forEach(function(l){I18N[l]=I18N[l]||{};for(var k in A[l])I18N[l][k]=A[l][k]})})();
 var NAV={hd:0,nb:0,nr:0};
 var BOOT={qs:new URLSearchParams(location.search),hs:new URLSearchParams((location.hash||"").replace(/^#/,"")),hash:location.hash||"",search:location.search||""};
 var BUCKET=C.BUCKET||"shwezat-media",MAXMB=C.MAXMB||50;
@@ -90,18 +87,6 @@ function col(c,d){return /^#[0-9a-f]{3,8}$/i.test(c||"")?c:d}
 function bg(d){
  if(d.cover)return"background-color:"+col(d.a,"#3a2a5a")+";background-image:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(10,6,4,.85)),url('"+encodeURI(d.cover).replace(/['()]/g,escape)+"');background-size:cover;background-position:center";
  return"background:linear-gradient(160deg,"+col(d.a,"#3a2a5a")+","+col(d.b,"#c06a8a")+" 150%)"}
-/* ===== v44: Lazy cover – CSS background-image ကို မျက်နှာပြင်နားရောက်မှသာ ဆွဲ ===== */
-var BGGRAD="linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(10,6,4,.85))",LZ=null;
-function bgAttr(d){
- if(!d.cover)return'style="'+bg(d)+'"';
- return'style="background-color:'+col(d.a,"#3a2a5a")+';background-size:cover;background-position:center" data-bg="'+esc(encodeURI(d.cover).replace(/['()]/g,escape))+'"'}
-function lzApply(el){var u=el.getAttribute("data-bg");if(!u)return;el.removeAttribute("data-bg");el.style.backgroundImage=BGGRAD+",url('"+u+"')"}
-function lzScan(root){var l=(root||document).querySelectorAll("[data-bg]");for(var i=0;i<l.length;i++){if(LZ)LZ.observe(l[i]);else lzApply(l[i])}}
-function lazyInit(){
- if("IntersectionObserver" in window)LZ=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){LZ.unobserve(e.target);lzApply(e.target)}})},{rootMargin:"300px"});
- if(!window.MutationObserver||!document.body){lzScan();return}
- var q=0;new MutationObserver(function(){if(q)return;q=requestAnimationFrame(function(){q=0;lzScan()})}).observe(document.body,{childList:true,subtree:true});
- lzScan()}
 function isVip(){return!!(S.me&&S.me.is_vip)}
 function locked(d,n){return!(isAdm()||isVip()||d.price<=0||n<=d.free||S.un[d.id+"_"+n])}
 function pubUrl(p){return p?(/^https?:/i.test(p)?p:SB.storage.from(BUCKET).getPublicUrl(p).data.publicUrl):null}
@@ -184,9 +169,9 @@ function parseViews(x){var m=String(x==null?"":x).replace(/[,\s_]/g,"").match(/^
 /* v39: Admin Like Editor – likes (150 / "1.2K") ကို Admin က စိတ်ကြိုက်ပြင်၊ DB မှာသိမ်း၊ လူတိုင်းမြင် */
 function likeBtn(d){return isVE()?'<button class="ledit" type="button" data-a="editlikes" data-v="'+esc(d.id)+'" aria-label="Edit likes" title="Edit likes">♥ '+fmt(d.lk||0)+' ✎</button>':""}
 function likeIcon(d){return isVE()?'<button class="lpen" type="button" data-a="editlikes" data-v="'+esc(d.id)+'" aria-label="Edit likes" title="Edit likes">✎</button>':""}
-function poster(d,tag){return'<div class="poster" '+bgAttr(d)+'>'+(tag?'<span class="tag">Hot</span>':"")+"</div>"}
-function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span>"+likeBtn(d)+editBtn(d)+"</div>"+'<p class="ct">'+esc(d.t)+'</p><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div></div>"}
-function row(d,n){var tag=S.live&&!S.noExt?!!d.hot:false,adm=likeBtn(d)+editBtn(d);return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+'<div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span></div>"+'<div class="info"><p class="ct">'+esc(d.t)+'</p><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div>"+(adm?'<div class="racts">'+adm+"</div>":"")+"</div></div>"}
+function poster(d,tag){return'<div class="poster" style="'+bg(d)+'">'+(tag?'<span class="tag">Hot</span>':"")+"</div>"}
+function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span>"+likeBtn(d)+editBtn(d)+"</div>"+'<p class="ct">'+esc(d.t)+"</p></div>"}
+function row(d,n){return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+poster(d)+'<div class="info"><strong>'+esc(d.t)+'</strong><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div><span class="heat">▶ '+fmt(d.v)+"</span>"+likeBtn(d)+editBtn(d)+"</div>"}
 function note(x){return'<p class="note">'+x+"</p>"}
 var GSVG='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
 function h3(x,big){return'<h3 class="serif"'+(big?' style="font-size:24px"':"")+">"+x+"</h3>"}
@@ -205,9 +190,7 @@ function heroHtml(){
  p.l.forEach(function(x,i){var d=x.d;
   var pic=d.cover?'<img class="hpic" alt="" loading="'+(i?"lazy":"eager")+'" decoding="async" src="'+esc(d.cover)+'" onerror="this.style.display=\'none\'">':"";
   var fb="background:linear-gradient(160deg,"+col(d.a,"#3a2a5a")+","+col(d.b,"#c06a8a")+" 150%)";
-    // x.v (ဒီတစ်ပတ် view) အစား d.v (စုစုပေါင်း view) ကို သုံးထားသည်
-  h+='<div class="hslide" data-a="open" data-v="'+esc(d.id)+'"><div class="hpw" style="position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;'+fb+'">'+pic+'<span class="tag">#'+(i+1)+' TOP</span><span class="pvg" style="position:absolute;left:0;right:0;bottom:0;height:42px;background:linear-gradient(transparent,rgba(0,0,0,.55));pointer-events:none"></span><span class="pv" style="position:absolute;left:8px;bottom:6px;color:#fff;font:700 12px Inter,sans-serif;text-shadow:0 1px 4px rgba(0,0,0,.85);pointer-events:none">▶ '+fmt(d.v||0)+'</span>'+editBtn(d)+'</div><p class="ct" style="font-weight:600;font-size:16px;line-height:1.45;margin-top:8px;word-break:break-word;overflow-wrap:anywhere">'+esc(d.t)+'</p><div class="sub" style="color:var(--mute);font-size:13.5px;margin-top:2px">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div>';
- });
+  h+='<div class="hslide" data-a="open" data-v="'+esc(d.id)+'" style="'+fb+'">'+pic+'<div class="hshade"></div><span class="hrk">#'+(i+1)+' TOP</span><div class="meta"><span class="heat">▶ '+t("viewed",fmt(x.v))+(p.mode==="wk"?" · "+t("hero_wk"):"")+'</span><h2>'+esc(d.t)+'</h2><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div></div></div>"});
  h+='</div><div class="hdots" id="hdots">'+p.l.map(function(x,i){return'<button class="hdot'+(i===0?" on":"")+'" data-a="hgo" data-v="'+i+'" aria-label="'+(i+1)+'"></button>'}).join("")+"</div></div>";
  return{html:h,key:p.mode+":"+p.l.map(function(x){return x.d.id}).join(",")}}
 function heroInit(){
@@ -317,7 +300,7 @@ function settings(){
 function pfGrid(m){
  var L=S.dr.filter(function(d){return d.o===m.id||(m.is_admin&&!d.o)});
  if(!L.length)return note(t("pf_none"));
- return'<div class="pgrid">'+L.map(function(d){return'<div class="pcell" data-a="open" data-v="'+esc(d.id)+'" '+bgAttr(d)+'><span class="pv">▶ '+fmt(d.v||0)+'</span>'+likeBtn(d)+editBtn(d)+'</div>'}).join("")+"</div>"}
+ return'<div class="pgrid">'+L.map(function(d){return'<div class="pcell" data-a="open" data-v="'+esc(d.id)+'" style="'+bg(d)+'"><span class="pv">▶ '+fmt(d.v||0)+'</span>'+likeBtn(d)+editBtn(d)+'</div>'}).join("")+"</div>"}
 function profile(){
  if(!SB)return h3(t("conn_fail"),1)+note(t("conn_note"))+'<button class="btn" data-a="reload">'+t("retry")+"</button>"+langBox();
  if(S.recov)return newPwForm();
@@ -798,47 +781,6 @@ async function epUrl(d,n){
  var o={url:u||null,path:path};
  if(u)VC[k]=o;
  return o}
-/* ===== v44: Video Performance – Preload / Pre-warm / Stall-recovery ===== */
-var NETC=navigator.connection||navigator.mozConnection||navigator.webkitConnection||null;
-function slowNet(){return!!(NETC&&(NETC.saveData||/2g$/.test(NETC.effectiveType||"")))}
-var WARM={};
-function warmOrigin(u){try{var o=new URL(u,location.href).origin;if(o===location.origin||WARM[o])return;WARM[o]=1;var l=document.createElement("link");l.rel="preconnect";l.href=o;document.head.appendChild(l)}catch(e){}}
-/* config.js မှာ VIDEO_OPT:true ထည့်ရင် Cloudinary ဗီဒီယိုကို 720p/eco နဲ့ ပေး – မရရင် original URL ကို အလိုအလျောက် ပြန်သုံး */
-function vOpt(u){
- if(C.VIDEO_OPT!==true||typeof u!=="string")return u;
- var m=/^(https:\/\/res\.cloudinary\.com\/[^\/]+\/video\/upload\/)(v\d+\/.+)$/.exec(u);
- return m?m[1]+"q_auto:eco,vc_h264,w_720,c_limit/"+m[2]:u}
-var CURV=null,PRE={k:"",u:"",v:null};
-function dropVid(o){if(!o)return;o.onerror=null;o._dead=1;try{if(o._sv)o._sv();o.pause();o.removeAttribute("src");o.load()}catch(e){}}
-function killVid(){dropVid(CURV);CURV=null}
-function dropPre(){dropVid(PRE.v);PRE={k:"",u:"",v:null}}
-function takePre(d,n,u){
- if(PRE.v&&PRE.k===vkey(d,n)&&PRE.u===u){var v=PRE.v;PRE={k:"",u:"",v:null};return v}
- dropPre();return null}
-function bufAhead(v){var b=v.buffered,c=v.currentTime;for(var i=0;i<b.length;i++)if(c>=b.start(i)-.1&&c<=b.end(i))return b.end(i)-c;return 0}
-/* full=false → URL ကိုပဲ cache ထဲ ကြိုယူ + connection ကြိုဖွင့် · full=true → ဗီဒီယိုကိုပါ ကြိုဒေါင်း (hidden <video>) */
-async function prewarm(d,n,full){
- if(!d||n<1||n>d.eps||!d.vids[n]||locked(d,n)||slowNet())return;
- var k=vkey(d,n);if(full&&PRE.k===k)return;
- var info;try{info=await epUrl(d,n)}catch(e){return}
- var u=info&&info.url;
- if(!u||!sheetOpen()||find(S.sel)!==d)return;
- warmOrigin(u);
- if(!full||PRE.k===k)return;
- dropPre();
- var v=document.createElement("video");v.preload="auto";v.playsInline=true;v.setAttribute("playsinline","");
- if(d.cover)v.poster=d.cover;
- v.src=vOpt(u);PRE={k:k,u:u,v:v}}
-/* faststart (moov atom ရှေ့ဆုံး) မဟုတ်တဲ့ mp4 က စတင်ကြည့်ရတာ နှေးတဲ့ အဓိကအကြောင်းရင်း – upload ချိန်မှာ စစ် */
-function fastStartOk(f){return new Promise(function(res){
- try{var r=new FileReader();
-  r.onload=function(){try{var b=new DataView(r.result),o=0,L=b.byteLength;
-   while(o+8<=L){var sz=b.getUint32(o),ty=String.fromCharCode(b.getUint8(o+4),b.getUint8(o+5),b.getUint8(o+6),b.getUint8(o+7));
-    if(ty==="moov"){res(true);return}if(ty==="mdat"){res(false);return}
-    if(sz===1){sz=b.getUint32(o+12)}if(sz<8)break;o+=sz}
-   res(null)}catch(e){res(null)}};
-  r.onerror=function(){res(null)};r.readAsArrayBuffer(f.slice(0,262144))}catch(e){res(null)}})}
-window.addEventListener("online",function(){var v=CURV;if(v&&v._rec&&!v.paused&&v.readyState<3)v._rec()});
 var SPD=[0.75,1,1.25,1.5,2];
 function spdBar(){return'<div id="pc" class="chips" style="padding:10px 0 0;display:none">'+SPD.map(function(s){return'<button class="chip '+(S.spd===s?"on":"")+'" data-a="speed" data-v="'+s+'">'+s+'x</button>'}).join("")+'<button class="chip" data-a="full">'+t("immersive")+'</button></div>'}
 function applySpd(){var v=document.querySelector("#pl video");if(v)v.playbackRate=S.spd;var fb=$("#fsspd");if(fb)fb.textContent=spdTxt(S.spd);var fc=document.querySelectorAll(".fssp");for(var q=0;q<fc.length;q++)fc[q].className="fssp"+(+fc[q].getAttribute("data-v")===S.spd?" on":"");var pc=$("#pc");if(pc){var b=pc.querySelectorAll("[data-a=speed]");for(var i=0;i<b.length;i++)b[i].className="chip"+(+b[i].getAttribute("data-v")===S.spd?" on":"")}}
@@ -867,39 +809,8 @@ function showVideo(d,n,u){
  var pc=$("#pc");if(pc)pc.style.display=u?"flex":"none";
  if(!u){pl.className="player";pl.innerHTML='<div><div style="font-size:40px">⏸</div><b>'+t("ep_title",n)+'</b><div class="sub" style="margin-top:6px">'+t("no_video")+'</div></div>';return}
  pl.className="player v"+(S.fs?(S.fsDir<0?" fsdn":" fsup"):"");S.fsDir=0;pl.innerHTML="";
- var v=takePre(d,n,u)||document.createElement("video");CURV=v;
- v.controls=!S.fs;v.playsInline=true;v.setAttribute("playsinline","");v.preload=slowNet()?"metadata":"auto";
- if(d.cover&&!v.poster)v.poster=d.cover; /* ဗီဒီယိုမစခင် မျက်နှာပြင်မဲမနေဘဲ Cover ပြ */
- warmOrigin(u);
- if(!v.getAttribute("src"))v.src=vOpt(u);
- var sp=document.createElement("div");sp.className="vspin";sp.setAttribute("aria-hidden","true");
- function spin(on){sp.classList.toggle("on",!!on)}
- var tries=0,orig=(vOpt(u)===u),wd=0;
- function reload(src,at){
-  spin(1);v.src=src;
-  v.addEventListener("loadedmetadata",function f(){v.removeEventListener("loadedmetadata",f);
-   if(at>1&&isFinite(v.duration)&&at<v.duration-1){try{v.currentTime=at}catch(e){}}
-   var q=v.play();if(q&&q.catch)q.catch(function(){spin(0)})})}
- /* Error / ၁၀ စက္ကန့်ကျော် Buffer ထဲပိတ်နေရင်: Optimize URL → Original URL → အကြိမ် ၃ ခါ ပြန်ကြိုးစား (ရပ်ခဲ့တဲ့ စက္ကန့်ကနေ ဆက်) */
- function recover(){
-  if(v._dead||!v.isConnected)return;
-  var at=v.currentTime||0;
-  if(!orig){orig=true;reload(u,at);return}
-  if(tries<3){tries++;setTimeout(function(){if(!v._dead&&v.isConnected)reload(u,at)},600*tries);return}
-  spin(0);toast(t("vid_fail"))}
- v._rec=function(){tries=0;recover()};
- v.onerror=recover;
- v.addEventListener("waiting",function(){spin(1);clearTimeout(wd);wd=setTimeout(function(){if(!v._dead&&v.isConnected&&!v.paused&&v.readyState<3)recover()},10000)});
- ["playing","pause","ended","error"].forEach(function(ev){v.addEventListener(ev,function(){spin(0);clearTimeout(wd);if(ev==="playing")tries=0})});
- /* နောက်အပိုင်း ကြိုဒေါင်း – လက်ရှိအပိုင်း ၁၀ စက္ကန့်စာ Buffer ရပြီးမှ (လက်ရှိဗီဒီယိုနဲ့ bandwidth မပြိုင်စေဖို့) */
- var warmed=false;
- function warmNext(){
-  if(warmed||v._dead||!v.isConnected)return;
-  var left=isFinite(v.duration)?v.duration-v.currentTime:99;
-  if(bufAhead(v)<Math.min(10,left-.5))return;
-  warmed=true;prewarm(d,n+1,true);if(S.fs)prewarm(d,n-1,false)}
- v.addEventListener("progress",warmNext);v.addEventListener("timeupdate",warmNext);
- v.addEventListener("playing",function f(){v.removeEventListener("playing",f);prewarm(d,n+1,false)});
+ var v=document.createElement("video");v.controls=!S.fs;v.playsInline=true;v.setAttribute("playsinline","");v.preload=S.fs?"auto":"metadata";v.src=u;
+ v.onerror=function(){toast(t("vid_fail"))};
  v.addEventListener("loadedmetadata",function(){v.playbackRate=S.spd;if(S.fs&&v.videoWidth&&v.videoHeight)v.style.objectFit=v.videoWidth/v.videoHeight<.8?"cover":"contain"});
  v.addEventListener("timeupdate",function(){if(!v.isConnected)return;var f=document.getElementById("fsfill");if(f&&v.duration)f.style.width=(v.currentTime/v.duration*100)+"%"});
  v.addEventListener("play",function(){var p=document.getElementById("fsplay");if(p&&v.isConnected)p.className="fsplay"});
@@ -907,17 +818,15 @@ function showVideo(d,n,u){
  v.onended=function(){var nx=n+1;if(nx<=d.eps&&d.vids[nx]&&!locked(d,nx)){toast(t("next_auto",nx));playEp(nx)}};
  var rt=0;if(S.rsm&&S.rsm.id===d.id&&S.rsm.n===n){rt=S.rsm.t||0;S.rsm=null}
  var wok=!(rt>1),wlast=0;
- v._sv=function(){if(wok&&v.currentTime&&!v.ended)wSet(d.id,n,v.currentTime)};
  v.addEventListener("loadedmetadata",function(){
   if(rt>1&&isFinite(v.duration)&&rt<v.duration-3){try{v.currentTime=rt}catch(e){}}
   wok=true});
  v.addEventListener("timeupdate",function(){if(!wok||!v.currentTime)return;var now=Date.now();if(now-wlast>3000){wlast=now;wSet(d.id,n,v.currentTime)}});
  v.addEventListener("pause",function(){if(wok&&v.currentTime&&!v.ended)wSet(d.id,n,v.currentTime)});
  v.addEventListener("ended",function(){wSet(d.id,n,0)});
- if(v.readyState>=1)v.dispatchEvent(new Event("loadedmetadata")); /* ကြိုဒေါင်းထားတဲ့ element ကို ပြန်သုံးရင် metadata handler တွေ အလုပ်လုပ်စေ */
- pl.appendChild(v);pl.appendChild(sp);if(v.readyState<3)spin(1);v.playbackRate=S.spd;var p=v.play();
+ pl.appendChild(v);v.playbackRate=S.spd;var p=v.play();
  /* autoplay ကို browser က တားရင် Play အိုင်ကွန်ပြ – မဟုတ်ရင် မျက်နှာပြင်မဲနေပြီး ဘာလုပ်ရမှန်းမသိ */
- if(p&&p.catch)p.catch(function(){spin(0);var fp=document.getElementById("fsplay");if(fp&&S.fs&&v.isConnected&&v.paused)fp.className="fsplay show"});
+ if(p&&p.catch)p.catch(function(){var fp=document.getElementById("fsplay");if(fp&&S.fs&&v.isConnected&&v.paused)fp.className="fsplay show"});
  if(SB&&S.live&&S.me&&!viewSeen(d.id,n)){var viewSent=false,played=0,last=null;
   v.addEventListener("seeking",function(){last=null});
   v.addEventListener("timeupdate",function(){
@@ -966,7 +875,7 @@ async function playEp(n,ok){var go=S.fsReq;S.fsReq=false;
   if(!SB||!S.live){toast(t("need_backend"));return}
   if(!S.me){toast(t("need_login"));closeSheet();S.tab="me";render();return}
   /* v25: ဗီဒီယိုမတင်ရသေးတဲ့ အပိုင်းအတွက် Coin မနှုတ် */
-  if(!hasEp){killVid();S.ep=n;if(go)S.fs=true;sheet();showVideo(d,n,null);return}
+  if(!hasEp){S.ep=n;if(go)S.fs=true;sheet();showVideo(d,n,null);return}
   /* v30: Coin မဖြတ်ခင် အတည်ပြုချက် အရင်မေး – "ဖွင့်ကြည့်မည်" နှိပ်မှ ဆက်လုပ် */
   if(!ok){if((+S.me.coins||0)<(+d.price||FIXED_PRICE)){toast(t("no_coin",d.price));return}ucmShow(d,n,go);return}
   var before=+S.me.coins||0;
@@ -974,7 +883,6 @@ async function playEp(n,ok){var go=S.fsReq;S.fsReq=false;
   if(r.error){toast(/enough/i.test(r.error.message)?t("no_coin",d.price):t("unlock_fail"));return}
   S.un[d.id+"_"+n]=1;
   if(typeof r.data==="number"){S.me.coins=r.data;updTop();if(r.data<before)toast(t("unlocked",before-r.data))}}
- killVid(); /* sheet() က DOM ပြန်ရေးမှာမို့ အရင်ဗီဒီယိုကို Network/Memory ပါ ရပ်ပစ် */
  S.ep=n;if(go)S.fs=true;sheet();
  var u=cfgVid(d,n);
  if(hasEp){
@@ -985,7 +893,7 @@ async function playEp(n,ok){var go=S.fsReq;S.fsReq=false;
   if(info.error){toast(info.locked?t("fs_lock",n):t("failed",info.error));showVideo(d,n,null);return}
   u=info.url||u}
  showVideo(d,n,u)}
-function closeSheet(){S.fs=false;S.fsReq=false;S.rsm=null;csClose();$("#sheet").className="sheet";var v=document.querySelector("#pl video");if(v)v.pause();dropPre();navSync()}
+function closeSheet(){S.fs=false;S.fsReq=false;S.rsm=null;csClose();$("#sheet").className="sheet";var v=document.querySelector("#pl video");if(v)v.pause();navSync()}
 
 /* ---------- storage helpers ---------- */
 function upl(path,f,cb){
@@ -1044,7 +952,7 @@ async function loadDr(){
  loadWeekly();
  loadCC(S.dr.map(function(d){return d.o})).then(function(){var b=$("#by"),d=find(S.sel);if(b&&d)b.innerHTML=byHtml(d)})}
 async function setUser(ses){
- VC={};dropPre(); /* user ပြောင်း/logout လုပ်ရင် မှတ်ထားတဲ့ ဗီဒီယို URL cache ရှင်း */
+ VC={}; /* user ပြောင်း/logout လုပ်ရင် မှတ်ထားတဲ့ ဗီဒီယို URL cache ရှင်း */
  if(!ses){S.me=null;S.un={};chatRtStop();S.chat=null;S.inbox=null;S.chatUn=0;var cv=$("#chatv");if(cv){cv.className="chatv";cv.innerHTML=""}imgShut();render();return}
  var em=String(ses.user.email||""),isAd=em.toLowerCase()===ADMIN_EMAIL;
  var meta=ses.user.user_metadata||{},nm=meta.name||meta.full_name||em;
@@ -1699,13 +1607,12 @@ document.addEventListener("change",async function(e){
  if(c==="pick"){el.value="";if(f)pickUp(f,el.getAttribute("data-t"),el.getAttribute("data-k"));return}
  if(c==="avatar"){el.value="";if(f)setAvatar(f);return}
   if(c==="chatimg"){el.value="";if(f)chatPick(f);return}
- if(c==="creatorCover"||c==="creatorVideo"||c==="creatorEpisodeVideo"){if(f){if(c==="creatorCover")S.creatorFiles.cover=f;else if(c==="creatorVideo")S.creatorFiles.video=f;else S.creatorFiles.episode=f;toast("ဖိုင်ရွေးပြီးပါပြီ");if(c!=="creatorCover")fastStartOk(f).then(function(ok){if(ok===false)toast(t("no_faststart"))})}return}
+ if(c==="creatorCover"||c==="creatorVideo"||c==="creatorEpisodeVideo"){if(f){if(c==="creatorCover")S.creatorFiles.cover=f;else if(c==="creatorVideo")S.creatorFiles.video=f;else S.creatorFiles.episode=f;toast("ဖိုင်ရွေးပြီးပါပြီ")}return}
  var d=find(S.sel);el.value="";if(!f||!d)return;
  if(c==="up"){
   if(!S.ep){toast(t("pick_ep_first"));return}
   if(f.type&&f.type.indexOf("video")!==0){toast(t("only_video"));return}
   if(f.size>MAXMB*1048576){toast(t("too_big",MAXMB,Math.round(f.size/1048576)));return}
-  if(await fastStartOk(f)===false)toast(t("no_faststart"));
   var n=S.ep,old=await oldPath(d,n),path="videos/"+d.id+"/"+n+"-"+Date.now()+"."+vidExt(f);
   setSt("upst",t("uploading"),0);
   var u=await upl(path,f,function(p){setSt("upst",t("uploading_s"),p)});
@@ -1742,8 +1649,6 @@ window.addEventListener("unhandledrejection",function(e){var rs=e&&e.reason,nm=r
   }
  }catch(e){}
  if(BOOT.qs.get("r")&&!BOOT.qs.get("code"))cleanUrl();
- if(C.SUPABASE_URL)warmOrigin(C.SUPABASE_URL);
- lazyInit();
  render();
  loadDr().then(function(){render();deepOpen()},function(){});
  initAuth().catch(function(e){showErr(t("auth_err",e&&e.message||e))});

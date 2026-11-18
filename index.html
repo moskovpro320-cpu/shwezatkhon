@@ -46,11 +46,6 @@ html,body{background:#120d0b;margin:0}
  }
 }catch(e){}})();
 </script>
-<!-- v44: CDN / Font / Video host တွေကို ကြိုချိတ် (DNS+TLS ကြိုလုပ်) – Supabase origin ကို app.js က JS နဲ့ ထပ်ထည့်ပေး -->
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="preconnect" href="https://res.cloudinary.com">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="manifest" href="manifest.json?v=25">
 <meta name="theme-color" content="#120d0b">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -134,10 +129,7 @@ nav button.on{color:var(--gold)}
 .prof{display:flex;gap:14px;align-items:center;padding:8px 16px 18px}
 .av{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--coral));display:flex;align-items:center;justify-content:center;font-size:26px;color:#1a1210}
 .player video{width:100%;height:100%;border-radius:14px;background:#000;object-fit:cover;display:block}.player video:fullscreen{object-fit:contain}.player video:-webkit-full-screen{object-fit:contain}
-.player.v{padding:0;position:relative;contain:layout paint}
-.vspin{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:var(--gold);z-index:3;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .2s ease .3s,visibility 0s linear .5s}
-.vspin.on{opacity:1;visibility:visible;animation:vspin .8s linear infinite;transition:opacity .2s ease .3s,visibility 0s}
-@keyframes vspin{to{transform:rotate(360deg)}}
+.player.v{padding:0}
 .ep.cur{outline:2px solid var(--gold)}.ep.has{color:var(--gold)}
 .in{display:block;width:calc(100% - 32px);margin:0 16px 10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text);font:inherit}
 #err{display:none;background:#7a1f1f;color:#fff;padding:8px 14px;font-size:13px}
@@ -416,7 +408,7 @@ nav button.on svg{fill:rgba(227,183,101,.3)}
 <script>window.supabase||document.write('<script src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"><\/script>')</script>
 <script>window.supabase||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/supabase-js/2.45.4/umd/supabase.min.js"><\/script>')</script>
 <script src="i18n.js?v=37"></script>
-<script src="app.js?v=44"></script>
+<script src="app.js?v=43"></script>
 
 <script>
 /* v25: Netlify badge ဖျောက် (ပေါ့ပါးတဲ့ ပုံစံ)
