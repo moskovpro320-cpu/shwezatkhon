@@ -46,10 +46,10 @@ en:{pick_genre:"Choose a genre",ph_desc:"Synopsis – a short summary of the sto
 (function(){var A={
 my:{n_chat:"ချတ်",cm_reply:"ပြန်စာ",cm_replying:"{0} ကို စာပြန်နေသည်",cm_view_rep:"ပြန်စာ {0} ခု ကြည့်မယ်",cm_hide_rep:"ပြန်စာ ဖျောက်မယ်",cm_ph_rep:"ပြန်စာရေးပါ...",
  ch_title:"ချတ်",ch_search_ph:"အမည်နဲ့ လူရှာပါ (အနည်းဆုံး ၂ လုံး)",ch_login:"ချတ်ဖို့ Login အရင်ဝင်ပါ",ch_none:"စကားပြောထားတာ မရှိသေးပါ – အပေါ်က ရှာဖွေရေးကနေ စတင်ပါ (သို့) မှတ်ချက်ထဲက အမည်ကို နှိပ်ပါ",
- ch_ph:"စာရိုက်ပါ...",ch_send:"ပို့မယ်",ch_empty:"စကားစပြောလိုက်ပါ 👋",ch_you:"သင်: ",ch_need_sql:"supabase-v41-reply-chat.sql ကို Supabase မှာ အရင် Run ပါ",ch_nores:"ရှာမတွေ့ပါ",ch_self:"ကိုယ့်ကိုယ်ကို ချတ်လို့မရပါ",ch_fast:"စာပို့တာ မြန်လွန်းနေပါတယ် – ခဏစောင့်ပါ",ch_fail:"ပို့မရပါ: {0}",ch_loading:"ခဏစောင့်ပါ...",ch_chat_tip:"ချတ်ရန် နှိပ်ပါ",ch_photo:"📷 ဓာတ်ပုံ",ch_photo_btn:"ဓာတ်ပုံပို့မယ်",ch_photo_exp:"ဓာတ်ပုံကို ၇ ရက်ပြည့်၍ ဖျက်ပြီးပါပြီ",ch_photo_note:"ဓာတ်ပုံကို ၇ ရက်ပြည့်လျှင် အလိုအလျောက် ဖျက်ပါမည်",ch_days_left:"{0} ရက်ကျန်",ch_sending_img:"ဓာတ်ပုံ ပို့နေပါသည်...",ch_img_big:"ဓာတ်ပုံ ကြီးလွန်းပါတယ် (၂၅MB အောက်)",ch_need_sql2:"supabase-v42-chat-photos.sql ကို Supabase မှာ အရင် Run ပါ",ch_seen:"ဖတ်ပြီး",ch_close:"ပိတ်မယ်",ch_save:"ဖုန်းထဲ သိမ်းမယ်",ch_saved:"✅ ဓာတ်ပုံ သိမ်းပြီးပါပြီ",ch_save_fail:"သိမ်းမရပါ – ပုံကို ဖိနှိပ်ထားပြီး သိမ်းပါ"},
+ ch_ph:"စာရိုက်ပါ...",ch_send:"ပို့မယ်",ch_empty:"စကားစပြောလိုက်ပါ 👋",ch_you:"သင်: ",ch_need_sql:"supabase-v41-reply-chat.sql ကို Supabase မှာ အရင် Run ပါ",ch_nores:"ရှာမတွေ့ပါ",ch_self:"ကိုယ့်ကိုယ်ကို ချတ်လို့မရပါ",ch_fast:"စာပို့တာ မြန်လွန်းနေပါတယ် – ခဏစောင့်ပါ",ch_fail:"ပို့မရပါ: {0}",ch_loading:"ခဏစောင့်ပါ...",ch_chat_tip:"ချတ်ရန် နှိပ်ပါ",ch_photo:"📷 ဓာတ်ပုံ",ch_photo_btn:"ဓာတ်ပုံပို့မယ်",ch_photo_exp:"ဓာတ်ပုံကို ၇ ရက်ပြည့်၍ ဖျက်ပြီးပါပြီ",ch_photo_note:"ဓာတ်ပုံကို ၇ ရက်ပြည့်လျှင် အလိုအလျောက် ဖျက်ပါမည်",ch_days_left:"{0} ရက်ကျန်",ch_sending_img:"ဓာတ်ပုံ ပို့နေပါသည်...",ch_img_big:"ဓာတ်ပုံ ကြီးလွန်းပါတယ် (၂၅MB အောက်)",ch_need_sql2:"supabase-v42-chat-photos.sql ကို Supabase မှာ အရင် Run ပါ",ch_seen:"ဖတ်ပြီး",ch_close:"ပိတ်မယ်"},
 en:{n_chat:"Chat",cm_reply:"Reply",cm_replying:"Replying to {0}",cm_view_rep:"View {0} replies",cm_hide_rep:"Hide replies",cm_ph_rep:"Write a reply...",
  ch_title:"Chat",ch_search_ph:"Find people by name (min. 2 letters)",ch_login:"Log in to chat",ch_none:"No conversations yet – search above or tap a name in the comments",
- ch_ph:"Type a message...",ch_send:"Send",ch_empty:"Say hi 👋",ch_you:"You: ",ch_need_sql:"Run supabase-v41-reply-chat.sql in Supabase first",ch_nores:"No one found",ch_self:"You can’t chat with yourself",ch_fast:"Sending too fast – wait a moment",ch_fail:"Couldn’t send: {0}",ch_loading:"Please wait...",ch_chat_tip:"Tap to chat",ch_photo:"📷 Photo",ch_photo_btn:"Send a photo",ch_photo_exp:"This photo was deleted after 7 days",ch_photo_note:"Photos are deleted automatically after 7 days",ch_days_left:"{0}d left",ch_sending_img:"Sending photo...",ch_img_big:"Photo too large (max 25MB)",ch_need_sql2:"Run supabase-v42-chat-photos.sql in Supabase first",ch_seen:"Seen",ch_close:"Close",ch_save:"Save to phone",ch_saved:"✅ Photo saved",ch_save_fail:"Couldn’t save – press and hold the photo to save it"}};
+ ch_ph:"Type a message...",ch_send:"Send",ch_empty:"Say hi 👋",ch_you:"You: ",ch_need_sql:"Run supabase-v41-reply-chat.sql in Supabase first",ch_nores:"No one found",ch_self:"You can’t chat with yourself",ch_fast:"Sending too fast – wait a moment",ch_fail:"Couldn’t send: {0}",ch_loading:"Please wait...",ch_chat_tip:"Tap to chat",ch_photo:"📷 Photo",ch_photo_btn:"Send a photo",ch_photo_exp:"This photo was deleted after 7 days",ch_photo_note:"Photos are deleted automatically after 7 days",ch_days_left:"{0}d left",ch_sending_img:"Sending photo...",ch_img_big:"Photo too large (max 25MB)",ch_need_sql2:"Run supabase-v42-chat-photos.sql in Supabase first",ch_seen:"Seen",ch_close:"Close"}};
 ["my","en"].forEach(function(l){I18N[l]=I18N[l]||{};for(var k in A[l])I18N[l][k]=A[l][k]})})();
 var NAV={hd:0,nb:0,nr:0};
 var BOOT={qs:new URLSearchParams(location.search),hs:new URLSearchParams((location.hash||"").replace(/^#/,"")),hash:location.hash||"",search:location.search||""};
@@ -66,7 +66,6 @@ var ICO={
  img:svgI('<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',22),
  send:svgI('<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',20),
  x:svgI('<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',22),
- dl:svgI('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',20),
  search:svgI('<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',18)};
 function mkClient(k){return window.supabase.createClient(C.SUPABASE_URL,k,{auth:{flowType:"implicit",detectSessionInUrl:true,persistSession:true,autoRefreshToken:true,storage:window.localStorage}})}
 var SAMPLE=[["အစားထိုးမေမေ","ပျော်ရွှင်စရာ","#7a3b2e","#d9a066"],["မသန်စွမ်းသူဌေးကြီးနဲ့ လက်ထပ်ခြင်း","အချစ်ဇာတ်လမ်း","#3a2a5a","#c06a8a"],["သူ့ရဲ့ သီးသန့်လူနာ","ချစ်ခြင်းမေတ္တာ","#1f3a4a","#c97b5a"],["အစားထိုးသတို့သမီး","ပြန်လည်ရှင်သန်ခြင်း","#5a2a2a","#e0b15a"],["မာဖီးယားထဲ လျှို့ဝှက်စုံထောက်","ထိတ်လန့်ဖွယ်","#14262a","#5aa89a"],["အမွေစားသမီး နိုးထလာခြင်း","စိတ်ကူးယဉ်","#1d3b4f","#e3b765"]].map(function(x,i){return{id:"s"+(i+1),t:x[0],g:x[1],eps:20,a:x[2],b:x[3],v:(9-i)*100000,vids:{},price:30,free:10,cover:null,cp:null}});
@@ -170,8 +169,8 @@ function parseViews(x){var m=String(x==null?"":x).replace(/[,\s_]/g,"").match(/^
 function likeBtn(d){return isVE()?'<button class="ledit" type="button" data-a="editlikes" data-v="'+esc(d.id)+'" aria-label="Edit likes" title="Edit likes">♥ '+fmt(d.lk||0)+' ✎</button>':""}
 function likeIcon(d){return isVE()?'<button class="lpen" type="button" data-a="editlikes" data-v="'+esc(d.id)+'" aria-label="Edit likes" title="Edit likes">✎</button>':""}
 function poster(d,tag){return'<div class="poster" style="'+bg(d)+'">'+(tag?'<span class="tag">Hot</span>':"")+"</div>"}
-function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span>"+likeBtn(d)+editBtn(d)+"</div>"+'<p class="ct">'+esc(d.t)+'</p><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div></div>"}
-function row(d,n){var tag=S.live&&!S.noExt?!!d.hot:false,adm=likeBtn(d)+editBtn(d);return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+'<div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span></div>"+'<div class="info"><p class="ct">'+esc(d.t)+'</p><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div>"+(adm?'<div class="racts">'+adm+"</div>":"")+"</div></div>"}
+function card(d,tag){return'<div class="card" data-a="open" data-v="'+esc(d.id)+'"><div class="cpw">'+poster(d,tag)+'<span class="pvg"></span><span class="pv">▶ '+fmt(d.v||0)+"</span>"+likeBtn(d)+editBtn(d)+"</div>"+'<p class="ct">'+esc(d.t)+"</p></div>"}
+function row(d,n){return'<div class="row" data-a="open" data-v="'+esc(d.id)+'">'+(n?'<span class="rank">'+n+"</span>":"")+poster(d)+'<div class="info"><strong>'+esc(d.t)+'</strong><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div><span class="heat">▶ '+fmt(d.v)+"</span>"+likeBtn(d)+editBtn(d)+"</div>"}
 function note(x){return'<p class="note">'+x+"</p>"}
 var GSVG='<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
 function h3(x,big){return'<h3 class="serif"'+(big?' style="font-size:24px"':"")+">"+x+"</h3>"}
@@ -190,9 +189,7 @@ function heroHtml(){
  p.l.forEach(function(x,i){var d=x.d;
   var pic=d.cover?'<img class="hpic" alt="" loading="'+(i?"lazy":"eager")+'" decoding="async" src="'+esc(d.cover)+'" onerror="this.style.display=\'none\'">':"";
   var fb="background:linear-gradient(160deg,"+col(d.a,"#3a2a5a")+","+col(d.b,"#c06a8a")+" 150%)";
-    // x.v (ဒီတစ်ပတ် view) အစား d.v (စုစုပေါင်း view) ကို သုံးထားသည်
-  h+='<div class="hslide" data-a="open" data-v="'+esc(d.id)+'"><div class="hpw" style="position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;'+fb+'">'+pic+'<span class="tag">#'+(i+1)+' TOP</span><span class="pvg" style="position:absolute;left:0;right:0;bottom:0;height:42px;background:linear-gradient(transparent,rgba(0,0,0,.55));pointer-events:none"></span><span class="pv" style="position:absolute;left:8px;bottom:6px;color:#fff;font:700 12px Inter,sans-serif;text-shadow:0 1px 4px rgba(0,0,0,.85);pointer-events:none">▶ '+fmt(d.v||0)+'</span>'+editBtn(d)+'</div><p class="ct" style="font-weight:600;font-size:16px;line-height:1.45;margin-top:8px;word-break:break-word;overflow-wrap:anywhere">'+esc(d.t)+'</p><div class="sub" style="color:var(--mute);font-size:13.5px;margin-top:2px">'+esc(d.g)+" · "+t("eps_n",d.eps)+'</div></div>';
- });
+  h+='<div class="hslide" data-a="open" data-v="'+esc(d.id)+'" style="'+fb+'">'+pic+'<div class="hshade"></div><span class="hrk">#'+(i+1)+' TOP</span><div class="meta"><span class="heat">▶ '+t("viewed",fmt(x.v))+(p.mode==="wk"?" · "+t("hero_wk"):"")+'</span><h2>'+esc(d.t)+'</h2><div class="sub">'+esc(d.g)+" · "+t("eps_n",d.eps)+"</div></div></div>"});
  h+='</div><div class="hdots" id="hdots">'+p.l.map(function(x,i){return'<button class="hdot'+(i===0?" on":"")+'" data-a="hgo" data-v="'+i+'" aria-label="'+(i+1)+'"></button>'}).join("")+"</div></div>";
  return{html:h,key:p.mode+":"+p.l.map(function(x){return x.d.id}).join(",")}}
 function heroInit(){
@@ -482,8 +479,8 @@ function agoTxt(iso){
  if(s<86400)return t("cm_hr",Math.floor(s/3600));return t("cm_day",Math.floor(s/86400))}
 function cmItem(c,rp){
  var mine=S.me&&c.user_id===S.me.id,can=mine||isAdm(),sz=rp?24:30;
- var nm=esc(c.user_name||"User"),cc2=!!(S.me&&!mine&&c.user_id&&socChatOn()),nmh=cc2?'<b class="cmn" data-a="chatwith" data-v="'+esc(c.user_id)+'" title="'+esc(t("ch_chat_tip"))+'">'+nm+"</b>":"<b>"+nm+"</b>";
- return'<div class="cm'+(rp?" rp":"")+'"><span class="avs'+(cc2?" cmav":"")+'"'+(cc2?' data-a="chatwith" data-v="'+esc(c.user_id)+'" title="'+esc(t("ch_chat_tip"))+'"':"")+' style="width:'+sz+'px;height:'+sz+'px;'+avBg(c.user_avatar)+'">'+(c.user_avatar?"":"☺")+'</span><div class="cmb"><div class="cmh">'+nmh+'<span>'+esc(agoTxt(c.created_at))+(can?' <button class="cmx" data-a="cmdel" data-v="'+esc(c.id)+'">'+t("cm_del")+"</button>":"")+'</span></div><div class="cmt">'+esc(c.content)+'</div>'+(S.noRep?"":'<div class="cma"><button class="cmrp" data-a="cmreply" data-v="'+esc(c.id)+'">'+t("cm_reply")+"</button></div>")+"</div></div>"}
+ var nm=esc(c.user_name||"User"),nmh=(S.me&&!mine&&c.user_id&&socChatOn())?'<b class="cmn" data-a="chatwith" data-v="'+esc(c.user_id)+'" title="'+esc(t("ch_chat_tip"))+'">'+nm+"</b>":"<b>"+nm+"</b>";
+ return'<div class="cm'+(rp?" rp":"")+'"><span class="avs" style="width:'+sz+'px;height:'+sz+'px;'+avBg(c.user_avatar)+'">'+(c.user_avatar?"":"☺")+'</span><div class="cmb"><div class="cmh">'+nmh+'<span>'+esc(agoTxt(c.created_at))+(can?' <button class="cmx" data-a="cmdel" data-v="'+esc(c.id)+'">'+t("cm_del")+"</button>":"")+'</span></div><div class="cmt">'+esc(c.content)+'</div>'+(S.noRep?"":'<div class="cma"><button class="cmrp" data-a="cmreply" data-v="'+esc(c.id)+'">'+t("cm_reply")+"</button></div>")+"</div></div>"}
 function cmThread(c,s){
  var rs=(s.reps&&s.reps[c.id])||[],h=cmItem(c,false);
  if(rs.length){
@@ -1563,24 +1560,8 @@ ACT.chatsend=function(v,el){chatSend(el)};
 ACT.chatimgx=function(){var c=S.chat;if(!c||!c.pend)return;try{URL.revokeObjectURL(c.pend.url)}catch(e){}c.pend=null;chatPendRef()};
 function imgOpenQ(){var e=$("#imgv");return!!(e&&e.className.indexOf("open")>-1)}
 function imgShut(){var e=$("#imgv");if(e){e.className="imgv";e.innerHTML=""}}
-ACT.imgopen=function(v){var e=$("#imgv");if(!e||!v)return;e.innerHTML='<img src="'+esc(v)+'" alt=""><button class="imgsv" data-a="imgsave" data-v="'+esc(v)+'">'+ICO.dl+"<span>"+esc(t("ch_save"))+'</span></button><button class="imgx" data-a="imgclose" aria-label="'+esc(t("ch_close"))+'">'+ICO.x+"</button>";e.className="imgv open";navSync()};
+ACT.imgopen=function(v){var e=$("#imgv");if(!e||!v)return;e.innerHTML='<img src="'+esc(v)+'" alt=""><button class="imgx" data-a="imgclose" aria-label="'+esc(t("ch_close"))+'">'+ICO.x+"</button>";e.className="imgv open";navSync()};
 ACT.imgclose=function(){imgShut();navSync()};
-/* v43: ချတ်ထဲက ဓာတ်ပုံကို ဖုန်းထဲ Save – iOS: Share sheet (Save Image) · တခြား: Download */
-async function imgSave(u){
- var name="shwezat_"+Date.now()+".jpg",ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
- try{
-  var r=await fetch(u,{mode:"cors"});if(!r.ok)throw new Error("http");
-  var b=await r.blob(),ty=b.type||"image/jpeg";
-  name="shwezat_"+Date.now()+"."+(ty.split("/")[1]||"jpg").replace("jpeg","jpg").replace(/[^a-z0-9]/gi,"");
-  var f=null;try{f=new File([b],name,{type:ty})}catch(e){}
-  if(ios&&f&&navigator.canShare&&navigator.canShare({files:[f]})){
-   try{await navigator.share({files:[f]});return}catch(e){if(e&&e.name==="AbortError")return;throw e}}
-  var a=document.createElement("a"),bu=URL.createObjectURL(b);
-  a.href=bu;a.download=name;a.style.display="none";document.body.appendChild(a);a.click();a.remove();
-  setTimeout(function(){URL.revokeObjectURL(bu)},6000);
-  toast(t("ch_saved"));
- }catch(e){toast(t("ch_save_fail"))}}
-ACT.imgsave=function(v,el){if(!v||!el)return;el.disabled=true;imgSave(v).then(function(){el.disabled=false},function(){el.disabled=false})};
 document.addEventListener("input",function(e){
  var id=e.target&&e.target.id;
  if(id==="cq"){var v=e.target.value;clearTimeout(CHT);CHT=setTimeout(function(){chatSearch(v)},350)}
@@ -1655,19 +1636,4 @@ window.addEventListener("unhandledrejection",function(e){var rs=e&&e.reason,nm=r
  loadDr().then(function(){render();deepOpen()},function(){});
  initAuth().catch(function(e){showErr(t("auth_err",e&&e.message||e))});
 })();
-})();
-
-// App Launch Splash Screen: Full-screen Splash ကို ၅ စက္ကန့်တိတိ (5000ms) ပြပြီးမှ ပင်မစာမျက်နှာသို့ Smooth ဝင်မည်
-(function(){
-  var SPLASH_MS=5000;            // ← ပြသချိန် (milliseconds)
-  var splash=document.getElementById('splash-screen');
-  if(!splash)return;
-  var t0=window.__SPLASH_T0||Date.now();   // Splash စပေါ်ချိန်ကစပြီး တွက်မည် (index.html ထဲက script က သတ်မှတ်သည်)
-  var closed=false;
-  function closeSplash(){
-    if(closed)return; closed=true;
-    splash.classList.add('hide');                                  // Fade-out (.6s)
-    setTimeout(function(){ if(splash.parentNode)splash.remove() },700);
-  }
-  setTimeout(closeSplash,Math.max(0,SPLASH_MS-(Date.now()-t0)));
 })();
