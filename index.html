@@ -46,6 +46,11 @@ html,body{background:#120d0b;margin:0}
  }
 }catch(e){}})();
 </script>
+<!-- v44: CDN / Font / Video host တွေကို ကြိုချိတ် (DNS+TLS ကြိုလုပ်) – Supabase origin ကို app.js က JS နဲ့ ထပ်ထည့်ပေး -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://res.cloudinary.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="manifest" href="manifest.json?v=25">
 <meta name="theme-color" content="#120d0b">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -80,15 +85,9 @@ h3{font-size:18px;padding:0 16px 10px}
 .card p.ct{font-weight:600;line-height:1.45;min-height:2.9em;word-break:break-word;overflow-wrap:anywhere}
 .card .poster{padding:0}
 .row{display:flex;gap:12px;align-items:center;margin:0 16px 10px;background:var(--panel);border-radius:14px;padding:10px;cursor:pointer}
-.row .cpw{width:72px;flex:none}
-.row .cpw .poster{width:100%;aspect-ratio:3/4;padding:0}.row .poster b{display:none}
-.row .cpw .pv{left:6px;bottom:4px;font-size:11px}
-.row .info{flex:1 1 0;min-width:0}
-.row .info p.ct{font-size:14px;font-weight:600;line-height:1.45;margin:0;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:normal;overflow-wrap:break-word;writing-mode:horizontal-tb}
-.row .info strong{display:block;margin-bottom:4px;word-break:normal;overflow-wrap:break-word;writing-mode:horizontal-tb}
-.row .sub{color:var(--mute);font-size:12.5px;margin-top:2px}
-.row .racts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.row .racts .ledit,.row .racts .vedit{margin-left:0}
+.row .poster{width:62px;flex:none;aspect-ratio:3/4;padding:4px}.row .poster b{display:none}
+.row .info{flex:1;min-width:0}.row .info strong{display:block;margin-bottom:4px}
+.row .sub{color:var(--mute);font-size:12.5px}
 .row.admdr{flex-direction:column;align-items:stretch;gap:10px;cursor:default}
 .row.admdr .info{flex:none;width:100%;cursor:pointer}.row.admdr .info strong{word-break:normal;overflow-wrap:break-word;line-height:1.4}
 .row.admdr .btns{display:flex;gap:8px;width:100%}
@@ -101,7 +100,7 @@ textarea.in{resize:vertical;min-height:84px;line-height:1.5}
 .vbtns{display:flex;gap:8px;margin-top:10px}.vbtns .chip{flex:1 1 0;min-width:0;padding:9px 6px;text-align:center}
 .ttlink{display:inline-block;margin:6px 0 2px;color:var(--coral);font-weight:600;text-decoration:underline}
 .ttu{font-size:12px;color:var(--mute);word-break:break-all;margin-bottom:2px}
-.rank{font-family:Fraunces,serif;font-size:22px;width:24px;flex:none;color:var(--gold);text-align:center}
+.rank{font-family:Fraunces,serif;font-size:22px;width:24px;color:var(--gold);text-align:center}
 .heat{color:var(--coral);font-weight:600;font-size:13px}
 .days{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 16px}
 .day{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 4px;text-align:center}
@@ -135,7 +134,10 @@ nav button.on{color:var(--gold)}
 .prof{display:flex;gap:14px;align-items:center;padding:8px 16px 18px}
 .av{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--coral));display:flex;align-items:center;justify-content:center;font-size:26px;color:#1a1210}
 .player video{width:100%;height:100%;border-radius:14px;background:#000;object-fit:cover;display:block}.player video:fullscreen{object-fit:contain}.player video:-webkit-full-screen{object-fit:contain}
-.player.v{padding:0}
+.player.v{padding:0;position:relative;contain:layout paint}
+.vspin{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:var(--gold);z-index:3;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .2s ease .3s,visibility 0s linear .5s}
+.vspin.on{opacity:1;visibility:visible;animation:vspin .8s linear infinite;transition:opacity .2s ease .3s,visibility 0s}
+@keyframes vspin{to{transform:rotate(360deg)}}
 .ep.cur{outline:2px solid var(--gold)}.ep.has{color:var(--gold)}
 .in{display:block;width:calc(100% - 32px);margin:0 16px 10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text);font:inherit}
 #err{display:none;background:#7a1f1f;color:#fff;padding:8px 14px;font-size:13px}
